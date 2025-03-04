@@ -1,0 +1,17 @@
+services:
+  pi6_semestre:
+    restart: always
+    image: mysql:8.0
+    container_name: pi6
+    environment:
+      MYSQL_USER: pi6_semestre
+      MYSQL_DATABASE: pi6_semestre
+      MYSQL_PASSWORD: pi6_semestre
+      MYSQL_ROOT_PASSWORD: pi6_semestre
+    ports:
+      - "3306:3306"
+    volumes:
+      - pi6_semestre_data:/var/lib/mysql
+
+volumes:
+  pi6_semestre_data:
