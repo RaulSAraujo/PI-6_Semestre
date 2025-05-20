@@ -11,8 +11,18 @@ CREATE TABLE users (
 	deleted_at datetime
 );
 
+CREATE TABLE profile (
+  id int PRIMARY key auto_increment not null,
+  `type` ENUM ('conservative', 'moderate', 'aggressive', 'undefined') NOT null,
+  description VARCHAR (255) NOT null,
+  created_at datetime,
+  updated_at datetime,
+  deleted_at datetime
+);
+
 CREATE TABLE clients (
   id int PRIMARY key auto_increment not null,
+  id_profile INT default 1,
   `type` ENUM ('F', 'J') NOT NULL,
   `name` varchar(200) NOT NULL,
   `document` varchar(200) NOT NULL,
@@ -20,16 +30,8 @@ CREATE TABLE clients (
   active bool DEFAULT true,
   created_at datetime,
   updated_at datetime,
-  deleted_at datetime
-);
-
-CREATE TABLE profile (
-  id int PRIMARY key auto_increment not null,
-  `type` ENUM ('conservative', 'moderate', 'aggressive') NOT null,
-  description VARCHAR (255) NOT null,
-  created_at datetime,
-  updated_at datetime,
-  deleted_at datetime
+  deleted_at datetime,
+  CONSTRAINT fk_id_profile FOREIGN KEY (id_profile) REFERENCES profile(id)
 );
 
 CREATE TABLE listed_shares (
@@ -38,6 +40,7 @@ CREATE TABLE listed_shares (
   `name` varchar(200) NOT NULL,
   b3_sector_classification varchar(200) DEFAULT NULL,
   id_profile int not null,
+  active bool DEFAULT true,
   created_at datetime,
   updated_at datetime,
   deleted_at datetime,
