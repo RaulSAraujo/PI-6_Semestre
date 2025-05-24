@@ -45,8 +45,10 @@ export default class UsersService extends CommonService {
   }
 
   async update(req) {
-    const { id, is_admin } = req.session.user;
-    const idParams = req.params.id;
+    const id = parseInt(req.session.user.id);
+    const idParams = parseInt(req.params.id);
+    const is_admin = req.session.user.is_admin;
+
     const { cpf, email, password } = req.body;
     delete req.body.password_hash;
 

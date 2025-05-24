@@ -12,8 +12,8 @@ export default class CommonService {
     const items = await this.model.findAll({
       include,
       where: { ...query },
-      limit: size,
-      offset: (page - 1) * size,
+      limit: parseInt(size),
+      offset: (parseInt(page) - 1) * parseInt(size),
       order: [['created_at', 'DESC']],
     });
 
@@ -29,7 +29,7 @@ export default class CommonService {
     const { id } = req.params;
     const result = await this.model.findOne({
       include,
-      where: { id },
+      where: { id: parseInt(id) },
     });
 
     if (!result) {
@@ -67,6 +67,6 @@ export default class CommonService {
       throw new BadRequestError('Missing id!');
     }
 
-    return await this.model.destroy({ where: { id } });
+    return await this.model.destroy({ where: { id: parseInt(id) } });
   }
 }
