@@ -10,4 +10,3 @@ export * from "./clientes/novoclientes";
 export * from "./acoes_listadas/novaacoes_listadas";
 export * from "./carteira/novacarteira";
 export * from "./historico/novahistorico";
-

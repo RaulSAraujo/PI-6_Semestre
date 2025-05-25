@@ -1,11 +1,4 @@
-
-import {
-  useState,
-  useEffect,
-  FormEvent,
-
-} from "react";
-import {  } from "../../shared/components";
+import { useState, useEffect, FormEvent } from "react";
 import { ClientesService } from "../../shared/services/api/cliente/clientes";
 import {
   PerfilService,
@@ -20,11 +13,13 @@ import {
   InputLabel,
   Alert,
   SelectChangeEvent,
-  Typography,
+  Box,
+  Paper,
 } from "@mui/material";
 import { LayoutBaseDePagina } from "../../shared/layouts/LayoutBase";
-import { useNavigate } from 'react-router-dom';
-interface Novoclientes {
+import { useNavigate } from "react-router-dom";
+
+interface INovoClienteForm {
   type: string;
   name: string;
   document: string;
@@ -33,8 +28,11 @@ interface Novoclientes {
   id_profile: string;
 }
 
-export const Novoclientes = () => {
-  const [formData, setFormData] = useState<Novoclientes>({
+export const Novoclientes: React.FC = () => {
+  const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState<INovoClienteForm>({
     type: "F",
     name: "",
     document: "",
@@ -42,25 +40,30 @@ export const Novoclientes = () => {
     active: true,
     id_profile: "",
   });
-const navigate = useNavigate();
-  const [profiles, setProfiles] = useState<IDetalhePerfil>();
+
+  const [profiles, setProfiles] = useState<IDetalhePerfil[]>([]);
   const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(
     null
   );
 
   useEffect(() => {
     const fetchProfiles = async () => {
+      setIsLoading(true);
       try {
-        const response = await PerfilService.getAll();
-        if (response instanceof Error) {
-          console.error(response.message);
+        const result = await PerfilService.getAll();
+
+        if (result instanceof Error) {
+          console.error(result.message);
         } else {
-          setProfiles(response.data.items);
+          setProfiles(result.data.items);
         }
       } catch (error) {
         console.error("Erro ao buscar perfis:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
+
     fetchProfiles();
   }, []);
 
@@ -68,125 +71,147 @@ const navigate = useNavigate();
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
+    setFormData((prevData) => ({
+      ...prevData,
       [name]: value,
     }));
   };
 
   const handleProfileChange = (e: SelectChangeEvent<string>) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
+    setFormData((prevData) => ({
+      ...prevData,
       id_profile: e.target.value,
     }));
   };
 
   const handleTypeChange = (e: SelectChangeEvent<string>) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
+    setFormData((prevData) => ({
+      ...prevData,
       type: e.target.value,
     }));
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
+
     try {
-      await ClientesService.create(formData);
-      setSubmitStatus("success");
-      navigate('/clientes');
+      const result = await ClientesService.create(formData);
+
+      if (result instanceof Error) {
+        setSubmitStatus("error");
+        console.error(result.message);
+      } else {
+        setSubmitStatus("success");
+        navigate("/clientes");
+      }
     } catch (error) {
       console.error(error);
       setSubmitStatus("error");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <LayoutBaseDePagina>
-      <form onSubmit={handleSubmit} className="appointment-form"  style={{ margin: "0 4rem" }}>
-        <Typography variant="h3" align="center">
-        Novo Cliente
-        </Typography>
-        <FormControl fullWidth margin="normal">
-          <InputLabel id="type-select-label">Tipo</InputLabel>
-          <Select
-            labelId="type-select-label"
-            name="type"
-            value={formData.type}
-            onChange={handleTypeChange}
-            required
-          >
-            <MenuItem value="F">Física</MenuItem>
-            <MenuItem value="J">Jurídica</MenuItem>
-          </Select>
-        </FormControl>
+    <LayoutBaseDePagina titulo="Novo Cliente" barraDeFerramentas={<></>}>
+      <Box component={Paper} variant="outlined" sx={{ p: 2, m: 2 }}>
+        <form onSubmit={handleSubmit}>
+          <Box display="flex" flexDirection="column" gap={2}>
+            <FormControl fullWidth>
+              <InputLabel id="type-select-label">Tipo</InputLabel>
+              <Select
+                labelId="type-select-label"
+                name="type"
+                value={formData.type}
+                onChange={handleTypeChange}
+                required
+                disabled={isLoading}
+              >
+                <MenuItem value="F">Física</MenuItem>
+                <MenuItem value="J">Jurídica</MenuItem>
+              </Select>
+            </FormControl>
 
-        <TextField
-          label="Nome"
-          name="name"
-          value={formData.name}
-          onChange={handleInputChange}
-          required
-          fullWidth
-          margin="normal"
-        />
+            <TextField
+              label="Nome"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              required
+              fullWidth
+              disabled={isLoading}
+            />
 
-        <TextField
-          label="Documento"
-          name="document"
-          value={formData.document}
-          onChange={handleInputChange}
-          required
-          fullWidth
-          margin="normal"
-        />
+            <TextField
+              label="Documento"
+              name="document"
+              value={formData.document}
+              onChange={handleInputChange}
+              required
+              fullWidth
+              disabled={isLoading}
+            />
 
-        <TextField
-          label="Observação"
-          name="observation"
-          value={formData.observation}
-          onChange={handleInputChange}
-          fullWidth
-          margin="normal"
-        />
-        <FormControl fullWidth margin="normal">
-          <InputLabel id="profile-select-label">Perfil</InputLabel>
-          <Select
-            labelId="profile-select-label"
-            value={formData.id_profile}
-            onChange={handleProfileChange}
-            required
-          >
-            {profiles ? (
-              profiles.map((a: { id: string; description: string }) => (
-                <MenuItem key={a.id.toString()} value={a.id}>
-                  {a.description}
-                </MenuItem>
-              ))
-            ) : (
-              <MenuItem value="" disabled>
-                Carregando perfis...
-              </MenuItem>
+            <TextField
+              label="Observação"
+              name="observation"
+              value={formData.observation}
+              onChange={handleInputChange}
+              fullWidth
+              multiline
+              rows={4}
+              disabled={isLoading}
+            />
+
+            <FormControl fullWidth>
+              <InputLabel id="profile-select-label">Perfil</InputLabel>
+              <Select
+                labelId="profile-select-label"
+                value={formData.id_profile}
+                onChange={handleProfileChange}
+                required
+                disabled={isLoading}
+              >
+                {profiles.length > 0 ? (
+                  profiles.map((profile) => (
+                    <MenuItem key={profile.id} value={profile.id}>
+                      {profile.description}
+                    </MenuItem>
+                  ))
+                ) : (
+                  <MenuItem value="" disabled>
+                    {isLoading
+                      ? "Carregando perfis..."
+                      : "Nenhum perfil encontrado"}
+                  </MenuItem>
+                )}
+              </Select>
+            </FormControl>
+
+            <Box display="flex" justifyContent="center" mt={2}>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                disabled={isLoading}
+              >
+                {isLoading ? "Salvando..." : "Salvar"}
+              </Button>
+            </Box>
+
+            {submitStatus === "success" && (
+              <Alert severity="success">Cliente criado com sucesso!</Alert>
             )}
-          </Select>
-        </FormControl>
 
-        <div className="container-appointment-form-btn">
-          <Button type="submit" variant="contained" color="primary">
-            Criar Cliente
-          </Button>
-        </div>
-
-        {submitStatus === "success" && (
-          <Alert severity="success" style={{ marginTop: "1rem" }}>
-            Cliente criado com sucesso!
-          </Alert>
-        )}
-        {submitStatus === "error" && (
-          <Alert severity="error" style={{ marginTop: "1rem" }}>
-            Erro ao criar cliente. Tente novamente.
-          </Alert>
-        )}
-      </form>
+            {submitStatus === "error" && (
+              <Alert severity="error">
+                Erro ao criar cliente. Tente novamente.
+              </Alert>
+            )}
+          </Box>
+        </form>
+      </Box>
     </LayoutBaseDePagina>
   );
 };

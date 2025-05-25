@@ -13,5 +13,5 @@ export const Environment = {
    */
   LISTAGEM_VAZIA: 'Nenhum registro encontrado.',
 
-  REACT_APP_API_URL: "http://localhost:3000"
+  REACT_APP_API_URL: "https://pi-6-semestre-api.onrender.com"
 };
