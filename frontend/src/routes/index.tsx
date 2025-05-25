@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { useDrawerContext } from "../shared/contexts";
+import { useDrawerContext } from "../contexts";
 import { useEffect } from "react";
 import {
   Dashboard,
@@ -14,7 +14,7 @@ import {
   Novacarteira,
   Novohistorico,
 } from "../page";
-import { MenuLateral } from "../shared/components/menu-lateral/MenuLateral";
+import { MenuLateral } from "../components/menu-lateral/MenuLateral";
 
 export const AppRoutes = () => {
   const { setDrawerOptions } = useDrawerContext();

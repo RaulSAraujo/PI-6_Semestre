@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { AppThemeProvider, AuthProvider, DrawerProvider, useAuthContext } from "./shared/contexts";
-import { Login, Cadastro } from "./shared/components";
+import { AppThemeProvider, AuthProvider, DrawerProvider, useAuthContext } from "./contexts";
+import { Login, Cadastro } from "./components";
 import { AppRoutes } from "./routes";
 
 const ProtectedRoute: React.FC<{ children: JSX.Element }> = ({ children }) => {
