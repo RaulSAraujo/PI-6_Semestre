@@ -9,7 +9,6 @@ export interface IListagemCliente {
     type: string;
     name: string;
     id_profile: string;
-   
   }[];
   current: number;
   pageSize: number;
@@ -31,10 +30,9 @@ type TPessoasComTotalCount = {
   totalCount: number;
 };
 
-const LOCAL_STORAGE_KEY__ACCESS_TOKEN = 'APP_ACCESS_TOKEN';
+const LOCAL_STORAGE_KEY__ACCESS_TOKEN = "APP_ACCESS_TOKEN";
 
-const getAll = async (
-): Promise<TPessoasComTotalCount | Error> => {
+const getAll = async (): Promise<TPessoasComTotalCount | Error> => {
   try {
     const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY__ACCESS_TOKEN);
 
@@ -42,22 +40,21 @@ const getAll = async (
       return new Error("Token de autenticação não encontrado.");
     }
 
-    let urlRelativa = `/clients`;
-    
-    const { data, headers } = await Api.get(urlRelativa, {
+    const { data, headers } = await Api.get("/clients", {
       headers: {
-        Authorization:  accessToken
-      }
-
+        Authorization: accessToken,
+      },
     });
+
     if (data) {
+      console.log(data);
+
       return {
         data,
         totalCount: Number(
           headers["x-total-count"] || Environment.LIMITE_DE_LINHAS
         ),
       };
-     
     }
 
     console.log(data);
@@ -99,7 +96,6 @@ const create = async (
     );
   }
 };
-
 
 const getById = async (id: number): Promise<IDetalheCliente | Error> => {
   try {

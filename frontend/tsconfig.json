@@ -4,6 +4,17 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "module": "ESNext",
     "skipLibCheck": true,
+    "baseUrl": "src",
+    "paths": {
+      "@pages/*": ["pages/*"],
+      "@hooks/*": ["hooks/*"],
+      "@utils/*": ["utils/*"],
+      "@models/*": ["models/*"],
+      "@layouts/*": ["layouts/*"],
+      "@services/*": ["services/*"],
+      "@contexts/*": ["contexts/*"],
+      "@components/*": ["components/*"],
+    },
 
     /* Bundler mode */
     "moduleResolution": "bundler",

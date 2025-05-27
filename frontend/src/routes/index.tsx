@@ -13,7 +13,7 @@ import {
   NovaAcao,
   Novacarteira,
   Novohistorico,
-} from "../page";
+} from "@pages";
 import { MenuLateral } from "../components/menu-lateral/MenuLateral";
 
 export const AppRoutes = () => {

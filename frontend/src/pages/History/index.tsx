@@ -48,9 +48,9 @@ import {
   DateRange,
 } from "@mui/icons-material";
 
-import { FerramentasDaListagem } from "../../components";
-import { LayoutBaseDePagina } from "../../layouts";
-import { useDebounce } from "../../hooks";
+import { FerramentasDaListagem } from "@components/Toolbar";
+import { LayoutBaseDePagina } from "@layouts/LayoutBase";
+import { useDebounce } from "@hooks/UseDebounce";
 import {
   HistoricoService,
   IListagemHistorico,

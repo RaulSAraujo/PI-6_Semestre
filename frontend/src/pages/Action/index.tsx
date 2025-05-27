@@ -43,8 +43,8 @@ import {
 } from "@mui/icons-material";
 
 import { FerramentasDaListagem } from "../../components";
-import { LayoutBaseDePagina } from "../../layouts";
-import { useDebounce } from "../../hooks";
+import { LayoutBaseDePagina } from "@layouts/LayoutBase";
+import { useDebounce } from "@hooks/UseDebounce";
 import {
   IListagemlistedshares,
   listedsharesService,
