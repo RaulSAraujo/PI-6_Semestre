@@ -1,0 +1,9 @@
+mobile/node_modules
+
+frontend/node_modules
+
+ai_training/__pycache__
+
+backend/.env
+backend/node_modules
+backend/package-lock.json
