@@ -36,7 +36,6 @@ export default class ListedSharesService extends CommonService {
 
     // Atualiza o id_profile da ação
     await this.listedSharesModel.update({ id_profile: newProfileId }, { where: { id: listedShareId } });
-    console.log('\n### PERFIL ', newProfileId, ' REDEFINIDO PARA AÇÃO ', listedShareId, ' ###\n');
 
     return newProfileId;
   }

@@ -1,5 +1,4 @@
 import { BadRequestError, NotFoundError } from '../errors/index.js';
-const { INITIAL_PAGE, PAGE_SIZE } = process.env;
 
 export default class CommonService {
   constructor(model) {
@@ -7,7 +6,7 @@ export default class CommonService {
   }
 
   async getAll(options, include = []) {
-    const { page = INITIAL_PAGE, size = PAGE_SIZE, ...query } = options.query;
+    const { page = 1, size = 10, ...query } = options.query;
 
     const items = await this.model.findAll({
       include,

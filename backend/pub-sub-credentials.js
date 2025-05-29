@@ -1,0 +1,15 @@
+const pub_sub_credentials = {
+  "type": "service_account",
+  "project_id": "rotas-em-react",
+  "universe_domain": "googleapis.com",
+  "client_id": "113222867716243686392",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "private_key_id": "309378121016b0541afb3adcbfbbf6f934e8574e",
+  "client_email": "pi6-728@rotas-em-react.iam.gserviceaccount.com",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/pi6-728%40rotas-em-react.iam.gserviceaccount.com",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDiBTJm7VZn/tpi\nebDFX8DNfPg6ANCoXIvnCADgx9THfsMlApONf9qrfkkYUaTyjUIhybL/DzflGy4+\ntBzaNBMZr8PXLppLq0MwxkJH9/CvIyT/A0oLVOe3kH7gQzKykxcBjbUqz0QG783Q\ndiFBMjLqYobH16+ZFlSefINA6sNcqgpJsIVPaugB96j82PDISwr9qybLh8vxNHhZ\nicLR9bIFtnTE1cAps/uvFmQkE/om91Hm1A81iDxWobwU4s/o5Ka/hyxmllBQDhla\niMYP5BMVYkOAuKkOE3umDxMGitBSiv7Px3TbAJTRYuZW+dIzvjhTjhEHjOjRgJFo\n1fnpENvRAgMBAAECggEAE2JdYj/KAKf2KX/vozMvy+/Yh3ujvuzBAD11eycS8/vG\nghlod42W6XeujoFiDiit7/aRKBgxXlrTFS7z/TAo0IknLgCh3F+B0bW54DDphCZq\nzobaW4Jv+mmlbVfAtK6yHcCo4FUKVotL3CxldGajwJUBTjO3Vv/NSL0RB15FsbVS\nVs4RIzKsaS3k8/p1vl5C1sQ0VDWgkOBkymPWeydHta6dm2QjibN8A6URkwGnCeiB\nJiyk3C/WuA2w+ZiDGs+f1L5Nvkxeqx4AxNfiiib5hyF9qG0aUFFYDJndj2MTMqE5\n1EQyDtIsNR2Led9iz0XNoeOBwft7zkbWszjIZ3E+6QKBgQD8hHuMzdRqBodEeUQn\nGgQdm89KWaSRp9ItHNY2W2OhjdM+IKWihNvgHRdX9M192hylgV9fZReHGQmxkJcp\nQcLio9DOI61igZ/Qq61GStPSvDIxIFvAbH+1jKz/YK7vbxFfHYLVeQv7w95KYJOB\nSFAU4llRDepIpZ7VZWmwlaqcFwKBgQDlIypYjRL49rA2RnRfICw2bAN/RNRImHgc\nSfEeKnVkQoXgSROnFEtxkiEPhXQe647WHbb8O7cci1Z36702F+6K+gCGjrlVrNFG\ns4DzdJcc8GKXlm/pz7dIfDjlSRkQ4JoAXlcpCaVkSDFarQArogMf18jxZp3G7U1k\nOlhLIyqwVwKBgHCFTFSSx0sze4UMkEzoL9tNuZHE3is1X9dQWTfBg2TSwMWXYJdJ\nonx8GhHMeODSlx88xdXJQzGk+4fPCTyOHBxHqNyiUzloz2D5ju2anEb0K11usNPO\nxR2OAOyPFYSFtnTuvoUHOkrGncAAxtm98klMD0ap77LNcjhexziziGGjAoGBAKl7\nwEetWXozJZWPuWXfKzS54kBRzd9Af58VBjb02s3k8pc6FkJAHamMl82ePYzdWVKA\nuieJl+CSI8wh31tSikvbrWXZzbZUVJtCDMCG3Xs3RwWu7Wp5DK2dzIuz7MlyCBb7\nsOaWzvIFABR84CJl/H+iIWyFJXDNd7AKA+LXySyTAoGAAccifefurhqZI/QsaHZ5\n9d7q/FQ3T0CCZSnehwddNIdknZ8TaeS8KHu5YN2W1jSTH/fgOvndEJn+sm0cjGYS\n77kcEY5YnLumNnI85knp/5ZFsWqbzyRZGGxLDpQryGWXb7JgNxHoCScSq4kGxj7Q\njKn6HB7nBXiAkXEqb50rGMQ=\n-----END PRIVATE KEY-----\n",
+}
+
+export { pub_sub_credentials };

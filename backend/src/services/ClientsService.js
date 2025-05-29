@@ -2,8 +2,6 @@ import { Op } from 'sequelize';
 import CommonService from '../commons/CommonService.js';
 import { Clients } from '../models/ClientsModel.js';
 
-const { INITIAL_PAGE, PAGE_SIZE } = process.env;
-
 export default class ClientsService extends CommonService {
   constructor() {
     super(Clients);
@@ -11,7 +9,7 @@ export default class ClientsService extends CommonService {
 
   async getAll(req) {
     if (req.query.name) {
-      const { page = INITIAL_PAGE, size = PAGE_SIZE } = req.query;
+      const { page = 1, size = 10 } = req.query;
 
       const items = await this.model.findAll({
         where: {

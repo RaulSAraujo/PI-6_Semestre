@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const sequelize = new Sequelize({
+  logging: false,
   timezone: '-03:00',
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,

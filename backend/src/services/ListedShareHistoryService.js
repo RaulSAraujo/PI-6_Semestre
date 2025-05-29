@@ -1,9 +1,8 @@
-
-import CommonService from '../commons/CommonService.js';
-import { ListedShareHistory } from '../models/ListedShareHistoryModel.js';
-import { BadRequestError } from '../errors/index.js';
-import ListedSharesService from './ListedSharesService.js';
 import axios from "axios";
+import { BadRequestError } from '../errors/index.js';
+import CommonService from '../commons/CommonService.js';
+import ListedSharesService from './ListedSharesService.js';
+import { ListedShareHistory } from '../models/ListedShareHistoryModel.js';
 
 export default class ListedShareHistoryService extends CommonService {
   constructor() {
@@ -40,7 +39,6 @@ export default class ListedShareHistoryService extends CommonService {
       throw new BadRequestError(error);
     }
 
-    console.log('\n### MOVIMENTAÇÃO ', orderedArray, ' // PERFIL ', req.body.id_profile, ' ###\n');
     req.body.date = new Date(req.body.date).setUTCHours(3, 0, 0, 0);
     const response = await super.create(req);
 
