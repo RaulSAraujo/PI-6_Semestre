@@ -179,7 +179,7 @@ interface NovaAcao {
 }
 
 // Componente principal
-export const NovaAcao: React.FC = () => {
+export function CreationAction(){
   const theme = useTheme();
   const navigate = useNavigate();
   const [formData, setFormData] = useState<NovaAcao>({

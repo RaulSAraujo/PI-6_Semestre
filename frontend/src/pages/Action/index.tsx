@@ -42,7 +42,7 @@ import {
   Category,
 } from "@mui/icons-material";
 
-import { FerramentasDaListagem } from "../../components";
+import { FerramentasDaListagem } from "../../components/common";
 import { LayoutBaseDePagina } from "@layouts/LayoutBase";
 import { useDebounce } from "@hooks/UseDebounce";
 import {
@@ -201,7 +201,7 @@ const SectorChip = styled(Chip)(({ theme }) => ({
 }));
 
 // Componente principal
-export const AcoesListadas: React.FC = () => {
+export function Action() {
   const navigate = useNavigate();
   const theme = useTheme();
   const { debounce } = useDebounce(800, false);
@@ -563,4 +563,4 @@ export const AcoesListadas: React.FC = () => {
       </Box>
     </LayoutBaseDePagina>
   );
-};
+}

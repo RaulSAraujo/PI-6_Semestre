@@ -1,19 +1,22 @@
-import { Routes, Route } from "react-router-dom";
-import { useDrawerContext } from "../contexts";
 import { useEffect } from "react";
+
+import { Route, Routes } from "react-router-dom";
+
 import {
+  Action,
+  Client,
   Dashboard,
-  Usuarios,
-  Clientes,
-  Perfil,
-  AcoesListadas,
-  Carteira,
-  Historico,
-  Novoclientes,
-  NovaAcao,
-  Novacarteira,
-  Novohistorico,
-} from "@pages";
+  Profile,
+  Wallet,
+  UserScreen,
+  HistoryScreen,
+  CreationClient,
+  CreationAction,
+  CreationWallet,
+  CreationHistory,
+} from "@pages/index";
+
+import { useDrawerContext } from "@contexts/index";
 import { MenuLateral } from "../components/menu-lateral/MenuLateral";
 
 export const AppRoutes = () => {
@@ -29,7 +32,7 @@ export const AppRoutes = () => {
       {
         icon: "account_circleIcon",
         label: "Usuario",
-        path: "/usuario",
+        path: "/usuarios",
       },
       {
         icon: "groupIcon",
@@ -44,7 +47,7 @@ export const AppRoutes = () => {
       {
         icon: "view_listIcon",
         label: "Ações listadas",
-        path: "/acoes_listadas",
+        path: "/acoes-listadas",
       },
       {
         icon: "trending_upIcon",
@@ -62,35 +65,35 @@ export const AppRoutes = () => {
   return (
     <Routes>
       <Route
-        path="/novohistorico"
+        path="/novo-historico"
         element={
           <MenuLateral>
-            <Novohistorico />
+            <CreationHistory />
           </MenuLateral>
         }
       />
       <Route
-        path="/novacarteira"
+        path="/nova-carteira"
         element={
           <MenuLateral>
-            <Novacarteira />
+            <CreationWallet />
           </MenuLateral>
         }
       />
       <Route
-        path="/NovaAcao"
+        path="/nova-acao"
         element={
           <MenuLateral>
-            <NovaAcao />
+            <CreationAction />
           </MenuLateral>
         }
       />
 
       <Route
-        path="/Novoclientes"
+        path="/novo-cliente"
         element={
           <MenuLateral>
-            <Novoclientes />
+            <CreationClient />
           </MenuLateral>
         }
       />
@@ -107,16 +110,16 @@ export const AppRoutes = () => {
         path="/clientes"
         element={
           <MenuLateral>
-            <Clientes />
+            <Client />
           </MenuLateral>
         }
       />
 
       <Route
-        path="/usuario"
+        path="/usuarios"
         element={
           <MenuLateral>
-            <Usuarios />
+            <UserScreen />
           </MenuLateral>
         }
       />
@@ -125,7 +128,7 @@ export const AppRoutes = () => {
         path="/perfil"
         element={
           <MenuLateral>
-            <Perfil />
+            <Profile />
           </MenuLateral>
         }
       />
@@ -133,10 +136,10 @@ export const AppRoutes = () => {
       {
         <>
           <Route
-            path="/acoes_listadas"
+            path="/acoes-listadas"
             element={
               <MenuLateral>
-                <AcoesListadas />
+                <Action />
               </MenuLateral>
             }
           />
@@ -145,7 +148,7 @@ export const AppRoutes = () => {
             path="/carteira"
             element={
               <MenuLateral>
-                <Carteira />
+                <Wallet />
               </MenuLateral>
             }
           />
@@ -156,7 +159,7 @@ export const AppRoutes = () => {
         path="/historico"
         element={
           <MenuLateral>
-            <Historico />
+            <HistoryScreen />
           </MenuLateral>
         }
       />

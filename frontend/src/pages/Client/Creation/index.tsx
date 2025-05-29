@@ -28,7 +28,7 @@ interface INovoClienteForm {
   id_profile: string;
 }
 
-export const Novoclientes: React.FC = () => {
+export function CreationClient() {
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -214,4 +214,4 @@ export const Novoclientes: React.FC = () => {
       </Box>
     </LayoutBaseDePagina>
   );
-};
+}

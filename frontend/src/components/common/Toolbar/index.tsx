@@ -1,5 +1,5 @@
 import { Box, Button, Icon, Paper, useTheme } from "@mui/material";
-import Clients from "@pages/Client";
+import { Client } from "../../pages/Client";
 
 interface IFerramentasDaListagemProps {
   textoDaBusca?: string;
@@ -11,7 +11,7 @@ interface IFerramentasDaListagemProps {
 }
 export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
   aoClicarEmNovo = () => {
-    Clients;
+    Client;
   },
   textoBotaoNovo = "Novo",
 }) => {

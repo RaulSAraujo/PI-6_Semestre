@@ -1,4 +1,13 @@
-import { useEffect, useMemo, useState } from "react";
+import {
+  JSXElementConstructor,
+  Key,
+  ReactElement,
+  ReactNode,
+  ReactPortal,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useSearchParams } from "react-router-dom";
 import {
   Box,
@@ -44,7 +53,7 @@ import {
 } from "@mui/icons-material";
 
 import { Environment } from "../../environment";
-import { LayoutBaseDePagina } from "../../layouts";
+import { LayoutBaseDePagina } from "@layouts/LayoutBase";
 import {
   PerfilService,
   IListagemPerfil,
@@ -185,29 +194,29 @@ const ProfileChip = styled(Chip)(({ theme, color }) => ({
   borderRadius: 8,
   fontWeight: 500,
   backgroundColor:
-    color === "conservador"
+    color === "default"
       ? alpha(theme.palette.info.main, 0.1)
-      : color === "moderado"
+      : color === "primary"
       ? alpha(theme.palette.warning.main, 0.1)
       : alpha(theme.palette.error.main, 0.1),
   color:
-    color === "conservador"
+    color === "default"
       ? theme.palette.info.main
-      : color === "moderado"
+      : color === "primary"
       ? theme.palette.warning.main
       : theme.palette.error.main,
   border: `1px solid ${
-    color === "conservador"
+    color === "default"
       ? alpha(theme.palette.info.main, 0.2)
-      : color === "moderado"
+      : color === "primary"
       ? alpha(theme.palette.warning.main, 0.2)
       : alpha(theme.palette.error.main, 0.2)
   }`,
   "& .MuiChip-icon": {
     color:
-      color === "conservador"
+      color === "default"
         ? theme.palette.info.main
-        : color === "moderado"
+        : color === "primary"
         ? theme.palette.warning.main
         : theme.palette.error.main,
   },
@@ -237,7 +246,7 @@ const ProfileIcon = styled(Box)(({ theme }) => ({
 }));
 
 // Componente principal
-export const Perfil: React.FC = () => {
+export function Profile() {
   const theme = useTheme();
   const [searchParams, setSearchParams] = useSearchParams();
   const { debounce } = useDebounce(800, false);
@@ -465,43 +474,48 @@ export const Perfil: React.FC = () => {
 
                 <TableBody>
                   {rows?.items && rows.items.length > 0 ? (
-                    rows.items.map((row) => (
-                      <StyledTableRow key={row.id}>
-                        <TableCell>
-                          <Box display="flex" alignItems="center">
-                            <ProfileIcon>
-                              {getProfileIcon(String(row.description))}
-                            </ProfileIcon>
-                            <Box>
-                              <Typography variant="body1" fontWeight="500">
-                                {row.description}
-                              </Typography>
-                              <Typography
-                                variant="caption"
-                                color="textSecondary"
-                              >
-                                ID: {row.id}
-                              </Typography>
+                    rows.items.map(
+                      (row: {
+                        id: string | number;
+                        description: string;
+                        type: any;
+                      }) => (
+                        <StyledTableRow key={row.id}>
+                          <TableCell>
+                            <Box display="flex" alignItems="center">
+                              <ProfileIcon>
+                                {getProfileIcon(String(row.description))}
+                              </ProfileIcon>
+                              <Box>
+                                <Typography variant="body1" fontWeight="500">
+                                  {row.description}
+                                </Typography>
+                                <Typography
+                                  variant="caption"
+                                  color="textSecondary"
+                                >
+                                  ID: {row.id}
+                                </Typography>
+                              </Box>
                             </Box>
-                          </Box>
-                        </TableCell>
-                        <TableCell>
-                          <ProfileChip
-                            size="small"
-                            label={String(row.type)}
-                            icon={getProfileIcon(String(row.description))}
-                            color={getProfileColor(String(row.description))}
-                          />
-                        </TableCell>
-                        <TableCell align="right">
-                          <Tooltip title="Mais opções">
-                            <IconButton size="small">
-                              <MoreVert fontSize="small" />
-                            </IconButton>
-                          </Tooltip>
-                        </TableCell>
-                      </StyledTableRow>
-                    ))
+                          </TableCell>
+                          <TableCell>
+                            <ProfileChip
+                              size="small"
+                              label={String(row.type)}
+                              icon={getProfileIcon(String(row.description))}
+                            />
+                          </TableCell>
+                          <TableCell align="right">
+                            <Tooltip title="Mais opções">
+                              <IconButton size="small">
+                                <MoreVert fontSize="small" />
+                              </IconButton>
+                            </Tooltip>
+                          </TableCell>
+                        </StyledTableRow>
+                      )
+                    )
                   ) : (
                     <TableRow>
                       <TableCell colSpan={3}>
@@ -557,4 +571,4 @@ export const Perfil: React.FC = () => {
       </Box>
     </LayoutBaseDePagina>
   );
-};
+}

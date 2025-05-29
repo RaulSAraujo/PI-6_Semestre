@@ -21,7 +21,6 @@ import {
   Skeleton,
   Card,
   CardHeader,
-  CardContent,
   Divider,
   Button,
   TextField,
@@ -39,10 +38,7 @@ import {
   Search,
   AccountBalance,
   MonetizationOn,
-  TrendingUp,
-  PieChart,
   BarChart,
-  ShowChart,
   AttachMoney,
   ShoppingCart,
   Calculate,
@@ -53,7 +49,7 @@ import { LayoutBaseDePagina } from "@layouts/LayoutBase";
 import { useDebounce } from "@hooks/UseDebounce";
 import {
   CarteiraService,
-  IListagemCarteira
+  IListagemCarteira,
 } from "../../services/api/carteira/carteira";
 import { Environment } from "../../environment";
 
@@ -61,16 +57,24 @@ import { Environment } from "../../environment";
 const StyledCard = styled(Card)(({ theme }) => ({
   borderRadius: 16,
   overflow: "hidden",
-  boxShadow: theme.palette.mode === "dark"
-    ? `0 6px 20px ${alpha(theme.palette.common.black, 0.2)}`
-    : `0 6px 20px ${alpha(theme.palette.common.black, 0.05)}`,
+  boxShadow:
+    theme.palette.mode === "dark"
+      ? `0 6px 20px ${alpha(theme.palette.common.black, 0.2)}`
+      : `0 6px 20px ${alpha(theme.palette.common.black, 0.05)}`,
   border: `1px solid ${alpha(theme.palette.primary.main, 0.05)}`,
 }));
 
 const StyledCardHeader = styled(CardHeader)(({ theme }) => ({
-  background: theme.palette.mode === "dark"
-    ? `linear-gradient(90deg, ${alpha(theme.palette.primary.dark, 0.3)} 0%, ${alpha(theme.palette.secondary.dark, 0.3)} 100%)`
-    : `linear-gradient(90deg, ${alpha(theme.palette.primary.light, 0.2)} 0%, ${alpha(theme.palette.secondary.light, 0.2)} 100%)`,
+  background:
+    theme.palette.mode === "dark"
+      ? `linear-gradient(90deg, ${alpha(
+          theme.palette.primary.dark,
+          0.3
+        )} 0%, ${alpha(theme.palette.secondary.dark, 0.3)} 100%)`
+      : `linear-gradient(90deg, ${alpha(
+          theme.palette.primary.light,
+          0.2
+        )} 0%, ${alpha(theme.palette.secondary.light, 0.2)} 100%)`,
   padding: theme.spacing(2, 3),
 }));
 
@@ -93,9 +97,10 @@ const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
 
 const StyledTableHead = styled(TableHead)(({ theme }) => ({
   "& .MuiTableCell-head": {
-    backgroundColor: theme.palette.mode === "dark"
-      ? alpha(theme.palette.background.paper, 0.5)
-      : alpha(theme.palette.background.default, 0.5),
+    backgroundColor:
+      theme.palette.mode === "dark"
+        ? alpha(theme.palette.background.paper, 0.5)
+        : alpha(theme.palette.background.default, 0.5),
     fontWeight: 600,
     color: theme.palette.text.primary,
     borderBottom: `2px solid ${alpha(theme.palette.primary.main, 0.2)}`,
@@ -106,14 +111,16 @@ const StyledTableHead = styled(TableHead)(({ theme }) => ({
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   transition: "background-color 0.2s ease",
   "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.mode === "dark"
-      ? alpha(theme.palette.background.default, 0.05)
-      : alpha(theme.palette.background.default, 0.2),
+    backgroundColor:
+      theme.palette.mode === "dark"
+        ? alpha(theme.palette.background.default, 0.05)
+        : alpha(theme.palette.background.default, 0.2),
   },
   "&:hover": {
-    backgroundColor: theme.palette.mode === "dark"
-      ? alpha(theme.palette.primary.main, 0.1)
-      : alpha(theme.palette.primary.main, 0.05),
+    backgroundColor:
+      theme.palette.mode === "dark"
+        ? alpha(theme.palette.primary.main, 0.1)
+        : alpha(theme.palette.primary.main, 0.05),
     cursor: "pointer",
   },
   "& .MuiTableCell-body": {
@@ -123,9 +130,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const ActionButton = styled(IconButton)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark"
-    ? alpha(theme.palette.background.paper, 0.5)
-    : alpha(theme.palette.background.paper, 0.8),
+  backgroundColor:
+    theme.palette.mode === "dark"
+      ? alpha(theme.palette.background.paper, 0.5)
+      : alpha(theme.palette.background.paper, 0.8),
   border: `1px solid ${alpha(theme.palette.divider, 0.5)}`,
   borderRadius: 12,
   padding: theme.spacing(1),
@@ -152,9 +160,10 @@ const AddButton = styled(Button)(({ theme }) => ({
 const SearchField = styled(TextField)(({ theme }) => ({
   "& .MuiOutlinedInput-root": {
     borderRadius: 12,
-    backgroundColor: theme.palette.mode === "dark"
-      ? alpha(theme.palette.background.paper, 0.5)
-      : alpha(theme.palette.background.paper, 0.8),
+    backgroundColor:
+      theme.palette.mode === "dark"
+        ? alpha(theme.palette.background.paper, 0.5)
+        : alpha(theme.palette.background.paper, 0.8),
     transition: "all 0.3s ease",
     "&:hover .MuiOutlinedInput-notchedOutline": {
       borderColor: theme.palette.primary.main,
@@ -197,9 +206,10 @@ const StatCard = styled(Card)(({ theme }) => ({
   borderRadius: 16,
   padding: theme.spacing(2),
   height: "100%",
-  boxShadow: theme.palette.mode === "dark"
-    ? `0 4px 14px ${alpha(theme.palette.common.black, 0.2)}`
-    : `0 4px 14px ${alpha(theme.palette.common.black, 0.05)}`,
+  boxShadow:
+    theme.palette.mode === "dark"
+      ? `0 4px 14px ${alpha(theme.palette.common.black, 0.2)}`
+      : `0 4px 14px ${alpha(theme.palette.common.black, 0.05)}`,
   border: `1px solid ${alpha(theme.palette.primary.main, 0.05)}`,
   transition: "transform 0.3s ease",
   "&:hover": {
@@ -220,7 +230,7 @@ const IconContainer = styled(Box)(({ theme, color }) => ({
 }));
 
 // Componente principal
-export const Carteira: React.FC = () => {
+export function Wallet() {
   const navigate = useNavigate();
   const theme = useTheme();
   const { debounce } = useDebounce(800, false);
@@ -262,16 +272,18 @@ export const Carteira: React.FC = () => {
     }
 
     const totalInvested = rows.items.reduce((sum, item) => {
-      const amount = typeof item.invested_amount === 'number' 
-        ? item.invested_amount 
-        : parseFloat(String(item.invested_amount).replace(/[^\d.-]/g, ''));
+      const amount =
+        typeof item.invested_amount === "number"
+          ? item.invested_amount
+          : parseFloat(String(item.invested_amount).replace(/[^\d.-]/g, ""));
       return sum + (isNaN(amount) ? 0 : amount);
     }, 0);
 
     const totalQuantity = rows.items.reduce((sum, item) => {
-      const quantity = typeof item.quantity_purchased === 'number'
-        ? item.quantity_purchased
-        : parseFloat(String(item.quantity_purchased));
+      const quantity =
+        typeof item.quantity_purchased === "number"
+          ? item.quantity_purchased
+          : parseFloat(String(item.quantity_purchased));
       return sum + (isNaN(quantity) ? 0 : quantity);
     }, 0);
 
@@ -301,20 +313,23 @@ export const Carteira: React.FC = () => {
     });
   }, []);
 
-  const formatCurrency = (value: number | string | boolean | ReactElement | null | undefined) => {
+  const formatCurrency = (
+    value: number | string | boolean | ReactElement | null | undefined
+  ) => {
     if (value === null || value === undefined) return "R$ 0,00";
-    
-    const numValue = typeof value === 'number' 
-      ? value 
-      : parseFloat(String(value).replace(/[^\d.-]/g, ''));
-    
+
+    const numValue =
+      typeof value === "number"
+        ? value
+        : parseFloat(String(value).replace(/[^\d.-]/g, ""));
+
     if (isNaN(numValue)) return "R$ 0,00";
-    
-    return new Intl.NumberFormat('pt-BR', { 
-      style: 'currency', 
-      currency: 'BRL',
+
+    return new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
       minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+      maximumFractionDigits: 2,
     }).format(numValue);
   };
 
@@ -330,25 +345,25 @@ export const Carteira: React.FC = () => {
       }
     >
       <Box sx={{ p: 2 }}>
-        <Box 
-          display="flex" 
-          justifyContent="space-between" 
-          alignItems="center" 
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
           flexWrap="wrap"
           gap={2}
           mb={3}
         >
-          <Typography 
-            variant="h5" 
-            component="h2" 
-            color="primary" 
+          <Typography
+            variant="h5"
+            component="h2"
+            color="primary"
             fontWeight="700"
             sx={{ display: "flex", alignItems: "center" }}
           >
             <AccountBalance sx={{ mr: 1 }} />
             Carteira de Investimentos
           </Typography>
-          
+
           <Box display="flex" gap={2}>
             <SearchField
               size="small"
@@ -363,13 +378,13 @@ export const Carteira: React.FC = () => {
                 ),
               }}
             />
-            
+
             <Tooltip title="Atualizar">
               <ActionButton onClick={handleRefresh}>
                 <Refresh />
               </ActionButton>
             </Tooltip>
-            
+
             <AddButton
               variant="contained"
               color="primary"
@@ -380,12 +395,17 @@ export const Carteira: React.FC = () => {
             </AddButton>
           </Box>
         </Box>
-        
+
         {/* Dashboard Cards */}
         <Grid container spacing={3} sx={{ mb: 4 }}>
           <Grid item xs={12} sm={6} md={3}>
             <StatCard>
-              <Box display="flex" flexDirection="column" alignItems="center" textAlign="center">
+              <Box
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                textAlign="center"
+              >
                 <IconContainer color="primary">
                   <MonetizationOn />
                 </IconContainer>
@@ -398,10 +418,15 @@ export const Carteira: React.FC = () => {
               </Box>
             </StatCard>
           </Grid>
-          
+
           <Grid item xs={12} sm={6} md={3}>
             <StatCard>
-              <Box display="flex" flexDirection="column" alignItems="center" textAlign="center">
+              <Box
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                textAlign="center"
+              >
                 <IconContainer color="secondary">
                   <BarChart />
                 </IconContainer>
@@ -414,10 +439,15 @@ export const Carteira: React.FC = () => {
               </Box>
             </StatCard>
           </Grid>
-          
+
           <Grid item xs={12} sm={6} md={3}>
             <StatCard>
-              <Box display="flex" flexDirection="column" alignItems="center" textAlign="center">
+              <Box
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                textAlign="center"
+              >
                 <IconContainer color="success">
                   <Calculate />
                 </IconContainer>
@@ -430,10 +460,15 @@ export const Carteira: React.FC = () => {
               </Box>
             </StatCard>
           </Grid>
-          
+
           <Grid item xs={12} sm={6} md={3}>
             <StatCard>
-              <Box display="flex" flexDirection="column" alignItems="center" textAlign="center">
+              <Box
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                textAlign="center"
+              >
                 <IconContainer color="info">
                   <ShoppingCart />
                 </IconContainer>
@@ -447,49 +482,53 @@ export const Carteira: React.FC = () => {
             </StatCard>
           </Grid>
         </Grid>
-        
+
         <StyledCard>
           <StyledCardHeader
             title={
-              <Box display="flex" alignItems="center" justifyContent="space-between">
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="space-between"
+              >
                 <Typography variant="subtitle1" fontWeight="600">
                   Ativos na Carteira
                 </Typography>
-                
+
                 <Box display="flex" gap={1}>
-                  <Badge 
-                    badgeContent={rows?.total || 0} 
+                  <Badge
+                    badgeContent={rows?.total || 0}
                     color="primary"
-                    sx={{ 
+                    sx={{
                       "& .MuiBadge-badge": {
                         borderRadius: 8,
                         fontWeight: 600,
-                      }
+                      },
                     }}
                   >
-                    <Chip 
-                      label="Total de Ativos" 
+                    <Chip
+                      label="Total de Ativos"
                       size="small"
-                      sx={{ 
+                      sx={{
                         fontWeight: 600,
                         backgroundColor: alpha(theme.palette.primary.main, 0.1),
                         color: theme.palette.primary.main,
                       }}
                     />
                   </Badge>
-                  
+
                   <Tooltip title="Filtrar">
                     <IconButton size="small">
                       <FilterList fontSize="small" />
                     </IconButton>
                   </Tooltip>
-                  
+
                   <Tooltip title="Ordenar">
                     <IconButton size="small">
                       <SortByAlpha fontSize="small" />
                     </IconButton>
                   </Tooltip>
-                  
+
                   <Tooltip title="Exportar">
                     <IconButton size="small">
                       <Download fontSize="small" />
@@ -499,23 +538,28 @@ export const Carteira: React.FC = () => {
               </Box>
             }
           />
-          
+
           <Divider />
-          
+
           {isLoading && (
             <Box sx={{ p: 2 }}>
-              <LinearProgress 
-                variant="indeterminate" 
-                sx={{ 
-                  height: 6, 
+              <LinearProgress
+                variant="indeterminate"
+                sx={{
+                  height: 6,
                   borderRadius: 3,
                   mb: 2,
-                  backgroundColor: alpha(theme.palette.primary.main, 0.1)
-                }} 
+                  backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                }}
               />
               {[1, 2, 3, 4].map((item) => (
                 <Box key={item} sx={{ display: "flex", mb: 2 }}>
-                  <Skeleton variant="rectangular" width={80} height={32} sx={{ mr: 2, borderRadius: 1 }} />
+                  <Skeleton
+                    variant="rectangular"
+                    width={80}
+                    height={32}
+                    sx={{ mr: 2, borderRadius: 1 }}
+                  />
                   <Box width="100%">
                     <Skeleton variant="text" width="40%" height={24} />
                     <Skeleton variant="text" width="60%" height={20} />
@@ -524,7 +568,7 @@ export const Carteira: React.FC = () => {
               ))}
             </Box>
           )}
-          
+
           {!isLoading && (
             <StyledTableContainer component={Paper}>
               <Table sx={{ minWidth: 650 }} aria-label="tabela de carteira">
@@ -536,24 +580,24 @@ export const Carteira: React.FC = () => {
                     <TableCell align="right">Ações</TableCell>
                   </TableRow>
                 </StyledTableHead>
-                
+
                 <TableBody>
                   {rows?.items && rows.items.length > 0 ? (
                     rows.items.map((row) => (
-                      <StyledTableRow 
+                      <StyledTableRow
                         key={row.id}
                         onClick={() => navigate(`/carteira/${row.id}`)}
                       >
                         <TableCell>
-                          <ValueChip 
-                            size="small" 
+                          <ValueChip
+                            size="small"
                             label={formatCurrency(row.share_price)}
                             icon={<AttachMoney />}
                           />
                         </TableCell>
                         <TableCell>
-                          <QuantityChip 
-                            size="small" 
+                          <QuantityChip
+                            size="small"
                             label={row.quantity_purchased}
                             icon={<ShoppingCart />}
                           />
@@ -565,7 +609,10 @@ export const Carteira: React.FC = () => {
                                 width: 36,
                                 height: 36,
                                 borderRadius: "50%",
-                                backgroundColor: alpha(theme.palette.success.main, 0.1),
+                                backgroundColor: alpha(
+                                  theme.palette.success.main,
+                                  0.1
+                                ),
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: "center",
@@ -576,7 +623,11 @@ export const Carteira: React.FC = () => {
                             >
                               <MonetizationOn />
                             </Box>
-                            <Typography variant="body1" fontWeight="600" color="success.main">
+                            <Typography
+                              variant="body1"
+                              fontWeight="600"
+                              color="success.main"
+                            >
                               {formatCurrency(row.invested_amount)}
                             </Typography>
                           </Box>
@@ -594,11 +645,17 @@ export const Carteira: React.FC = () => {
                     <TableRow>
                       <TableCell colSpan={4}>
                         <EmptyState>
-                          <AccountBalance sx={{ fontSize: 48, opacity: 0.5, mb: 2 }} />
+                          <AccountBalance
+                            sx={{ fontSize: 48, opacity: 0.5, mb: 2 }}
+                          />
                           <Typography variant="subtitle1" gutterBottom>
                             {Environment.LISTAGEM_VAZIA}
                           </Typography>
-                          <Typography variant="body2" color="textSecondary" gutterBottom>
+                          <Typography
+                            variant="body2"
+                            color="textSecondary"
+                            gutterBottom
+                          >
                             Sua carteira de investimentos está vazia
                           </Typography>
                           <AddButton
@@ -615,7 +672,7 @@ export const Carteira: React.FC = () => {
                     </TableRow>
                   )}
                 </TableBody>
-                
+
                 <TableFooter>
                   {isLoading && (
                     <TableRow>
@@ -632,4 +689,4 @@ export const Carteira: React.FC = () => {
       </Box>
     </LayoutBaseDePagina>
   );
-};
+}

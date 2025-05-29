@@ -8,7 +8,6 @@ export interface IListagemUser {
     id: number;
     email: string;
     name: string;
-   
   }[];
   current: number;
   pageSize: number;
@@ -26,43 +25,11 @@ type TPessoasComTotalCount = {
   totalCount: number;
 };
 
-const LOCAL_STORAGE_KEY__ACCESS_TOKEN = 'APP_ACCESS_TOKEN';
-
-const getAll = async (
-
-): Promise<TPessoasComTotalCount | Error> => {
+const getAll = async (): Promise<TPessoasComTotalCount | Error> => {
   try {
-    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY__ACCESS_TOKEN);
+    const { data } = await Api.get("/users");
 
-    if (!accessToken) {
-      return new Error("Token de autenticação não encontrado.");
-    }
-
-
-    let urlRelativa = `/users`;
-
-
-  
-
-    const { data, headers } = await Api.get(urlRelativa, {
-      headers: {
-        Authorization:  accessToken
-      }
-
-    });
-    if (data) {
-      return {
-        data,
-        totalCount: Number(
-          headers["x-total-count"] || Environment.LIMITE_DE_LINHAS
-        ),
-      };
-     
-    }
-
-    console.log(data);
-
-    return new Error("Erro ao listar os registros.");
+    return data;
   } catch (error) {
     console.error(error);
     return new Error(

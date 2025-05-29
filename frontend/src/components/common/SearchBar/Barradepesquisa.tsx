@@ -1,6 +1,6 @@
 import { Box, Paper, TextField, useTheme } from "@mui/material";
 
-import { Environment } from "../../environment";
+import { Environment } from "../../../environment";
 
 interface IFerramentasDaListagemProps {
   textoDaBusca?: string;

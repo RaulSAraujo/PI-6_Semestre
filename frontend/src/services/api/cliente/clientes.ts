@@ -1,4 +1,5 @@
 import { Environment } from "../../../environment";
+
 import { Api } from "../axios-config";
 
 export interface IListagemCliente {
@@ -30,11 +31,11 @@ type TPessoasComTotalCount = {
   totalCount: number;
 };
 
-const LOCAL_STORAGE_KEY__ACCESS_TOKEN = "APP_ACCESS_TOKEN";
+const { LOCAL_STORAGE_KEY_ACCESS_TOKEN } = Environment;
 
 const getAll = async (): Promise<TPessoasComTotalCount | Error> => {
   try {
-    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY__ACCESS_TOKEN);
+    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY_ACCESS_TOKEN);
 
     if (!accessToken) {
       return new Error("Token de autenticação não encontrado.");
@@ -46,9 +47,9 @@ const getAll = async (): Promise<TPessoasComTotalCount | Error> => {
       },
     });
 
-    if (data) {
-      console.log(data);
+    console.log(data);
 
+    if (data) {
       return {
         data,
         totalCount: Number(
@@ -56,8 +57,6 @@ const getAll = async (): Promise<TPessoasComTotalCount | Error> => {
         ),
       };
     }
-
-    console.log(data);
 
     return new Error("Erro ao listar os registros.");
   } catch (error) {
@@ -72,7 +71,7 @@ const create = async (
   dados: Omit<IDetalheCliente, "id">
 ): Promise<number | Error> => {
   try {
-    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY__ACCESS_TOKEN);
+    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY_ACCESS_TOKEN);
 
     if (!accessToken) {
       return new Error("Token de autenticação não encontrado.");

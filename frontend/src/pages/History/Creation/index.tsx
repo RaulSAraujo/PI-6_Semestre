@@ -211,7 +211,7 @@ interface Novohistorico {
 }
 
 // Componente principal
-export const Novohistorico: React.FC = () => {
+export function CreationHistory() {
   const theme = useTheme();
   const navigate = useNavigate();
   const [formData, setFormData] = useState<Novohistorico>({
@@ -986,4 +986,4 @@ export const Novohistorico: React.FC = () => {
       </Snackbar>
     </LayoutBaseDePagina>
   );
-};
+}

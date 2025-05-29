@@ -1,86 +1,155 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { AuthService } from '../services/api/auth/AuthService';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  useRef,
+} from "react";
+import { AuthService } from "@services/api/auth/AuthService";
 
-interface IAuthContextData {
-  logout: () => void;
+// Tipos
+interface AuthContextData {
   isAuthenticated: boolean;
   signIn: (username: string, password: string) => Promise<string | void>;
+  logout: () => void;
 }
 
-const AuthContext = createContext({} as IAuthContextData);
-
-const LOCAL_STORAGE_KEY__ACCESS_TOKEN = 'APP_ACCESS_TOKEN';
-const TOKEN_EXPIRATION_TIME = 15 * 60 * 1000; // 15 minutes in milliseconds
-
-interface IAuthProviderProps {
+interface AuthProviderProps {
   children: React.ReactNode;
 }
 
-export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
-  const [accessToken, setAccessToken] = useState<string | null>(() => {
-    const token = localStorage.getItem(LOCAL_STORAGE_KEY__ACCESS_TOKEN);
-    return token || null;
+// Constantes
+const AUTH_TOKEN_KEY = "ACCESS_TOKEN";
+const TOKEN_LIFETIME = 15 * 60 * 1000; // 15 minutos em milissegundos
+
+// Criação do contexto
+const AuthContext = createContext<AuthContextData>({} as AuthContextData);
+
+/**
+ * Provider de autenticação que gerencia o estado de autenticação do usuário
+ */
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  // Estado para armazenar o token de acesso
+  const [token, setToken] = useState<string | null>(() => {
+    return localStorage.getItem(AUTH_TOKEN_KEY);
   });
 
-  // Timeout reference to clear the timeout on logout or token update
-  const tokenTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+  // Referência para o timeout de expiração do token
+  const expirationTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const setTokenWithTimeout = useCallback((token: string) => {
-    localStorage.setItem(LOCAL_STORAGE_KEY__ACCESS_TOKEN, token);
-    setAccessToken(token);
+  /**
+   * Define o token e configura sua expiração automática
+   */
+  const setupToken = useCallback((newToken: string) => {
+    // Salva o token no localStorage e no estado
+    localStorage.setItem(AUTH_TOKEN_KEY, newToken);
+    setToken(newToken);
 
-    // Clear any existing timeout
-    if (tokenTimeoutRef.current) {
-      clearTimeout(tokenTimeoutRef.current);
+    // Limpa qualquer timer existente
+    if (expirationTimerRef.current) {
+      clearTimeout(expirationTimerRef.current);
+      expirationTimerRef.current = null;
     }
 
-    // Set a timeout to remove the token after 15 minutes
-    tokenTimeoutRef.current = setTimeout(() => {
-      localStorage.removeItem(LOCAL_STORAGE_KEY__ACCESS_TOKEN);
-      setAccessToken(null);
-    }, TOKEN_EXPIRATION_TIME);
+    // Configura um novo timer para expiração do token
+    expirationTimerRef.current = setTimeout(() => {
+      localStorage.removeItem(AUTH_TOKEN_KEY);
+      setToken(null);
+      expirationTimerRef.current = null;
+    }, TOKEN_LIFETIME);
   }, []);
 
-  const handleSignIn = useCallback(async (username: string, password: string) => {
-    const result = await AuthService.auth(username, password);
-    if (result instanceof Error) {
-      return result.message;
-    } else {
-      setTokenWithTimeout(result.access_token);
-    }
-  }, [setTokenWithTimeout]);
+  /**
+   * Realiza o login do usuário
+   */
+  const signIn = useCallback(
+    async (username: string, password: string): Promise<string | void> => {
+      try {
+        const response = await AuthService.auth(username, password);
 
-  const handleLogout = useCallback(() => {
-    localStorage.removeItem(LOCAL_STORAGE_KEY__ACCESS_TOKEN);
-    setAccessToken(null);
+        if (response instanceof Error) {
+          return response.message;
+        }
 
-    // Clear the timeout if it exists
-    if (tokenTimeoutRef.current) {
-      clearTimeout(tokenTimeoutRef.current);
-      tokenTimeoutRef.current = null;
+        setupToken(response.access_token);
+      } catch (error) {
+        console.error("Erro durante autenticação:", error);
+
+        if (error instanceof Error) {
+          return error.message;
+        }
+
+        return "Falha na autenticação. Tente novamente.";
+      }
+    },
+    [setupToken]
+  );
+
+  /**
+   * Realiza o logout do usuário
+   */
+  const logout = useCallback(() => {
+    // Remove o token do localStorage e do estado
+    localStorage.removeItem(AUTH_TOKEN_KEY);
+    setToken(null);
+
+    // Cancela o timer de expiração
+    if (expirationTimerRef.current) {
+      clearTimeout(expirationTimerRef.current);
+      expirationTimerRef.current = null;
     }
   }, []);
 
+  /**
+   * Inicializa o token ao montar o componente
+   */
   useEffect(() => {
-    const storedToken = localStorage.getItem(LOCAL_STORAGE_KEY__ACCESS_TOKEN);
+    const storedToken = localStorage.getItem(AUTH_TOKEN_KEY);
+
+    console.log("Stored token:", storedToken);
+
     if (storedToken) {
-      setTokenWithTimeout(storedToken);
+      setupToken(storedToken);
     }
-    // Clean up the timeout when the component unmounts
+
+    // Cleanup ao desmontar
     return () => {
-      if (tokenTimeoutRef.current) {
-        clearTimeout(tokenTimeoutRef.current);
+      if (expirationTimerRef.current) {
+        clearTimeout(expirationTimerRef.current);
+        expirationTimerRef.current = null;
       }
     };
-  }, [setTokenWithTimeout]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const isAuthenticated = useMemo(() => !!accessToken, [accessToken]);
+  // Determina se o usuário está autenticado
+  const isAuthenticated = useMemo(() => !!token, [token]);
+
+  // Valores expostos pelo contexto
+  const contextValue = useMemo(
+    () => ({
+      isAuthenticated,
+      signIn,
+      logout,
+    }),
+    [isAuthenticated, signIn, logout]
+  );
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, signIn: handleSignIn, logout: handleLogout }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
 };
 
-export const useAuthContext = () => useContext(AuthContext);
+/**
+ * Hook para acessar o contexto de autenticação
+ */
+export const useAuthContext = (): AuthContextData => {
+  const context = useContext(AuthContext);
+
+  if (!context) {
+    throw new Error("useAuthContext deve ser usado dentro de um AuthProvider");
+  }
+
+  return context;
+};

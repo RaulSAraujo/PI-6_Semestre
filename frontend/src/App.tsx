@@ -1,11 +1,34 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { AppThemeProvider, AuthProvider, DrawerProvider, useAuthContext } from "./contexts";
-import { Login, Cadastro } from "./components";
-import { AppRoutes } from "./routes";
+import { ReactNode } from "react";
 
-const ProtectedRoute: React.FC<{ children: JSX.Element }> = ({ children }) => {
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+
+import { AppRoutes } from "@routes/index";
+import { Cadastro, LoginScreen } from "@pages/index";
+import {
+  AppThemeProvider,
+  AuthProvider,
+  DrawerProvider,
+  useAuthContext,
+} from "@contexts/index";
+
+const RootRedirect = () => {
   const { isAuthenticated } = useAuthContext();
-  return isAuthenticated ? children : <Navigate to="/login" />;
+
+  return isAuthenticated ? (
+    <Navigate to="/pagina-inicial" replace />
+  ) : (
+    <Navigate to="/login" replace />
+  );
+};
+
+const ProtectedRoute = ({ children }: { children: ReactNode }) => {
+  const { isAuthenticated } = useAuthContext();
+  
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
 };
 
 export const App = () => {
@@ -15,8 +38,14 @@ export const App = () => {
         <DrawerProvider>
           <BrowserRouter>
             <Routes>
-              <Route path="/login" element={<Login children={<div />} />} />
-              <Route path="/cadastro" element={<Cadastro children={<div />} />} /> 
+              {/* Rota raiz que redireciona com base na autenticação */}
+              <Route path="/" element={<RootRedirect />} />
+
+              {/* Rotas públicas */}
+              <Route path="/login" element={<LoginScreen />} />
+              <Route path="/cadastro" element={<Cadastro />} />
+
+              {/* Rotas protegidas */}
               <Route
                 path="/*"
                 element={

@@ -281,7 +281,7 @@ const IconContainer = styled(Box)(({ theme, color }) => ({
 }));
 
 // Componente principal
-export const Historico: React.FC = () => {
+export function HistoryScreen() {
   const navigate = useNavigate();
   const theme = useTheme();
   const { debounce } = useDebounce(800, false);

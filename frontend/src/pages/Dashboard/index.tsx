@@ -1,16 +1,9 @@
-// src/pages/dashboard/Dashboard.jsx
+
 import { useEffect, useState } from "react";
 
+import { LayoutBaseDePagina } from "@layouts/LayoutBase";
 import { Grid, useMediaQuery, useTheme } from "@mui/material";
-
-import { LayoutBaseDePagina } from "../../layouts";
-
-// Componentes
-import {
-  WelcomePanel,
-  MainContentCard,
-  NextStepsCard,
-} from "../../components/Dashboard";
+import { MainContentCard, NextStepsCard, WelcomePanel } from "@components/Dashboard";
 
 import { ContentSection } from "./styles";
 

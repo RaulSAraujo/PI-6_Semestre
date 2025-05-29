@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -9,7 +9,7 @@ import { Header, Table } from "@components/Client";
 import { LayoutBaseDePagina } from "@layouts/LayoutBase";
 import { ClientesService } from "@services/api/cliente/clientes";
 
-export default function Clientes() {
+export function Client() {
   const navigate = useNavigate();
   const { debounce } = useDebounce(800, false);
   const [rows, setRows] = useState<Item[]>([]);
@@ -22,7 +22,7 @@ export default function Clientes() {
       if (result instanceof Error) {
         alert(result.message);
       } else {
-        setRows(result.data);
+        setRows(result.data.items);
       }
     });
   };
@@ -35,7 +35,7 @@ export default function Clientes() {
         if (result instanceof Error) {
           alert(result.message);
         } else {
-          setRows(result.data);
+          setRows(result.data.items);
         }
       });
     });
