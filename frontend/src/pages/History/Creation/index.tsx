@@ -46,7 +46,7 @@ import {
   Category,
 } from "@mui/icons-material";
 
-import { LayoutBaseDePagina } from "../../../layouts/LayoutBase";
+import { LayoutBaseDePagina } from "../../../layouts/base";
 import { HistoricoService } from "../../../services/api/historico/historico";
 import {
   listedsharesService,

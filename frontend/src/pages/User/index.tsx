@@ -2,23 +2,24 @@ import { useEffect, useMemo, useState } from "react";
 
 import { useSearchParams } from "react-router-dom";
 
-import { Box, Divider } from "@mui/material";
+import { Item } from "@types/user";
 import { useDebounce } from "@hooks/UseDebounce";
-import { UserTable } from "@components/Users/Table";
-import { UserHeader } from "@components/Users/Header";
-import { LayoutBaseDePagina } from "@layouts/LayoutBase";
-import { UserTableHeader } from "@components/Users/TableHeader";
-import { UserTableSkeleton } from "@components/Users/TableSkeleton";
-import { IListagemUser, UserService } from "@services/api/usuarios/usuarios";
-
-import { StyledCard, StyledCardHeader } from "./styles";
+import { Header, Table, Card } from "@components/Users";
+import { LayoutBaseDePagina } from "@layouts/base";
+import { UserService } from "@services/api/usuarios/usuarios";
 
 export const UserScreen: React.FC = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
   const { debounce } = useDebounce(800, false);
-  const [userData, setUserData] = useState<IListagemUser>();
+
   const [isLoading, setIsLoading] = useState(true);
+
   const [searchTerm, setSearchTerm] = useState("");
+
+  const [userData, setUserData] = useState<Item[]>([]);
+
+  const [totalItems, setTotalItems] = useState(0);
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const filter = useMemo(() => {
     return searchParams.get("filter") || "";
@@ -45,50 +46,44 @@ export const UserScreen: React.FC = () => {
     fetchUsers();
   };
 
-  const fetchUsers = () => {
-    UserService.getAll().then((result) => {
+  const fetchUsers = async () => {
+    try {
+      const res = await UserService.getAll();
+
+      setUserData(res.items);
+
+      setTotalItems(res.totalItems);
+    } catch (error) {
+      alert(error);
+    } finally {
       setIsLoading(false);
-      if (result instanceof Error) {
-        alert(result.message);
-      } else {
-        setUserData(result.data);
-      }
-    });
+    }
   };
 
   useEffect(() => {
     setIsLoading(true);
+
     debounce(fetchUsers);
   }, [filter, page]);
 
   return (
-    <LayoutBaseDePagina titulo={"Usuários"}>
-      <Box sx={{ p: 2 }}>
-        <UserHeader
-          searchTerm={searchTerm}
-          onSearchChange={handleSearch}
-          onRefresh={handleRefresh}
+    <LayoutBaseDePagina>
+      <Header
+        searchTerm={searchTerm}
+        onRefresh={handleRefresh}
+        onSearchChange={handleSearch}
+      />
+
+      <Card totalItems={totalItems}>
+        <Table
+          page={page}
+          filter={filter}
+          items={userData}
+          isLoading={isLoading}
+          totalItems={totalItems}
+          onPageChange={handlePageChange}
         />
-
-        <StyledCard>
-          <StyledCardHeader
-            title={<UserTableHeader totalCount={userData?.total} />}
-          />
-          <Divider />
-
-          {isLoading ? (
-            <UserTableSkeleton />
-          ) : (
-            <UserTable
-              data={userData}
-              isLoading={isLoading}
-              page={page}
-              filter={filter}
-              onPageChange={handlePageChange}
-            />
-          )}
-        </StyledCard>
-      </Box>
+      </Card>
     </LayoutBaseDePagina>
   );
 };

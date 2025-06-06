@@ -1,20 +1,16 @@
 import { Box, Tooltip, Typography } from "@mui/material";
 import { Add, PersonOutline, Refresh } from "@mui/icons-material";
 
-import { ActionButton } from "./styles";
 import { UserSearch } from "../Search";
+import { ActionButton } from "./styles";
 
-interface UserHeaderProps {
+interface Props {
   searchTerm: string;
-  onSearchChange: (value: string) => void;
   onRefresh: () => void;
+  onSearchChange: (value: string) => void;
 }
 
-export const UserHeader: React.FC<UserHeaderProps> = ({
-  searchTerm,
-  onSearchChange,
-  onRefresh,
-}) => {
+export function Header({ searchTerm, onSearchChange, onRefresh }: Props) {
   return (
     <Box
       display="flex"
@@ -52,4 +48,4 @@ export const UserHeader: React.FC<UserHeaderProps> = ({
       </Box>
     </Box>
   );
-};
+}

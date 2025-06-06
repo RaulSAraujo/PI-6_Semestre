@@ -16,7 +16,7 @@ import {
   Box,
   Paper,
 } from "@mui/material";
-import { LayoutBaseDePagina } from "../../../layouts/LayoutBase";
+import { LayoutBaseDePagina } from "../../../layouts/base";
 import { useNavigate } from "react-router-dom";
 
 interface INovoClienteForm {

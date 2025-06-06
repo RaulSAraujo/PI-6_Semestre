@@ -44,7 +44,7 @@ import {
   TrendingDown,
 } from "@mui/icons-material";
 
-import { LayoutBaseDePagina } from "../../../layouts/LayoutBase";
+import { LayoutBaseDePagina } from "../../../layouts/base";
 import { CarteiraService } from "../../../services/api/carteira/carteira";
 import {
   ClientesService,

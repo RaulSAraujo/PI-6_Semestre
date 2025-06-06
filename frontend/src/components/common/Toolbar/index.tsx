@@ -1,5 +1,5 @@
 import { Box, Button, Icon, Paper, useTheme } from "@mui/material";
-import { Client } from "../../pages/Client";
+import { Client } from "@pages/Client";
 
 interface IFerramentasDaListagemProps {
   textoDaBusca?: string;

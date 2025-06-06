@@ -1,22 +1,20 @@
-import React from "react";
-
+import { Form, Logo } from "@components/Login";
 import { Box, Container, Fade } from "@mui/material";
 
-import LoginForm from "./components/LoginForm";
-import LogoSection from "./components/LogoSection";
-import { PageContainer } from "./components/StyledComponents";
+import { PageContainer } from "./styles";
 
-export const LoginScreen: React.FC = () => {
+export function LoginScreen() {
   return (
     <PageContainer>
       <Container maxWidth="xs" sx={{ position: "relative", zIndex: 1 }}>
         <Fade in timeout={800}>
           <Box>
-            <LogoSection />
-            <LoginForm />
+            <Logo />
+
+            <Form />
           </Box>
         </Fade>
       </Container>
     </PageContainer>
   );
-};
+}

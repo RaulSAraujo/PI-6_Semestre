@@ -1,44 +1,17 @@
-import { Environment } from "../../../environment";
 import { Api } from "../axios-config";
+import { User, Item } from "@types/user";
 
-export interface IListagemUser {
-  items: any;
-  totalCount: number;
-  result: {
-    id: number;
-    email: string;
-    name: string;
-  }[];
-  current: number;
-  pageSize: number;
-  total: number;
-}
-
-interface IDetalheuser {
-  id: number;
-  email: string;
-  name: string;
-}
-
-type TPessoasComTotalCount = {
-  data: IListagemUser;
-  totalCount: number;
-};
-
-const getAll = async (): Promise<TPessoasComTotalCount | Error> => {
+const getAll = async () => {
   try {
-    const { data } = await Api.get("/users");
+    const { data } = await Api.get<User>("/users");
 
     return data;
   } catch (error) {
-    console.error(error);
-    return new Error(
-      (error as { message: string }).message || "Erro ao listar os registros."
-    );
+    throw error;
   }
 };
 
-const getById = async (id: number): Promise<IDetalheuser | Error> => {
+const getById = async (id: number): Promise<Item | Error> => {
   try {
     const { data } = await Api.get(`/Doctor/${id}`);
 
@@ -55,11 +28,9 @@ const getById = async (id: number): Promise<IDetalheuser | Error> => {
   }
 };
 
-const create = async (
-  dados: Omit<IDetalheuser, "id">
-): Promise<number | Error> => {
+const create = async (dados: Omit<Item, "id">): Promise<number | Error> => {
   try {
-    const { data } = await Api.post<IDetalheuser>("/Doctor", dados);
+    const { data } = await Api.post<Item>("/Doctor", dados);
 
     if (data) {
       return data.id;

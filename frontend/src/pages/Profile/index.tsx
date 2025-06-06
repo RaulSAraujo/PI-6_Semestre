@@ -1,17 +1,7 @@
-import {
-  JSXElementConstructor,
-  Key,
-  ReactElement,
-  ReactNode,
-  ReactPortal,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
   Box,
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -33,7 +23,6 @@ import {
   Skeleton,
   Card,
   CardHeader,
-  CardContent,
   Divider,
   Badge,
 } from "@mui/material";
@@ -53,7 +42,7 @@ import {
 } from "@mui/icons-material";
 
 import { Environment } from "../../environment";
-import { LayoutBaseDePagina } from "@layouts/LayoutBase";
+import { LayoutBaseDePagina } from "@layouts/base";
 import {
   PerfilService,
   IListagemPerfil,

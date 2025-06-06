@@ -39,6 +39,9 @@
       ],
       "@utils/*": [
         "utils/*"
+      ],
+      "@types/*": [
+        "types/*"
       ]
     },
     /* Bundler mode */

@@ -1,5 +1,11 @@
-import { alpha, styled } from "@mui/material";
-import { Chip, TableContainer, TableHead, TableRow } from "@mui/material";
+import {
+  Chip,
+  TableContainer,
+  TableHead,
+  TableRow,
+  alpha,
+  styled,
+} from "@mui/material";
 
 export const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
   borderRadius: 0,

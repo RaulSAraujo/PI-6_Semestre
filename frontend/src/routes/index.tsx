@@ -17,7 +17,7 @@ import {
 } from "@pages/index";
 
 import { useDrawerContext } from "@contexts/index";
-import { MenuLateral } from "../components/menu-lateral/MenuLateral";
+import { MenuLateral } from "../components/common";
 
 export const AppRoutes = () => {
   const { setDrawerOptions } = useDrawerContext();

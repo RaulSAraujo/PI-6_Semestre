@@ -27,9 +27,8 @@ import {
   KeyboardArrowUp,
 } from "@mui/icons-material";
 import log from "/public/logo.png";
-import { useAppThemeContext, useDrawerContext } from "../../contexts";
+import { useAppThemeContext, useDrawerContext, useAuthContext } from "@contexts/index";
 import { useMatch, useNavigate, useResolvedPath } from "react-router";
-import { useAuthContext } from "../../contexts";
 
 // Componentes estilizados
 const StyledDrawer = styled(Drawer)(({ theme }) => ({

@@ -44,8 +44,8 @@ import {
   Calculate,
 } from "@mui/icons-material";
 
-import { FerramentasDaListagem } from "@components/Toolbar";
-import { LayoutBaseDePagina } from "@layouts/LayoutBase";
+import { FerramentasDaListagem } from "@components/common";
+import { LayoutBaseDePagina } from "@layouts/base";
 import { useDebounce } from "@hooks/UseDebounce";
 import {
   CarteiraService,

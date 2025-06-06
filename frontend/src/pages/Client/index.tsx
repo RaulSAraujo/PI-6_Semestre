@@ -6,7 +6,7 @@ import { Box } from "@mui/material";
 import { Item } from "@models/Client";
 import { useDebounce } from "@hooks/UseDebounce";
 import { Header, Table } from "@components/Client";
-import { LayoutBaseDePagina } from "@layouts/LayoutBase";
+import { LayoutBaseDePagina } from "@layouts/base";
 import { ClientesService } from "@services/api/cliente/clientes";
 
 export function Client() {

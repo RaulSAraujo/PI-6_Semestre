@@ -42,7 +42,7 @@ import {
   Add,
 } from "@mui/icons-material";
 
-import { LayoutBaseDePagina } from "../../../layouts/LayoutBase";
+import { LayoutBaseDePagina } from "../../../layouts/base";
 import { listedsharesService } from "../../../services/api/acoes_listadas/acoes_listadas";
 import {
   IDetalhePerfil,
