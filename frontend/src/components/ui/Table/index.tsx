@@ -27,10 +27,13 @@ interface TableProps<T extends TableItem> {
   page: number;
   minWidth?: number;
   totalItems: number;
-  isLoading?: boolean;
   ariaLabel?: string;
   headers: ReactNode;
+  titleEmpty?: string;
+  isLoading?: boolean;
+  subtitleEmpty?: string;
   emptyStateColSpan?: number;
+  iconEmpty?: React.ReactElement;
   onPageChange: (page: number) => void;
   renderRow: (item: T, index: number) => ReactNode;
 }
@@ -43,9 +46,12 @@ export function Table<T extends TableItem>(props: TableProps<T>) {
     renderRow,
     totalItems,
     onPageChange,
-    minWidth = 750,
+    minWidth = 650,
     isLoading = false,
     emptyStateColSpan = 3,
+    iconEmpty,
+    titleEmpty = "Nenhum registro encontrado.",
+    subtitleEmpty = "Nenhum item encontrado na lista.",
     ariaLabel = "tabela de dados",
   } = props;
 
@@ -54,7 +60,11 @@ export function Table<T extends TableItem>(props: TableProps<T>) {
       return (
         <TableRow>
           <TableCell colSpan={emptyStateColSpan}>
-            <EmptyState />
+            <EmptyState
+              titleEmpty={titleEmpty}
+              subtitleEmpty={subtitleEmpty}
+              iconEmpty={iconEmpty}
+            />
           </TableCell>
         </TableRow>
       );
@@ -74,32 +84,34 @@ export function Table<T extends TableItem>(props: TableProps<T>) {
     [onPageChange]
   );
 
-  if (isLoading) {
-    return <Skeleton />;
-  }
-
   return (
     <StyledTableContainer>
       <Card title={ariaLabel} totalItems={totalItems}>
-        <MuiTable sx={{ minWidth }} aria-label={ariaLabel}>
-          <StyledTableHead>
-            <TableRow>{headers}</TableRow>
-          </StyledTableHead>
+        {isLoading && <Skeleton />}
 
-          <TableBody>{tableBody}</TableBody>
+        {!isLoading && (
+          <>
+            <MuiTable sx={{ minWidth }} aria-label={ariaLabel}>
+              <StyledTableHead>
+                <TableRow>{headers}</TableRow>
+              </StyledTableHead>
 
-          {totalItems > 0 && (
-            <TableFooter>
-              <TableRow>
-                <Pagination
-                  page={page}
-                  totalCount={totalItems}
-                  onPageChange={handlePageChange}
-                />
-              </TableRow>
-            </TableFooter>
-          )}
-        </MuiTable>
+              <TableBody>{tableBody}</TableBody>
+            </MuiTable>
+
+            {totalItems > 0 && (
+              <TableFooter>
+                <TableRow>
+                  <Pagination
+                    page={page}
+                    totalCount={totalItems}
+                    onPageChange={handlePageChange}
+                  />
+                </TableRow>
+              </TableFooter>
+            )}
+          </>
+        )}
       </Card>
     </StyledTableContainer>
   );

@@ -1,9 +1,9 @@
 import { useState, useEffect, FormEvent } from "react";
-import { ClientesService } from "../../../services/api/cliente/clientes";
+import { ClientesService } from "../../../services/api/client";
 import {
   PerfilService,
   IDetalhePerfil,
-} from "../../../services/api/perfil/perfil";
+} from "../../../services/api/profile";
 import {
   TextField,
   Button,
@@ -22,10 +22,10 @@ import { useNavigate } from "react-router-dom";
 interface INovoClienteForm {
   type: string;
   name: string;
-  document: string;
-  observation: string;
   active: boolean;
+  document: string;
   id_profile: string;
+  observation: string;
 }
 
 export function CreationClient() {
@@ -95,38 +95,38 @@ export function CreationClient() {
     e.preventDefault();
     setIsLoading(true);
 
-    try {
-      const result = await ClientesService.create(formData);
+    // try {
+    //   const result = await ClientesService.create();
 
-      if (result instanceof Error) {
-        setSubmitStatus("error");
-        console.error(result.message);
-      } else {
-        setSubmitStatus("success");
-        navigate("/clientes");
-      }
-    } catch (error) {
-      console.error(error);
-      setSubmitStatus("error");
-    } finally {
-      setIsLoading(false);
-    }
+    //   if (result instanceof Error) {
+    //     setSubmitStatus("error");
+    //     console.error(result.message);
+    //   } else {
+    //     setSubmitStatus("success");
+    //     navigate("/clientes");
+    //   }
+    // } catch (error) {
+    //   console.error(error);
+    //   setSubmitStatus("error");
+    // } finally {
+    //   setIsLoading(false);
+    // }
   };
 
   return (
-    <LayoutBaseDePagina titulo="Novo Cliente" barraDeFerramentas={<></>}>
+    <LayoutBaseDePagina>
       <Box component={Paper} variant="outlined" sx={{ p: 2, m: 2 }}>
         <form onSubmit={handleSubmit}>
           <Box display="flex" flexDirection="column" gap={2}>
             <FormControl fullWidth>
               <InputLabel id="type-select-label">Tipo</InputLabel>
               <Select
-                labelId="type-select-label"
-                name="type"
-                value={formData.type}
-                onChange={handleTypeChange}
                 required
+                name="type"
+                labelId="type-select-label"
+                value={formData.type}
                 disabled={isLoading}
+                onChange={handleTypeChange}
               >
                 <MenuItem value="F">Física</MenuItem>
                 <MenuItem value="J">Jurídica</MenuItem>
@@ -134,34 +134,34 @@ export function CreationClient() {
             </FormControl>
 
             <TextField
-              label="Nome"
+              required
+              fullWidth
               name="name"
+              label="Nome"
+              disabled={isLoading}
               value={formData.name}
               onChange={handleInputChange}
-              required
-              fullWidth
-              disabled={isLoading}
             />
 
             <TextField
+              required
+              fullWidth
               label="Documento"
               name="document"
+              disabled={isLoading}
               value={formData.document}
               onChange={handleInputChange}
-              required
-              fullWidth
-              disabled={isLoading}
             />
 
             <TextField
+              rows={4}
+              multiline
+              fullWidth
               label="Observação"
               name="observation"
+              disabled={isLoading}
               value={formData.observation}
               onChange={handleInputChange}
-              fullWidth
-              multiline
-              rows={4}
-              disabled={isLoading}
             />
 
             <FormControl fullWidth>

@@ -1,17 +1,22 @@
 import { Typography } from "@mui/material";
-import { PersonOutline } from "@mui/icons-material";
 
 import { EmptyBox } from "./styles";
 
-export function EmptyState() {
+type Props = {
+  titleEmpty: string;
+  subtitleEmpty: string;
+  iconEmpty?: React.ReactElement;
+};
+
+export function EmptyState({ titleEmpty, subtitleEmpty, iconEmpty }: Props) {
   return (
     <EmptyBox>
-      <PersonOutline sx={{ fontSize: 48, opacity: 0.5, mb: 2 }} />
+      {iconEmpty}
       <Typography variant="subtitle1" gutterBottom>
-        Nenhum registro encontrado.
+        {titleEmpty}
       </Typography>
       <Typography variant="body2" color="textSecondary">
-        Tente ajustar os filtros ou adicionar novos usuários
+        {subtitleEmpty}
       </Typography>
     </EmptyBox>
   );

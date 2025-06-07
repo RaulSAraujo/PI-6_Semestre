@@ -54,7 +54,7 @@ import { useDebounce } from "@hooks/UseDebounce";
 import {
   HistoricoService,
   IListagemHistorico,
-} from "../../services/api/historico/historico";
+} from "../../services/api/history";
 import { Environment } from "../../environment";
 
 // Componentes estilizados

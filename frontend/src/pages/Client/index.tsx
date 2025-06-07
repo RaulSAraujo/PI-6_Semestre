@@ -6,7 +6,7 @@ import { Item } from "@models/client";
 import { useDebounce } from "@hooks/UseDebounce";
 import { Header, Table } from "@components/client";
 import { LayoutBaseDePagina } from "@layouts/base";
-import { ClientesService } from "@services/api/cliente/clientes";
+import { ClientesService } from "@services/api/client";
 
 export function Client() {
   const navigate = useNavigate();
@@ -70,7 +70,7 @@ export function Client() {
     <LayoutBaseDePagina>
       <Header
         onRefresh={handleRefresh}
-        onAdd={() => navigate("/novoclientes")}
+        onAdd={() => navigate("/novo-cliente")}
       />
 
       <Table

@@ -6,7 +6,7 @@ import { Item } from "@models/user";
 import { useDebounce } from "@hooks/UseDebounce";
 import { Header, Table } from "@components/users";
 import { LayoutBaseDePagina } from "@layouts/base";
-import { UserService } from "@services/api/usuarios/usuarios";
+import { UserService } from "@services/api/user";
 
 export const UserScreen: React.FC = () => {
   const { debounce } = useDebounce(800, false);

@@ -45,16 +45,16 @@ import {
 } from "@mui/icons-material";
 
 import { LayoutBaseDePagina } from "../../../layouts/base";
-import { CarteiraService } from "../../../services/api/carteira/carteira";
+import { CarteiraService } from "../../../services/api/wallet";
 import {
   ClientesService,
   IDetalheCliente,
-} from "../../../services/api/cliente/clientes";
+} from "../../../services/api/client";
 import {
   listedsharesService,
   IListagemlistedshares,
   IDetalhelistedshares,
-} from "../../../services/api/acoes_listadas/acoes_listadas";
+} from "../../../services/api/action/acoes_listadas";
 
 // Componentes estilizados
 const StyledCard = styled(Card)(({ theme }) => ({

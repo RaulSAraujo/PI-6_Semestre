@@ -43,11 +43,11 @@ import {
 } from "@mui/icons-material";
 
 import { LayoutBaseDePagina } from "../../../layouts/base";
-import { listedsharesService } from "../../../services/api/acoes_listadas/acoes_listadas";
+import { listedsharesService } from "../../../services/api/action/acoes_listadas";
 import {
   IDetalhePerfil,
   PerfilService,
-} from "../../../services/api/perfil/perfil";
+} from "../../../services/api/profile";
 
 // Componentes estilizados
 const StyledCard = styled(Card)(({ theme }) => ({

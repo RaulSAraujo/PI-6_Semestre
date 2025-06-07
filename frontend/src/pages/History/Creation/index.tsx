@@ -46,16 +46,13 @@ import {
   Category,
 } from "@mui/icons-material";
 
-import { LayoutBaseDePagina } from "../../../layouts/base";
-import { HistoricoService } from "../../../services/api/historico/historico";
+import { LayoutBaseDePagina } from "@layouts/base";
+import { HistoricoService } from "@services/api/history";
 import {
   listedsharesService,
   IListagemlistedshares,
-} from "../../../services/api/acoes_listadas/acoes_listadas";
-import {
-  PerfilService,
-  IListagemPerfil,
-} from "../../../services/api/perfil/perfil";
+} from "@services/api/action";
+import { PerfilService } from "@services/api/profile";
 
 // Componentes estilizados
 const StyledCard = styled(Card)(({ theme }) => ({

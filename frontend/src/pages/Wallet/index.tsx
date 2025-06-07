@@ -50,7 +50,7 @@ import { useDebounce } from "@hooks/UseDebounce";
 import {
   CarteiraService,
   IListagemCarteira,
-} from "../../services/api/carteira/carteira";
+} from "../../services/api/wallet";
 import { Environment } from "../../environment";
 
 // Componentes estilizados

@@ -48,7 +48,7 @@ import { useDebounce } from "@hooks/UseDebounce";
 import {
   IListagemlistedshares,
   listedsharesService,
-} from "../../services/api/acoes_listadas/acoes_listadas";
+} from "../../services/api/action/acoes_listadas";
 import { Environment } from "../../environment";
 
 // Componentes estilizados

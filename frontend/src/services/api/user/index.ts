@@ -1,6 +1,7 @@
 import { Api } from "../axios-config";
 import { User, Item } from "@models/user";
 
+
 const getAll = async () => {
   try {
     const { data } = await Api.get<User>("/users");

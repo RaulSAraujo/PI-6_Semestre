@@ -1,6 +1,7 @@
 import { Item } from "@models/client";
 import { TableCell } from "@mui/material";
 import { Table as TableUi } from "@components/ui";
+import { PersonOutline } from "@mui/icons-material";
 
 import { ActionRow, ClientRow, ProfileRow, TypeRow } from "./Rows";
 
@@ -19,10 +20,12 @@ export function Table(props: Props) {
     <TableUi
       page={page}
       items={items}
-      totalItems={totalItems}
       isLoading={isLoading}
+      emptyStateColSpan={4}
+      totalItems={totalItems}
       onPageChange={onPageChange}
       ariaLabel="Lista de clientes"
+      iconEmpty={<PersonOutline sx={{ fontSize: 48, opacity: 0.5, mb: 2 }} />}
       headers={
         <>
           <TableCell>Cliente</TableCell>

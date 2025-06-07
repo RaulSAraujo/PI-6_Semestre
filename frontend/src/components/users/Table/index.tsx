@@ -1,6 +1,7 @@
 import { Item } from "@models/user";
 import { TableCell } from "@mui/material";
 import { Table as TableUi } from "@components/ui";
+import { PersonOutline } from "@mui/icons-material";
 
 import { AdminRow, CpfRow, EmailRow, NameRow, StatusRow } from "./Rows";
 
@@ -21,9 +22,11 @@ export function Table(props: Props) {
       page={page}
       items={items}
       isLoading={isLoading}
+      emptyStateColSpan={5}
       totalItems={totalItems}
       onPageChange={onPageChange}
       ariaLabel="Lista de usuários"
+      iconEmpty={<PersonOutline sx={{ fontSize: 48, opacity: 0.5, mb: 2 }} />}
       headers={
         <>
           <TableCell>Nome</TableCell>
