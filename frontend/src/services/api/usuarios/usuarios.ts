@@ -1,5 +1,5 @@
 import { Api } from "../axios-config";
-import { User, Item } from "@types/user";
+import { User, Item } from "@models/user";
 
 const getAll = async () => {
   try {

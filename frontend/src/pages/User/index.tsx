@@ -2,10 +2,10 @@ import { useEffect, useMemo, useState } from "react";
 
 import { useSearchParams } from "react-router-dom";
 
-import { Item } from "@types/user";
+import { Item } from "@models/user";
 import { useDebounce } from "@hooks/UseDebounce";
-import { Header, Table, Card } from "@components/Users";
 import { LayoutBaseDePagina } from "@layouts/base";
+import { Card, Header, Table } from "@components/users";
 import { UserService } from "@services/api/usuarios/usuarios";
 
 export const UserScreen: React.FC = () => {
@@ -31,6 +31,7 @@ export const UserScreen: React.FC = () => {
 
   const handleSearch = (value: string) => {
     setSearchTerm(value);
+
     debounce(() => {
       setSearchParams({ filter: value, page: "1" }, { replace: true });
     });
@@ -41,13 +42,13 @@ export const UserScreen: React.FC = () => {
   };
 
   const handleRefresh = () => {
-    setIsLoading(true);
-
     fetchUsers();
   };
 
   const fetchUsers = async () => {
     try {
+      setIsLoading(true);
+
       const res = await UserService.getAll();
 
       setUserData(res.items);
@@ -61,8 +62,6 @@ export const UserScreen: React.FC = () => {
   };
 
   useEffect(() => {
-    setIsLoading(true);
-
     debounce(fetchUsers);
   }, [filter, page]);
 

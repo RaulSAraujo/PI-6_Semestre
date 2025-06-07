@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import { LayoutBaseDePagina } from "@layouts/base";
 import { Grid, useMediaQuery, useTheme } from "@mui/material";
-import { MainContentCard, NextStepsCard, WelcomePanel } from "@components/Dashboard";
+import { MainContentCard, NextStepsCard, WelcomePanel } from "@components/dashboard";
 
 import { ContentSection } from "./styles";
 

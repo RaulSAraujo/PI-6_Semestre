@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import { BackButton, Form, Logo, SuccessMessage } from "@components/Register";
 import { Box, Container, Fade } from "@mui/material";
+import { BackButton, Form, Logo, SuccessMessage } from "@components/register";
 
 import { PageContainer } from "./styles";
 

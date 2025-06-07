@@ -1,5 +1,5 @@
-import { FormSignIn, SignIn } from "@types/sign-in";
-import { FormSignUp, SignUp } from "@types/sign-up";
+import { FormSignIn, SignIn } from "@models/sign-in";
+import { FormSignUp, SignUp } from "@models/sign-up";
 
 import { Api } from "../axios-config";
 

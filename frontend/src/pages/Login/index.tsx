@@ -1,4 +1,4 @@
-import { Form, Logo } from "@components/Login";
+import { Form, Logo } from "@components/login";
 import { Box, Container, Fade } from "@mui/material";
 
 import { PageContainer } from "./styles";

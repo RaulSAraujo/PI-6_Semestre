@@ -1,117 +1,39 @@
-import { Environment } from "../../../environment";
+import { Client, Item } from "@models/client";
 
 import { Api } from "../axios-config";
 
-export interface IListagemCliente {
-  items: any;
-  totalCount: number;
-  result: {
-    id: number;
-    type: string;
-    name: string;
-    id_profile: string;
-  }[];
-  current: number;
-  pageSize: number;
-  total: number;
-}
-
-export interface IDetalheCliente {
-  id: number;
-  type: string;
-  name: string;
-  document: string;
-  observation: string;
-  active: boolean;
-  id_profile: string;
-}
-
-type TPessoasComTotalCount = {
-  data: IListagemCliente;
-  totalCount: number;
-};
-
-const { LOCAL_STORAGE_KEY_ACCESS_TOKEN } = Environment;
-
-const getAll = async (): Promise<TPessoasComTotalCount | Error> => {
+async function getAll() {
   try {
-    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY_ACCESS_TOKEN);
+    const { data } = await Api.get<Client>("/clients");
 
-    if (!accessToken) {
-      return new Error("Token de autenticação não encontrado.");
-    }
-
-    const { data, headers } = await Api.get("/clients", {
-      headers: {
-        Authorization: accessToken,
-      },
-    });
-
-    console.log(data);
-
-    if (data) {
-      return {
-        data,
-        totalCount: Number(
-          headers["x-total-count"] || Environment.LIMITE_DE_LINHAS
-        ),
-      };
-    }
-
-    return new Error("Erro ao listar os registros.");
+    return data;
   } catch (error) {
-    console.error(error);
-    return new Error(
-      (error as { message: string }).message || "Erro ao listar os registros."
-    );
+    throw error;
   }
-};
+}
 
-const create = async (
-  dados: Omit<IDetalheCliente, "id">
-): Promise<number | Error> => {
+async function create(form: Item) {
   try {
-    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY_ACCESS_TOKEN);
+    const { data } = await Api.post<Item>("/clients", form);
 
-    if (!accessToken) {
-      return new Error("Token de autenticação não encontrado.");
-    }
-
-    const { data } = await Api.post<IDetalheCliente>("/clients", dados, {
-      headers: {
-        Authorization: accessToken,
-      },
-    });
-
-    if (data) {
-      return data.id;
-    }
-
-    return new Error("Erro ao criar o registro.");
+    return data;
   } catch (error) {
     console.error(error);
     return new Error(
       (error as { message: string }).message || "Erro ao criar o registro."
     );
   }
-};
+}
 
-const getById = async (id: number): Promise<IDetalheCliente | Error> => {
+async function getById(id: number) {
   try {
     const { data } = await Api.get(`/Doctor/${id}`);
 
-    if (data) {
-      return data;
-    }
-
-    return new Error("Erro ao consultar o registro.");
+    return data;
   } catch (error) {
-    console.error(error);
-    return new Error(
-      (error as { message: string }).message || "Erro ao consultar o registro."
-    );
+    throw error;
   }
-};
+}
 
 export const ClientesService = {
   getAll,
