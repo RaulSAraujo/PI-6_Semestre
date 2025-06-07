@@ -3,6 +3,7 @@ import { alpha, styled } from "@mui/material";
 
 export const ActionButton = styled(IconButton)(({ theme }) => ({
   borderRadius: 12,
+  border: `1px solid ${alpha(theme.palette.divider, 0.3)}`,
   padding: theme.spacing(1),
   transition: "all 0.2s ease",
   backgroundColor:

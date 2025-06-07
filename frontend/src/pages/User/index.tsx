@@ -4,8 +4,8 @@ import { useSearchParams } from "react-router-dom";
 
 import { Item } from "@models/user";
 import { useDebounce } from "@hooks/UseDebounce";
+import { Header, Table } from "@components/users";
 import { LayoutBaseDePagina } from "@layouts/base";
-import { Card, Header, Table } from "@components/users";
 import { UserService } from "@services/api/usuarios/usuarios";
 
 export const UserScreen: React.FC = () => {
@@ -73,16 +73,14 @@ export const UserScreen: React.FC = () => {
         onSearchChange={handleSearch}
       />
 
-      <Card totalItems={totalItems}>
-        <Table
-          page={page}
-          filter={filter}
-          items={userData}
-          isLoading={isLoading}
-          totalItems={totalItems}
-          onPageChange={handlePageChange}
-        />
-      </Card>
+      <Table
+        page={page}
+        filter={filter}
+        items={userData}
+        isLoading={isLoading}
+        totalItems={totalItems}
+        onPageChange={handlePageChange}
+      />
     </LayoutBaseDePagina>
   );
 };

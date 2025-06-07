@@ -43,7 +43,7 @@ export function Table<T extends TableItem>(props: TableProps<T>) {
     renderRow,
     totalItems,
     onPageChange,
-    minWidth = 650,
+    minWidth = 750,
     isLoading = false,
     emptyStateColSpan = 3,
     ariaLabel = "tabela de dados",

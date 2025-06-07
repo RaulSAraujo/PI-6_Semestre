@@ -1,7 +1,7 @@
 import { Box, Tooltip, Typography } from "@mui/material";
 import { Add, PersonOutline, Refresh } from "@mui/icons-material";
 
-import { UserSearch } from "../Search";
+import { UserSearch } from "./Search";
 import { ActionButton } from "./styles";
 
 interface Props {
@@ -14,7 +14,7 @@ export function Header({ searchTerm, onSearchChange, onRefresh }: Props) {
   return (
     <Box
       mb={3}
-      gap={2}
+      pt={1}
       display="flex"
       flexWrap="wrap"
       alignItems="center"

@@ -12,7 +12,7 @@ export function Header({ onRefresh, onAdd }: Props) {
   return (
     <Box
       mb={3}
-      gap={2}
+      pt={2}
       display="flex"
       flexWrap="wrap"
       alignItems="center"

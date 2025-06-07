@@ -31,7 +31,7 @@ export const StyledTableHead = styled(TableHead)(({ theme }) => ({
         : alpha(theme.palette.background.default, 0.5),
     fontWeight: 600,
     color: theme.palette.text.primary,
-    borderBottom: `2px solid ${alpha(theme.palette.primary.main, 0.2)}`,
+    borderBottom: `2px solid ${alpha(theme.palette.primary.main, 0.5)}`,
     padding: theme.spacing(1.5, 2),
   },
 }));
@@ -52,6 +52,6 @@ export const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
   "& .MuiTableCell-body": {
     padding: theme.spacing(1.5, 2),
-    borderBottom: `1px solid ${alpha(theme.palette.divider, 0.5)}`,
+    borderBottom: `1px solid ${alpha(theme.palette.primary.main, 0.2)}`,
   },
 }));
