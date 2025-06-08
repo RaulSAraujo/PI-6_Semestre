@@ -84,25 +84,18 @@ export function Table(props: Props) {
       headers={
         <>
           <TableCell>Ações</TableCell>
-          <TableCell>Variação</TableCell>
-          <TableCell>Volume</TableCell>
           <TableCell>Abertura</TableCell>
           <TableCell>Mínima</TableCell>
           <TableCell>Máxima</TableCell>
           <TableCell>Último Valor</TableCell>
+          <TableCell>Volume</TableCell>
+          <TableCell>Variação</TableCell>
         </>
       }
       renderRow={(row) => {
         return (
           <>
             <ActionRow />
-
-            <PercentageChipRow
-              label={formatPercentage(row.percentage_change)}
-              value={row.percentage_change}
-            />
-
-            <VolumeChipRow value={formatVolume(row.trading_volume)} />
 
             <CurrencyChipRow
               value={formatCurrency(row.opening)}
@@ -117,6 +110,13 @@ export function Table(props: Props) {
               icon={<ShowChart />}
               color="primary"
               value={formatCurrency(row.last_value)}
+            />
+
+            <VolumeChipRow value={formatVolume(row.trading_volume)} />
+
+            <PercentageChipRow
+              label={formatPercentage(row.percentage_change)}
+              value={row.percentage_change}
             />
           </>
         );

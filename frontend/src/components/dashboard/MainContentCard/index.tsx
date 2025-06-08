@@ -67,7 +67,7 @@ export function MainContentCard() {
 
         <Divider sx={{ my: 2, opacity: 0.6 }} />
 
-        <Grid container spacing={2} sx={{ mt: 1 }}>
+        <Grid container spacing={2} sx={{ mt: 1, mb: 2 }}>
           <Grid item xs={12} sm={4}>
             <InfoFeatureCard
               icon={ShowChart}
