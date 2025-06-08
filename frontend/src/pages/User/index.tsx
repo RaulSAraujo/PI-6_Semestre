@@ -1,13 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
-
-import { useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import { Item } from "@models/user";
-import { useDebounce } from "@hooks/UseDebounce";
-import { Table } from "@components/users";
-import { LayoutBaseDePagina } from "@layouts/base";
-import { UserService } from "@services/api/user";
 import { Toolbar } from "@components/ui";
+import { Table } from "@components/users";
+import { UserService } from "@services/api/user";
+import { LayoutBaseDePagina } from "@layouts/base";
 import { PersonOutline } from "@mui/icons-material";
 
 export const UserScreen: React.FC = () => {
