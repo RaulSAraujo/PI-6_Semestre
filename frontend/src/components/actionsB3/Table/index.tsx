@@ -1,9 +1,9 @@
-import { Item } from "@models/client";
 import { TableCell } from "@mui/material";
+import { Item } from "@models/listed-shares";
+import { ShowChart } from "@mui/icons-material";
 import { Table as TableUi } from "@components/ui";
-import { PersonOutline } from "@mui/icons-material";
 
-import { ActionRow, ClientRow, ProfileRow, TypeRow } from "./Rows";
+import { TickerRow, BusinessRow, ClassificationRow, ActionRow } from "./Rows";
 
 type Props = {
   page: number;
@@ -25,15 +25,13 @@ export function Table(props: Props) {
       totalItems={totalItems}
       onPageChange={onPageChange}
       ariaLabel="Lista de clientes"
-      iconEmpty={<PersonOutline sx={{ fontSize: 48, opacity: 0.5, mb: 2 }} />}
-      titleEmpty="Nenhum cliente encontrado."
-      subtitleEmpty="Clique em criar para adicionar um novo cliente."
+      iconEmpty={<ShowChart sx={{ fontSize: 48, opacity: 0.5, mb: 2 }} />}
       headers={
         <>
           <TableCell>Ações</TableCell>
-          <TableCell>Cliente</TableCell>
-          <TableCell>Perfil</TableCell>
-          <TableCell>Tipo</TableCell>
+          <TableCell>Ticker</TableCell>
+          <TableCell>Nome da Empresa</TableCell>
+          <TableCell>Setor B3</TableCell>
         </>
       }
       renderRow={(row) => {
@@ -41,11 +39,11 @@ export function Table(props: Props) {
           <>
             <ActionRow />
 
-            <ClientRow id={row.id} name={row.name} />
+            <TickerRow ticker={row.ticker} />
 
-            <ProfileRow idProfile={row.id_profile} />
+            <BusinessRow name={row.name} />
 
-            <TypeRow type={row.type} />
+            <ClassificationRow classification={row.b3_sector_classification} />
           </>
         );
       }}

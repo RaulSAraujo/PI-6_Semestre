@@ -48,7 +48,6 @@ import {
   DateRange,
 } from "@mui/icons-material";
 
-import { FerramentasDaListagem } from "@components/common";
 import { LayoutBaseDePagina } from "@layouts/base";
 import { useDebounce } from "@hooks/UseDebounce";
 import {
@@ -476,16 +475,7 @@ export function HistoryScreen() {
   };
 
   return (
-    <LayoutBaseDePagina
-      titulo={"Histórico da Ação"}
-      barraDeFerramentas={
-        <FerramentasDaListagem
-          mostrarInputBusca
-          textoBotaoNovo="Novo histórico"
-          aoClicarEmNovo={() => navigate("/Novohistorico")}
-        />
-      }
-    >
+    <LayoutBaseDePagina>
       <Box sx={{ p: 2 }}>
         <Box
           display="flex"
@@ -866,4 +856,4 @@ export function HistoryScreen() {
       </Box>
     </LayoutBaseDePagina>
   );
-};
+}

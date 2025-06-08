@@ -1,16 +1,17 @@
 import { Box, Tooltip, Typography } from "@mui/material";
-import { Add, Category, Refresh } from "@mui/icons-material";
+import { Add, Refresh } from "@mui/icons-material";
 
-import { UserSearch } from "./Search";
-import { ActionButton } from "./styles";
+import { ActionButton, AddButton } from "./styles";
 
 interface Props {
-  searchTerm: string;
+  title: string;
+  buttonTitle: string;
+  icon: React.ReactNode;
+  onAdd: () => void;
   onRefresh: () => void;
-  onSearchChange: (value: string) => void;
 }
 
-export function Header({ searchTerm, onSearchChange, onRefresh }: Props) {
+export function Toolbar({ title,buttonTitle, icon, onAdd, onRefresh }: Props) {
   return (
     <Box
       mb={3}
@@ -27,13 +28,12 @@ export function Header({ searchTerm, onSearchChange, onRefresh }: Props) {
         fontWeight="700"
         sx={{ display: "flex", alignItems: "center" }}
       >
-        <Category sx={{ mr: 1 }} />
-        Perfis de Investimento
+        {icon}
+
+        {title}
       </Typography>
 
       <Box display="flex" gap={2}>
-        <UserSearch value={searchTerm} onChange={onSearchChange} />
-
         <Tooltip title="Atualizar">
           <ActionButton onClick={onRefresh}>
             <Refresh />
@@ -41,9 +41,14 @@ export function Header({ searchTerm, onSearchChange, onRefresh }: Props) {
         </Tooltip>
 
         <Tooltip title="Adicionar perfil">
-          <ActionButton color="primary">
-            <Add />
-          </ActionButton>
+          <AddButton
+            variant="contained"
+            color="primary"
+            startIcon={<Add />}
+            onClick={onAdd}
+          >
+            {buttonTitle}
+          </AddButton>
         </Tooltip>
       </Box>
     </Box>

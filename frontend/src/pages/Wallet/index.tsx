@@ -44,13 +44,9 @@ import {
   Calculate,
 } from "@mui/icons-material";
 
-import { FerramentasDaListagem } from "@components/common";
 import { LayoutBaseDePagina } from "@layouts/base";
 import { useDebounce } from "@hooks/UseDebounce";
-import {
-  CarteiraService,
-  IListagemCarteira,
-} from "../../services/api/wallet";
+import { CarteiraService, IListagemCarteira } from "@services/api/wallet";
 import { Environment } from "../../environment";
 
 // Componentes estilizados
@@ -334,16 +330,7 @@ export function Wallet() {
   };
 
   return (
-    <LayoutBaseDePagina
-      titulo={"Carteira de Investimento"}
-      barraDeFerramentas={
-        <FerramentasDaListagem
-          mostrarInputBusca
-          textoBotaoNovo="Nova carteira"
-          aoClicarEmNovo={() => navigate("/novacarteira")}
-        />
-      }
-    >
+    <LayoutBaseDePagina>
       <Box sx={{ p: 2 }}>
         <Box
           display="flex"

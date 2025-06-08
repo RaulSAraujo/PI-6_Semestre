@@ -1,4 +1,3 @@
-export { Action } from "./Action";
 export { Client } from "./Client";
 export { Wallet } from "./Wallet";
 export { Profile } from "./Profile";
@@ -6,8 +5,9 @@ export { UserScreen } from "./User";
 export { LoginScreen } from "./Login";
 export { Cadastro } from "./Register";
 export { Dashboard } from "./Dashboard";
+export { ActionsB3 } from "./ActionsB3";
 export { HistoryScreen } from "./History";
 export { CreationClient } from "./Client/Creation";
-export { CreationAction } from "./Action/Creation";
+export { CreationAction } from "./ActionsB3/Creation";
 export { CreationWallet } from "./Wallet/Creation";
 export { CreationHistory } from "./History/Creation";

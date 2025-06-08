@@ -44,15 +44,16 @@ import {
   Timeline,
   Add,
   Category,
+  TrendingFlat,
 } from "@mui/icons-material";
 
 import { LayoutBaseDePagina } from "@layouts/base";
 import { HistoricoService } from "@services/api/history";
-import {
-  listedsharesService,
-  IListagemlistedshares,
-} from "@services/api/action";
-import { PerfilService } from "@services/api/profile";
+// import {
+//   listedsharesService,
+//   IListagemlistedshares,
+// } from "@services/api/action";
+import { ProfileService } from "@services/api/profile";
 
 // Componentes estilizados
 const StyledCard = styled(Card)(({ theme }) => ({
@@ -147,29 +148,29 @@ const ProfileChip = styled(Chip)(({ theme, color }) => ({
   borderRadius: 8,
   fontWeight: 500,
   backgroundColor:
-    color === "conservador"
+    color === "default"
       ? alpha(theme.palette.info.main, 0.1)
-      : color === "moderado"
+      : color === "primary"
       ? alpha(theme.palette.warning.main, 0.1)
       : alpha(theme.palette.error.main, 0.1),
   color:
-    color === "conservador"
+    color === "default"
       ? theme.palette.info.main
-      : color === "moderado"
+      : color === "primary"
       ? theme.palette.warning.main
       : theme.palette.error.main,
   border: `1px solid ${
-    color === "conservador"
+    color === "default"
       ? alpha(theme.palette.info.main, 0.2)
-      : color === "moderado"
+      : color === "primary"
       ? alpha(theme.palette.warning.main, 0.2)
       : alpha(theme.palette.error.main, 0.2)
   }`,
   "& .MuiChip-icon": {
     color:
-      color === "conservador"
+      color === "default"
         ? theme.palette.info.main
-        : color === "moderado"
+        : color === "primary"
         ? theme.palette.warning.main
         : theme.palette.error.main,
   },
@@ -224,7 +225,7 @@ export function CreationHistory() {
   });
 
   const [acoes, setAcoes] = useState<IListagemlistedshares>();
-  const [perfis, setPerfis] = useState<IListagemPerfil>();
+  const [perfis, setPerfis] = useState<[]>([]);
   const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(
     null
   );
@@ -238,18 +239,18 @@ export function CreationHistory() {
   useEffect(() => {
     const fetchPerfis = async () => {
       setLoadingPerfis(true);
-      try {
-        const response = await PerfilService.getAll();
-        if (response instanceof Error) {
-          console.error(response.message);
-        } else {
-          setPerfis(response.data.items);
-        }
-      } catch (error) {
-        console.error("Erro ao buscar perfis:", error);
-      } finally {
-        setLoadingPerfis(false);
-      }
+      // try {
+      //   const response = await ProfileService.getAll();
+      //   if (response instanceof Error) {
+      //     console.error(response.message);
+      //   } else {
+      //     setPerfis(response.data.items);
+      //   }
+      // } catch (error) {
+      //   console.error("Erro ao buscar perfis:", error);
+      // } finally {
+      //   setLoadingPerfis(false);
+      // }
     };
     fetchPerfis();
   }, []);
@@ -471,7 +472,7 @@ export function CreationHistory() {
   };
 
   return (
-    <LayoutBaseDePagina titulo="Novo Histórico">
+    <LayoutBaseDePagina>
       <Box sx={{ p: 2 }}>
         <Box
           display="flex"
@@ -516,7 +517,7 @@ export function CreationHistory() {
                       <InputLabel id="perfil-select-label">
                         Perfil de Investimento
                       </InputLabel>
-                      <StyledSelect
+                      {/* <StyledSelect
                         labelId="perfil-select-label"
                         value={formData.id_profile}
                         onChange={handlePerfilChange}
@@ -563,7 +564,7 @@ export function CreationHistory() {
                             Nenhum perfil disponível
                           </MenuItem>
                         )}
-                      </StyledSelect>
+                      </StyledSelect> */}
                       {errors.id_profile && (
                         <FormHelperText error>
                           {errors.id_profile}
@@ -578,7 +579,7 @@ export function CreationHistory() {
                       error={!!errors.id_listed_shares}
                     >
                       <InputLabel id="acoes-select-label">Ação</InputLabel>
-                      <StyledSelect
+                      {/* <StyledSelect
                         labelId="acoes-select-label"
                         value={formData.id_listed_shares}
                         onChange={handleAcoesChange}
@@ -620,7 +621,7 @@ export function CreationHistory() {
                             Nenhuma ação disponível
                           </MenuItem>
                         )}
-                      </StyledSelect>
+                      </StyledSelect> */}
                       {errors.id_listed_shares && (
                         <FormHelperText error>
                           {errors.id_listed_shares}

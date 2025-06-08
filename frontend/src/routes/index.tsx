@@ -3,11 +3,11 @@ import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import {
-  Action,
   Client,
-  Dashboard,
   Profile,
   Wallet,
+  Dashboard,
+  ActionsB3,
   UserScreen,
   HistoryScreen,
   CreationClient,
@@ -139,7 +139,7 @@ export const AppRoutes = () => {
             path="/acoes-listadas"
             element={
               <MenuLateral>
-                <Action />
+                <ActionsB3 />
               </MenuLateral>
             }
           />

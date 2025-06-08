@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
-import { Item } from "@models/client";
 import { Toolbar } from "@components/ui";
-import { Table } from "@components/client";
+import { Item } from "@models/listed-shares";
+import { Table } from "@components/actionsB3";
+import { ShowChart } from "@mui/icons-material";
 import { LayoutBaseDePagina } from "@layouts/base";
-import { ClientesService } from "@services/api/client";
-import { PersonOutline } from "@mui/icons-material";
+import { ActionB3Service } from "@services/api/action";
 
-export function Client() {
+export function ActionsB3() {
   const navigate = useNavigate();
 
   const [page, setPage] = useState(1);
@@ -28,7 +28,7 @@ export function Client() {
     try {
       setIsLoading(true);
 
-      const res = await ClientesService.getAll();
+      const res = await ActionB3Service.getAll();
 
       setItems(res.items);
 
@@ -47,11 +47,11 @@ export function Client() {
   return (
     <LayoutBaseDePagina>
       <Toolbar
+        title="Ações Listadas na B3"
+        buttonTitle="Adicionar nova ação"
+        icon={<ShowChart sx={{ mr: 1 }} />}
         onRefresh={fetch}
-        buttonTitle="Novo Cliente"
-        title="Gerenciamento de Clientes"
-        icon={<PersonOutline sx={{ mr: 1 }} />}
-        onAdd={() => navigate("/novo-cliente")}
+        onAdd={() => navigate("/nova-acao")}
       />
 
       <Table

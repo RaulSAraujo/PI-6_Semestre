@@ -44,17 +44,10 @@ import {
   TrendingDown,
 } from "@mui/icons-material";
 
-import { LayoutBaseDePagina } from "../../../layouts/base";
-import { CarteiraService } from "../../../services/api/wallet";
-import {
-  ClientesService,
-  IDetalheCliente,
-} from "../../../services/api/client";
-import {
-  listedsharesService,
-  IListagemlistedshares,
-  IDetalhelistedshares,
-} from "../../../services/api/action/acoes_listadas";
+import { LayoutBaseDePagina } from "@layouts/base";
+import { CarteiraService } from "@services/api/wallet";
+import { ClientesService, IDetalheCliente } from "@services/api/client";
+import { ActionB3Service } from "@services/api/action";
 
 // Componentes estilizados
 const StyledCard = styled(Card)(({ theme }) => ({
@@ -149,29 +142,29 @@ const ProfileChip = styled(Chip)(({ theme, color }) => ({
   borderRadius: 8,
   fontWeight: 500,
   backgroundColor:
-    color === "conservador"
+    color === "default"
       ? alpha(theme.palette.info.main, 0.1)
-      : color === "moderado"
+      : color === "primary"
       ? alpha(theme.palette.warning.main, 0.1)
       : alpha(theme.palette.error.main, 0.1),
   color:
-    color === "conservador"
+    color === "default"
       ? theme.palette.info.main
-      : color === "moderado"
+      : color === "primary"
       ? theme.palette.warning.main
       : theme.palette.error.main,
   border: `1px solid ${
-    color === "conservador"
+    color === "default"
       ? alpha(theme.palette.info.main, 0.2)
-      : color === "moderado"
+      : color === "primary"
       ? alpha(theme.palette.warning.main, 0.2)
       : alpha(theme.palette.error.main, 0.2)
   }`,
   "& .MuiChip-icon": {
     color:
-      color === "conservador"
+      color === "default"
         ? theme.palette.info.main
-        : color === "moderado"
+        : color === "primary"
         ? theme.palette.warning.main
         : theme.palette.error.main,
   },

@@ -8,7 +8,6 @@ import { ActionRow, ProfileRow, TypeRow } from "./Rows";
 interface Props {
   page: number;
   items: Item[];
-  filter: string;
   isLoading: boolean;
   totalItems: number;
   onPageChange: (page: number) => void;

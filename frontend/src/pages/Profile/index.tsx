@@ -1,55 +1,30 @@
-import { useEffect, useMemo, useState } from "react";
-
-import { useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import { Item } from "@models/profiles";
-import { useDebounce } from "@hooks/UseDebounce";
+import { Toolbar } from "@components/ui";
+import { Table } from "@components/profile";
+import { Category } from "@mui/icons-material";
 import { LayoutBaseDePagina } from "@layouts/base";
-import { Header, Table } from "@components/profile";
 import { ProfileService } from "@services/api/profile";
 
 export function Profile() {
-  const { debounce } = useDebounce(800, false);
-
-  const [isLoading, setIsLoading] = useState(true);
-
-  const [searchTerm, setSearchTerm] = useState("");
+  const [page, setPage] = useState(1);
 
   const [items, setItems] = useState<Item[]>([]);
 
   const [totalItems, setTotalItems] = useState(0);
 
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const filter = useMemo(() => {
-    return searchParams.get("filter") || "";
-  }, [searchParams]);
-
-  const page = useMemo(() => {
-    return Number(searchParams.get("page") || "1");
-  }, [searchParams]);
-
-  const handleSearch = (value: string) => {
-    setSearchTerm(value);
-
-    debounce(() => {
-      setSearchParams({ filter: value, page: "1" }, { replace: true });
-    });
-  };
+  const [isLoading, setIsLoading] = useState(true);
 
   const handlePageChange = (newPage: number) => {
-    setSearchParams({ page: newPage.toString(), filter }, { replace: true });
-  };
-
-  const handleRefresh = () => {
-    fetch();
+    setPage(newPage);
   };
 
   const fetch = async () => {
     try {
       setIsLoading(true);
 
-      const res = await ProfileService.getAll()
+      const res = await ProfileService.getAll();
 
       setItems(res.items);
 
@@ -62,21 +37,22 @@ export function Profile() {
   };
 
   useEffect(() => {
-    debounce(fetch);
-  }, [filter, page]);
+    fetch();
+  }, []);
 
   return (
     <LayoutBaseDePagina>
-      <Header
-        searchTerm={searchTerm}
-        onRefresh={handleRefresh}
-        onSearchChange={handleSearch}
+      <Toolbar
+        buttonTitle="Novo Perfil"
+        title="Perfis de Investimento"
+        icon={<Category sx={{ mr: 1 }} />}
+        onAdd={() => {}}
+        onRefresh={fetch}
       />
 
       <Table
         page={page}
         items={items}
-        filter={filter}
         isLoading={isLoading}
         totalItems={totalItems}
         onPageChange={handlePageChange}
