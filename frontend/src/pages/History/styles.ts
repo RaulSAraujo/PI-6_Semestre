@@ -139,27 +139,74 @@ export const EmptyState = styled(Box)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export const ValueChip = styled(Chip)(({ theme }) => ({
+export const ValueChip = styled(Chip)(({ theme, color }) => ({
   borderRadius: 8,
-  fontWeight: 700,
-  backgroundColor: alpha(theme.palette.success.main, 0.1),
-  color: theme.palette.success.main,
-  border: `1px solid ${alpha(theme.palette.success.main, 0.2)}`,
+  fontWeight: 600,
+  backgroundColor:
+    color === "default"
+      ? alpha(theme.palette.success.main, 0.1)
+      : color === "error"
+      ? alpha(theme.palette.error.main, 0.1)
+      : alpha(theme.palette.primary.main, 0.1),
+  color:
+    color === "default"
+      ? theme.palette.success.main
+      : color === "error"
+      ? theme.palette.error.main
+      : theme.palette.primary.main,
+  border: `1px solid ${
+    color === "default"
+      ? alpha(theme.palette.success.main, 0.2)
+      : color === "error"
+      ? alpha(theme.palette.error.main, 0.2)
+      : alpha(theme.palette.primary.main, 0.2)
+  }`,
   "& .MuiChip-icon": {
-    color: theme.palette.success.main,
+    color:
+      color === "default"
+        ? theme.palette.success.main
+        : color === "error"
+        ? theme.palette.error.main
+        : theme.palette.primary.main,
   },
 }));
 
-export const QuantityChip = styled(Chip)(({ theme }) => ({
+export const VolumeChip = styled(Chip)(({ theme }) => ({
   borderRadius: 8,
   fontWeight: 600,
-  backgroundColor: alpha(theme.palette.primary.main, 0.1),
-  color: theme.palette.primary.main,
-  border: `1px solid ${alpha(theme.palette.primary.main, 0.2)}`,
+  backgroundColor: alpha(theme.palette.secondary.main, 0.1),
+  color: theme.palette.secondary.main,
+  border: `1px solid ${alpha(theme.palette.secondary.main, 0.2)}`,
   "& .MuiChip-icon": {
-    color: theme.palette.primary.main,
+    color: theme.palette.secondary.main,
   },
 }));
+
+export const PercentageChip = styled(Chip)(({ theme, value }) => {
+  const numValue =
+    typeof value === "number"
+      ? value
+      : parseFloat(String(value).replace(/[^\d.-]/g, ""));
+
+  const isPositive = !isNaN(numValue) && numValue > 0;
+  const isNegative = !isNaN(numValue) && numValue < 0;
+  const color = isPositive
+    ? theme.palette.success.main
+    : isNegative
+    ? theme.palette.error.main
+    : theme.palette.grey[500];
+
+  return {
+    borderRadius: 8,
+    fontWeight: 700,
+    backgroundColor: alpha(color, 0.1),
+    color: color,
+    border: `1px solid ${alpha(color, 0.2)}`,
+    "& .MuiChip-icon": {
+      color: color,
+    },
+  };
+});
 
 export const StatCard = styled(Card)(({ theme }) => ({
   borderRadius: 16,
@@ -183,8 +230,7 @@ export const IconContainer = styled(Box)(({ theme, color }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  //   backgroundColor: alpha(theme.palette[color || "primary"].main, 0.1),
-  backgroundColor: alpha(theme.palette.primary.main, 0.1),
-  color: theme.palette.primary.main,
+  backgroundColor: alpha(theme.palette[color || "primary"].main, 0.1),
+  color: theme.palette[color || "primary"].main,
   marginBottom: theme.spacing(1),
 }));
