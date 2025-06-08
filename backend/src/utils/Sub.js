@@ -11,7 +11,11 @@ const listedShareHistoryService = new ListedShareHistoryService();
 
 async function startListening() {
   const pubsub = new PubSub({
-    credentials: pub_sub_credentials
+    credentials: {
+      ...pub_sub_credentials,
+      "private_key": process.env.CLOUD_PUB_SUB_PRIVATE_KEY,
+      "private_key_id": process.env.CLOUD_PUB_SUB_PRIVATE_KEY_ID,
+    }
   });
   const signatureName = process.env.CLOUD_PUB_SUB_SIGNATURE;
 
