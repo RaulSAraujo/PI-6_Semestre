@@ -8,12 +8,13 @@ import React, {
   useRef,
 } from "react";
 import { Auth } from "@services/api/auth";
+import { AxiosError } from "axios";
 
 // Tipos
 interface AuthContextData {
+  logout: () => void;
   isAuthenticated: boolean;
   signIn: (username: string, password: string) => Promise<string | void>;
-  logout: () => void;
 }
 
 interface AuthProviderProps {
@@ -74,13 +75,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
         setupToken(response.access_token);
       } catch (error) {
-        console.error("Erro durante autenticação:", error);
-
-        if (error instanceof Error) {
-          return error.message;
-        }
-
-        return "Falha na autenticação. Tente novamente.";
+        throw error as AxiosError;
       }
     },
     [setupToken]
@@ -120,7 +115,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         expirationTimerRef.current = null;
       }
     };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   // Determina se o usuário está autenticado
   const isAuthenticated = useMemo(() => !!token, [token]);

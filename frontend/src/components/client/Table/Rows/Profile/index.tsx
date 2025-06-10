@@ -1,24 +1,22 @@
-import { TableCell } from "@mui/material";
+import { Item } from "@models/profiles";
+
+import { Skeleton, TableCell } from "@mui/material";
+
 import { Business, Person, PersonOutline } from "@mui/icons-material";
 
 import { ProfileChip } from "./styles";
 
 type Props = {
+  profiles: Item[];
+  isLoading: boolean;
   idProfile: number;
 };
 
-export function ProfileRow({ idProfile }: Props) {
+export function ProfileRow({ idProfile, profiles, isLoading }: Props) {
   const getProfileLabel = (id: number) => {
-    switch (id) {
-      case 1:
-        return "Administrador";
-      case 2:
-        return "Gerente";
-      case 3:
-        return "Usuário";
-      default:
-        return "Desconhecido";
-    }
+    const profile = profiles.find((p) => p.id === id);
+
+    return profile?.description || "";
   };
 
   const getProfileIcon = (id: number) => {
@@ -49,12 +47,16 @@ export function ProfileRow({ idProfile }: Props) {
 
   return (
     <TableCell>
-      <ProfileChip
-        size="small"
-        icon={getProfileIcon(idProfile)}
-        label={getProfileLabel(idProfile)}
-        color={getProfileColor(idProfile)}
-      />
+      {isLoading ? (
+        <Skeleton width={100} />
+      ) : (
+        <ProfileChip
+          size="small"
+          icon={getProfileIcon(idProfile)}
+          label={getProfileLabel(idProfile)}
+          color={getProfileColor(idProfile)}
+        />
+      )}
     </TableCell>
   );
 }

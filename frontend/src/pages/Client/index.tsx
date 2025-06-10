@@ -6,8 +6,8 @@ import { Item } from "@models/client";
 import { Toolbar } from "@components/ui";
 import { Table } from "@components/client";
 import { LayoutBaseDePagina } from "@layouts/base";
-import { ClientesService } from "@services/api/client";
 import { PersonOutline } from "@mui/icons-material";
+import { ClientesService } from "@services/api/client";
 
 export function Client() {
   const navigate = useNavigate();
@@ -28,7 +28,9 @@ export function Client() {
     try {
       setIsLoading(true);
 
-      const res = await ClientesService.get();
+      const res = await ClientesService.get({
+        page,
+      });
 
       setItems(res.items);
 
@@ -42,7 +44,7 @@ export function Client() {
 
   useEffect(() => {
     fetch();
-  }, []);
+  }, [page]);
 
   return (
     <LayoutBaseDePagina>

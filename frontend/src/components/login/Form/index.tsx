@@ -3,6 +3,7 @@ import { useState } from "react";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 
+import { Box } from "@mui/material";
 import { useAuthContext } from "@contexts/AuthContext";
 import { loginSchema } from "@utils/validation/loginSchema";
 
@@ -11,22 +12,31 @@ import { Submit } from "./Submit";
 import { Redirect } from "./Redirect";
 import { StyledPaper } from "./styles";
 import { Password, Username } from "./Inputs";
-import { Box, Divider } from "@mui/material";
 
-export function Form() {
+type Props = {
+  setError: (error: string) => void;
+};
+
+export function Form({ setError }: Props) {
   const navigate = useNavigate();
 
   const { signIn } = useAuthContext();
 
   const [username, setUsername] = useState("");
+
   const [password, setPassword] = useState("");
+
   const [isLoading, setIsLoading] = useState(false);
-  const [passwordError, setPasswordError] = useState("");
+
   const [usernameError, setUsernameError] = useState("");
+
+  const [passwordError, setPasswordError] = useState("");
 
   const handleSubmit = async () => {
     setIsLoading(true);
+
     setUsernameError("");
+
     setPasswordError("");
 
     try {
@@ -39,15 +49,19 @@ export function Form() {
 
       navigate("/pagina-inicial");
     } catch (errors) {
-      const e = errors as yup.ValidationError;
+      if (errors instanceof yup.ValidationError) {
+        errors.inner.forEach((error) => {
+          if (error.path === "username") {
+            setUsernameError(error.message);
+          } else if (error.path === "password") {
+            setPasswordError(error.message);
+          }
+        });
+      }
 
-      e.inner.forEach((error) => {
-        if (error.path === "username") {
-          setUsernameError(error.message);
-        } else if (error.path === "password") {
-          setPasswordError(error.message);
-        }
-      });
+      if (errors instanceof Error) {
+        setError(errors.message);
+      }
     } finally {
       setIsLoading(false);
     }

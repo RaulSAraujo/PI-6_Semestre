@@ -2,11 +2,12 @@ import { FormEvent, useState } from "react";
 
 import { TextField } from "@components/ui";
 import { FormClient } from "@models/client";
-import { Box, Button } from "@mui/material";
+import { Alert, Box, Button } from "@mui/material";
 import { ClientesService } from "@services/api/client";
 
 import { Type } from "./Type";
 import { Profile } from "./Profile";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   formData: FormClient;
@@ -14,35 +15,30 @@ type Props = {
 };
 
 export function Form({ formData, setFormData }: Props) {
+  const navigate = useNavigate();
+
   const [isLoading, setIsLoading] = useState(false);
+
   const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(
     null
   );
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     setIsLoading(true);
 
     try {
-      const result = await ClientesService.create({
+      await ClientesService.create({
         type: formData.type,
         name: formData.name,
         document: formData.document,
-        id_profile: parseInt(formData.id_profile),
         observation: formData.observation,
+        id_profile: parseInt(formData.id_profile),
       });
 
-      if (result instanceof Error) {
-        setSubmitStatus("error");
-
-        console.error(result.message);
-      } else {
-        setSubmitStatus("success");
-
-        // navigate("/clientes");
-      }
+      navigate(`/clientes`);
     } catch (error) {
-      console.error(error);
       setSubmitStatus("error");
     } finally {
       setIsLoading(false);
@@ -97,16 +93,18 @@ export function Form({ formData, setFormData }: Props) {
 
         <Box display="flex" justifyContent="center" mt={2}>
           <Button
+            size="large"
             type="submit"
             color="primary"
             variant="contained"
             disabled={isLoading}
+            sx={{ width: "250px", color: "white" }}
           >
             {isLoading ? "Salvando..." : "Salvar"}
           </Button>
         </Box>
 
-        {/* {submitStatus === "success" && (
+        {submitStatus === "success" && (
           <Alert severity="success">Cliente criado com sucesso!</Alert>
         )}
 
@@ -114,7 +112,7 @@ export function Form({ formData, setFormData }: Props) {
           <Alert severity="error">
             Erro ao criar cliente. Tente novamente.
           </Alert>
-        )} */}
+        )}
       </Box>
     </form>
   );

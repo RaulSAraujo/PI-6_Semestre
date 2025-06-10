@@ -1,5 +1,3 @@
-import { ReactNode } from "react";
-
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import { AppRoutes } from "@routes/index";
@@ -21,14 +19,14 @@ const RootRedirect = () => {
   );
 };
 
-const ProtectedRoute = ({ children }: { children: ReactNode }) => {
+const ProtectedRoute = () => {
   const { isAuthenticated } = useAuthContext();
-  
+
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
-  return children;
+  return <AppRoutes />;
 };
 
 export const App = () => {
@@ -46,14 +44,7 @@ export const App = () => {
               <Route path="/cadastro" element={<Cadastro />} />
 
               {/* Rotas protegidas */}
-              <Route
-                path="/*"
-                element={
-                  <ProtectedRoute>
-                    <AppRoutes />
-                  </ProtectedRoute>
-                }
-              />
+              <Route path="/*" element={<ProtectedRoute />} />
             </Routes>
           </BrowserRouter>
         </DrawerProvider>

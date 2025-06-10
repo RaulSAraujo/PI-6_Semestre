@@ -1,9 +1,9 @@
 import { createContext, useCallback, useContext, useState } from "react";
 
 interface IDrawerContextData {
-  DrawerOptions: IDrawerOptions[];
   isDrawerOpen: boolean;
   toggleDrawerOpen: () => void;
+  DrawerOptions: IDrawerOptions[];
   setDrawerOptions: (newDrawerOptions: IDrawerOptions[]) => void;
 }
 

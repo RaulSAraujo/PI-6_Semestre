@@ -1,7 +1,11 @@
+import { useEffect, useState } from "react";
+
 import { Item } from "@models/client";
 import { TableCell } from "@mui/material";
 import { Table as TableUi } from "@components/ui";
 import { PersonOutline } from "@mui/icons-material";
+import { Item as ItemProfile } from "@models/profiles";
+import { ProfileService } from "@services/api/profile";
 
 import { ActionRow, ClientRow, ProfileRow, TypeRow } from "./Rows";
 
@@ -15,6 +19,27 @@ type Props = {
 
 export function Table(props: Props) {
   const { items, isLoading, page, totalItems, onPageChange } = props;
+
+  const [isLoadingProfiles, setIsLoadingProfiles] = useState(false);
+
+  const [profiles, setProfiles] = useState<ItemProfile[]>([]);
+
+  const fetchProfiles = async () => {
+    setIsLoadingProfiles(true);
+    try {
+      const result = await ProfileService.getAll();
+
+      setProfiles(result.items);
+    } catch (error) {
+      console.error("Erro ao buscar perfis:", error);
+    } finally {
+      setIsLoadingProfiles(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProfiles();
+  }, []);
 
   return (
     <TableUi
@@ -43,7 +68,11 @@ export function Table(props: Props) {
 
             <ClientRow id={row.id} name={row.name} />
 
-            <ProfileRow idProfile={row.id_profile} />
+            <ProfileRow
+              idProfile={row.id_profile}
+              profiles={profiles}
+              isLoading={isLoadingProfiles}
+            />
 
             <TypeRow type={row.type} />
           </>

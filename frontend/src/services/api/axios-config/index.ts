@@ -1,4 +1,5 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
+import axios from "axios";
+import { setupCache, CacheRequestConfig } from "axios-cache-interceptor";
 
 import { Environment } from "../../../environment";
 import { setupErrorInterceptor } from "./interceptors/error";
@@ -8,7 +9,7 @@ import { setupResponseInterceptor } from "./interceptors/response";
 /**
  * Configuração padrão para todas as instâncias do Axios
  */
-const defaultConfig: AxiosRequestConfig = {
+const defaultConfig: CacheRequestConfig = {
   baseURL: Environment.REACT_APP_API_URL,
 };
 
@@ -17,9 +18,7 @@ const defaultConfig: AxiosRequestConfig = {
  * @param config Configurações adicionais para sobrescrever as padrões
  * @returns Instância configurada do Axios
  */
-export const createApiInstance = (
-  config: AxiosRequestConfig = {}
-): AxiosInstance => {
+export const createApiInstance = (config: CacheRequestConfig = {}) => {
   // Mescla as configurações padrão com as fornecidas
   const axiosConfig = {
     ...defaultConfig,
@@ -31,7 +30,10 @@ export const createApiInstance = (
   };
 
   // Cria a instância
-  const instance = axios.create(axiosConfig);
+  const instance = setupCache(axios.create(axiosConfig), {
+    location: "client",
+    ttl: 1000 * 60 * 5, // 5 minutos
+  });
 
   // Configura os interceptors
   setupRequestInterceptor(instance);
@@ -45,34 +47,5 @@ export const createApiInstance = (
  * Instância principal da API
  */
 export const Api = createApiInstance();
-
-/**
- * Instância para upload de arquivos
- */
-export const UploadApi = createApiInstance({
-  headers: {
-    "Content-Type": "multipart/form-data",
-  },
-  timeout: 60000, // 60 segundos para uploads
-});
-
-/**
- * Instância para requisições que não precisam de token
- */
-export const PublicApi = createApiInstance();
-
-/**
- * Utilitário para verificar se a API está online
- * @returns Promise que resolve para true se a API estiver online
- */
-export const checkApiHealth = async (): Promise<boolean> => {
-  try {
-    const response = await PublicApi.get("/health", { timeout: 5000 });
-    return response.status === 200;
-  } catch (error) {
-    console.error("API health check failed:", error);
-    return false;
-  }
-};
 
 export default Api;

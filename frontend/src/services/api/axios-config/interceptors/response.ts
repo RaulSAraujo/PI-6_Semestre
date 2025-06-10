@@ -1,5 +1,3 @@
-// src/services/api/axios/interceptors/responseInterceptor.ts
-
 import { AxiosInstance, AxiosResponse } from "axios";
 
 /**

@@ -51,16 +51,15 @@ export function Toolbar(props: Props) {
         </Tooltip>
 
         {!hiddenAdd && (
-          <Tooltip title="Adicionar perfil">
-            <AddButton
-              variant="contained"
-              color="primary"
-              startIcon={<Add />}
-              onClick={onAdd}
-            >
-              {buttonTitle}
-            </AddButton>
-          </Tooltip>
+          <AddButton
+            color="primary"
+            onClick={onAdd}
+            variant="contained"
+            sx={{ color: "white" }}
+            startIcon={<Add sx={{ color: "white" }} />}
+          >
+            {buttonTitle}
+          </AddButton>
         )}
       </Box>
     </Box>
