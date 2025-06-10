@@ -74,10 +74,10 @@ export function Table(props: Props) {
       page={page}
       items={items}
       isLoading={isLoading}
-      emptyStateColSpan={4}
+      emptyStateColSpan={7}
       totalItems={totalItems}
       onPageChange={onPageChange}
-      ariaLabel="Lista de clientes"
+      ariaLabel="Histórico de ações"
       titleEmpty="Nenhum histórico encontrado."
       subtitleEmpty="Clique em criar para adicionar um histórico."
       iconEmpty={<PersonOutline sx={{ fontSize: 48, opacity: 0.5, mb: 2 }} />}

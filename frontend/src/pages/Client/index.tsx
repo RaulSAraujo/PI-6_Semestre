@@ -28,7 +28,7 @@ export function Client() {
     try {
       setIsLoading(true);
 
-      const res = await ClientesService.getAll();
+      const res = await ClientesService.get();
 
       setItems(res.items);
 

@@ -5,13 +5,23 @@ import { ActionButton, AddButton } from "./styles";
 
 interface Props {
   title: string;
+  onAdd?: () => void;
   buttonTitle: string;
+  hiddenAdd?: boolean;
   icon: React.ReactNode;
-  onAdd: () => void;
   onRefresh: () => void;
 }
 
-export function Toolbar({ title,buttonTitle, icon, onAdd, onRefresh }: Props) {
+export function Toolbar(props: Props) {
+  const {
+    title,
+    buttonTitle,
+    icon,
+    hiddenAdd = false,
+    onAdd,
+    onRefresh,
+  } = props;
+
   return (
     <Box
       mb={3}
@@ -40,16 +50,18 @@ export function Toolbar({ title,buttonTitle, icon, onAdd, onRefresh }: Props) {
           </ActionButton>
         </Tooltip>
 
-        <Tooltip title="Adicionar perfil">
-          <AddButton
-            variant="contained"
-            color="primary"
-            startIcon={<Add />}
-            onClick={onAdd}
-          >
-            {buttonTitle}
-          </AddButton>
-        </Tooltip>
+        {!hiddenAdd && (
+          <Tooltip title="Adicionar perfil">
+            <AddButton
+              variant="contained"
+              color="primary"
+              startIcon={<Add />}
+              onClick={onAdd}
+            >
+              {buttonTitle}
+            </AddButton>
+          </Tooltip>
+        )}
       </Box>
     </Box>
   );

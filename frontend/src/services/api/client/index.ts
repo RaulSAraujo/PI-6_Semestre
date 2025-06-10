@@ -2,7 +2,7 @@ import { Client, Item } from "@models/client";
 
 import { Api } from "../axios-config";
 
-async function getAll() {
+async function get() {
   try {
     const { data } = await Api.get<Client>("/clients");
 
@@ -12,7 +12,7 @@ async function getAll() {
   }
 }
 
-async function create(form: Item) {
+async function create(form: Partial<Item>) {
   try {
     const { data } = await Api.post<Item>("/clients", form);
 
@@ -25,18 +25,7 @@ async function create(form: Item) {
   }
 }
 
-async function getById(id: number) {
-  try {
-    const { data } = await Api.get(`/Doctor/${id}`);
-
-    return data;
-  } catch (error) {
-    throw error;
-  }
-}
-
 export const ClientesService = {
-  getAll,
+  get,
   create,
-  getById,
 };

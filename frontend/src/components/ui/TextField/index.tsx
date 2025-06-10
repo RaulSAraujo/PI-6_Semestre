@@ -7,11 +7,14 @@ import { StyledTextField } from "./styles";
 
 type Props = {
   value: any;
+  rows?: number;
   label: string;
-  type?: "text" | "password";
   error?: string;
+  required?: boolean;
   disabled?: boolean;
+  multiline?: boolean;
   handleSubmit: () => void;
+  type?: "text" | "password";
   onChange: (value: any) => void;
   setError: (error: string) => void;
   InputProps?:
@@ -24,13 +27,16 @@ type Props = {
 export function TextField(props: Props) {
   const {
     value,
-    label,
     type,
+    label,
     error,
     setError,
     onChange,
+    rows = 1,
     InputProps,
     handleSubmit,
+    multiline = false,
+    required = false,
     disabled = false,
   } = props;
 
@@ -38,16 +44,21 @@ export function TextField(props: Props) {
     <StyledTextField
       fullWidth
       type={type}
+      rows={rows}
+      multiline={multiline}
       label={label}
       value={value}
       error={!!error}
       variant="outlined"
       helperText={error}
+      required={required}
       disabled={disabled}
       InputProps={InputProps}
       onChange={(e) => onChange(e.target.value)}
       onKeyDown={(e) => {
-        setError("");
+        if (error) {
+          setError("");
+        }
 
         if (e.key === "Enter") handleSubmit();
       }}

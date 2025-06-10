@@ -8,7 +8,7 @@ type Props = {
 };
 export function StatusRow({ active }: Props) {
   return (
-    <TableCell align="right">
+    <TableCell>
       <UserChip
         size="small"
         label={active ? "Ativo" : "Inativo"}

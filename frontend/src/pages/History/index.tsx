@@ -22,6 +22,8 @@ export function HistoryScreen() {
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
+
+    fetch();
   };
 
   const fetch = async () => {

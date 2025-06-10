@@ -34,9 +34,9 @@ export function Table(props: Props) {
 
           <TableCell>Email</TableCell>
 
-          <TableCell>Admin</TableCell>
+          <TableCell>Status</TableCell>
 
-          <TableCell align="right">Status</TableCell>
+          <TableCell align="center">Admin</TableCell>
         </>
       }
       renderRow={(row) => {
@@ -48,9 +48,9 @@ export function Table(props: Props) {
 
             <EmailRow email={row.email} />
 
-            <AdminRow isAdmin={row.is_admin} />
-
             <StatusRow active={row.active} />
+
+            <AdminRow isAdmin={row.is_admin} />
           </>
         );
       }}

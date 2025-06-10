@@ -31,6 +31,7 @@ interface TableProps<T extends TableItem> {
   headers: ReactNode;
   titleEmpty?: string;
   isLoading?: boolean;
+  rowsPerPage?: number;
   subtitleEmpty?: string;
   emptyStateColSpan?: number;
   iconEmpty?: React.ReactElement;
@@ -44,15 +45,16 @@ export function Table<T extends TableItem>(props: TableProps<T>) {
     items,
     headers,
     renderRow,
+    iconEmpty,
     totalItems,
     onPageChange,
     minWidth = 650,
+    rowsPerPage = 8,
     isLoading = false,
     emptyStateColSpan = 3,
-    iconEmpty,
+    ariaLabel = "tabela de dados",
     titleEmpty = "Nenhum registro encontrado.",
     subtitleEmpty = "Nenhum item encontrado na lista.",
-    ariaLabel = "tabela de dados",
   } = props;
 
   const tableBody = useMemo(() => {
@@ -105,6 +107,7 @@ export function Table<T extends TableItem>(props: TableProps<T>) {
                   <Pagination
                     page={page}
                     totalCount={totalItems}
+                    rowsPerPage={rowsPerPage}
                     onPageChange={handlePageChange}
                   />
                 </TableRow>

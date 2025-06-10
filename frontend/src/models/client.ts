@@ -8,10 +8,19 @@ export interface Item {
   type: string;
   name: string;
   document: string;
-  observation: null;
+  observation: string;
   active: boolean;
   id_profile: number;
   created_at: Date;
   updated_at: Date;
   deleted_at: null;
+}
+
+export interface FormClient {
+  type: string;
+  name: string;
+  document: string;
+  observation: string;
+  active: boolean;
+  id_profile: string;
 }

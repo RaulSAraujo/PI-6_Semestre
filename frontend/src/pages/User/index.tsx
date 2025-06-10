@@ -24,7 +24,9 @@ export const UserScreen: React.FC = () => {
     try {
       setIsLoading(true);
 
-      const res = await UserService.getAll();
+      const res = await UserService.get({
+        page,
+      });
 
       setUserData(res.items);
 
@@ -38,16 +40,16 @@ export const UserScreen: React.FC = () => {
 
   useEffect(() => {
     fetch();
-  }, []);
+  }, [page]);
 
   return (
     <LayoutBaseDePagina>
       <Toolbar
-        title="Gerenciamento de Usuários"
-        buttonTitle="Adicionar usuário"
-        icon={<PersonOutline sx={{ mr: 1 }} />}
+        hiddenAdd
         onRefresh={fetch}
-        onAdd={() => {}}
+        buttonTitle="Adicionar usuário"
+        title="Gerenciamento de Usuários"
+        icon={<PersonOutline sx={{ mr: 1 }} />}
       />
 
       <Table

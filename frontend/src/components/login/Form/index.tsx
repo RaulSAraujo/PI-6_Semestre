@@ -11,6 +11,7 @@ import { Submit } from "./Submit";
 import { Redirect } from "./Redirect";
 import { StyledPaper } from "./styles";
 import { Password, Username } from "./Inputs";
+import { Box, Divider } from "@mui/material";
 
 export function Form() {
   const navigate = useNavigate();
@@ -56,23 +57,27 @@ export function Form() {
     <StyledPaper elevation={0}>
       <Header />
 
-      <Username
-        username={username}
-        disabled={isLoading}
-        setUsername={setUsername}
-        handleSubmit={handleSubmit}
-        usernameError={usernameError}
-        setUsernameError={setUsernameError}
-      />
+      <Box sx={{ mb: 2 }}>
+        <Username
+          username={username}
+          disabled={isLoading}
+          setUsername={setUsername}
+          handleSubmit={handleSubmit}
+          usernameError={usernameError}
+          setUsernameError={setUsernameError}
+        />
 
-      <Password
-        password={password}
-        disabled={isLoading}
-        setPassword={setPassword}
-        handleSubmit={handleSubmit}
-        passwordError={passwordError}
-        setPasswordError={setPasswordError}
-      />
+        <Box sx={{ my: 2 }} />
+
+        <Password
+          password={password}
+          disabled={isLoading}
+          setPassword={setPassword}
+          handleSubmit={handleSubmit}
+          passwordError={passwordError}
+          setPasswordError={setPasswordError}
+        />
+      </Box>
 
       <Submit isLoading={isLoading} handleSubmit={handleSubmit} />
 
