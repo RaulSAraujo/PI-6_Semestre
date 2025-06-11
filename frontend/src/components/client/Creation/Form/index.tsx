@@ -1,14 +1,16 @@
 import { FormEvent, useState } from "react";
 
+import { useNavigate } from "react-router-dom";
+
 import { TextField } from "@components/ui";
+import { Alert, Box } from "@mui/material";
 import { FormClient } from "@models/client";
-import { Alert, Box, Button } from "@mui/material";
 import { ClientesService } from "@services/api/client";
+import { useTableContext } from "@contexts/TableContext";
 
 import { Type } from "./Type";
+import { Submit } from "./Submit";
 import { Profile } from "./Profile";
-import { useNavigate } from "react-router-dom";
-import { useTableContext } from "@contexts/TableContext";
 
 type Props = {
   formData: FormClient;
@@ -97,18 +99,7 @@ export function Form({ formData, setFormData }: Props) {
           onChange={(value) => setFormData({ ...formData, id_profile: value })}
         />
 
-        <Box display="flex" justifyContent="center" mt={2}>
-          <Button
-            size="large"
-            type="submit"
-            color="primary"
-            variant="contained"
-            disabled={isLoading}
-            sx={{ width: "250px", color: "white" }}
-          >
-            {isLoading ? "Salvando..." : "Salvar"}
-          </Button>
-        </Box>
+        <Submit isLoading={isLoading} />
 
         {submitStatus === "success" && (
           <Alert severity="success">Cliente criado com sucesso!</Alert>

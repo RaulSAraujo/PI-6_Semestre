@@ -1,7 +1,7 @@
 import { Item } from "@models/client";
-import { Edit } from "@mui/icons-material";
-import { MenuItem, Menu as MenuRN } from "@mui/material";
+import { Menu as MenuRN } from "@mui/material";
 
+import { Edit } from "./Edit";
 import { Remove } from "./Remove";
 
 type Props = {
@@ -18,8 +18,8 @@ export function Menu(props: Props) {
   return (
     <MenuRN
       open={open}
-      anchorEl={anchorEl}
       id="action-menu"
+      anchorEl={anchorEl}
       onClose={handleClose}
       onClick={handleClose}
       slotProps={{
@@ -53,9 +53,7 @@ export function Menu(props: Props) {
       transformOrigin={{ horizontal: "right", vertical: "top" }}
       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
     >
-      <MenuItem onClick={handleClose}>
-        <Edit sx={{ mr: 1 }} /> Editar
-      </MenuItem>
+      <Edit row={row} />
 
       <Remove row={row} setIsLoading={setIsLoading} />
     </MenuRN>

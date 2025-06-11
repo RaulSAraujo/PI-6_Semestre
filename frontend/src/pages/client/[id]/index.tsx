@@ -1,7 +1,7 @@
-import { LayoutBaseDePagina } from "@layouts/base";
 import { Creation } from "@components/client";
+import { LayoutBaseDePagina } from "@layouts/base";
 
-export function CreationClient() {
+export function EditClient() {
   return (
     <LayoutBaseDePagina>
       <Creation />

@@ -9,6 +9,7 @@ import {
   Dashboard,
   ActionsB3,
   UserScreen,
+  EditClient,
   HistoryScreen,
   CreationClient,
   CreationAction,
@@ -63,17 +64,24 @@ export const AppRoutes = () => {
 
   return (
     <Routes>
-      <Route path="/novo-historico" element={<CreationHistory />} />
-      <Route path="/nova-carteira" element={<CreationWallet />} />
-      <Route path="/nova-acao" element={<CreationAction />} />
-      <Route path="/novo-cliente" element={<CreationClient />} />
       <Route path="/pagina-inicial" element={<Dashboard />} />
+
       <Route path="/clientes" element={<Client />} />
+      <Route path="/clientes/:id" element={<EditClient />} />
+      <Route path="/novo-cliente" element={<CreationClient />} />
+
       <Route path="/usuarios" element={<UserScreen />} />
+
       <Route path="/perfil" element={<Profile />} />
+
       <Route path="/acoes-listadas" element={<ActionsB3 />} />
+      <Route path="/nova-acao" element={<CreationAction />} />
+
       <Route path="/carteira" element={<Wallet />} />
+      <Route path="/nova-carteira" element={<CreationWallet />} />
+
       <Route path="/historico" element={<HistoryScreen />} />
+      <Route path="/novo-historico" element={<CreationHistory />} />
     </Routes>
   );
 };
