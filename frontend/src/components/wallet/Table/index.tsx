@@ -37,7 +37,7 @@ export function Table() {
       renderRow={(row) => {
         return (
           <>
-            <ActionRow />
+            <ActionRow row={row} />
 
             <SharePrice sharePrice={row.share_price} />
 

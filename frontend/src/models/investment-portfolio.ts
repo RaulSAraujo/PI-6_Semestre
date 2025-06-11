@@ -14,3 +14,12 @@ export interface Item {
   updated_at: Date;
   deleted_at: null;
 }
+
+export interface FormData {
+  id: string | undefined;
+  id_client: string;
+  share_price: string;
+  invested_amount: string;
+  id_listed_shares: string;
+  quantity_purchased: string;
+}

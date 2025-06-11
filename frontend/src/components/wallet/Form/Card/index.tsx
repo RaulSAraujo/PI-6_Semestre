@@ -1,37 +1,90 @@
-import { useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
-import { ArrowBack, Save } from "@mui/icons-material";
+import { TextField } from "@components/ui";
+import { FormData } from "@models/investment-portfolio";
 import {
+  Alert,
   Box,
-  Button,
   CardContent,
   Divider,
   Fade,
   Grid,
-  InputLabel,
   Typography,
-  useTheme,
 } from "@mui/material";
 
-import {
-  ActionButton,
-  ProfileChip,
-  StyledCard,
-  StyledCardHeader,
-  StyledFormControl,
-  StyledSelect,
-  StyledTextField,
-  SummaryCard,
-  TickerChip,
-} from "./styles";
+import { Submit } from "./Submit";
+import { Summary } from "./Summary";
+import { IdClient } from "./IdClient";
+import { IdListedShares } from "./IdListedShares";
+import { StyledCard, StyledCardHeader } from "./styles";
+
+import { WalletService } from "@services/api/wallet";
 import { useNavigate } from "react-router-dom";
+import { useTableContext } from "@contexts/TableContext";
 
-export function Card() {
-  const theme = useTheme();
+type Props = {
+  formData: FormData;
+  method: "POST" | "PUT";
+  setFormData: (value: FormData) => void;
+};
 
+export function Card({ formData, method, setFormData }: Props) {
   const navigate = useNavigate();
 
+  const { page } = useTableContext();
+
   const [isLoading, setIsLoading] = useState(false);
+
+  const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(
+    null
+  );
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setIsLoading(true);
+
+    try {
+      const body = {
+        id: undefined,
+        id_client: parseInt(formData.id_client),
+        id_listed_shares: parseInt(formData.id_listed_shares),
+        quantity_purchased: parseInt(formData.quantity_purchased),
+        share_price: formData.share_price.replace(",", "."),
+        invested_amount: formData.invested_amount,
+      };
+
+      if (method === "POST") {
+        await WalletService.create(body, page);
+
+        navigate(`/carteira`);
+      }
+
+      if (method === "PUT") {
+        await WalletService.update(body, page);
+      }
+
+      setSubmitStatus("success");
+    } catch (error) {
+      setSubmitStatus("error");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Calcular valor investido automaticamente
+  useEffect(() => {
+    if (formData.share_price && formData.quantity_purchased) {
+      const quantity = parseFloat(formData.quantity_purchased);
+      const price = parseFloat(formData.share_price.replace(",", "."));
+
+      if (!isNaN(price) && !isNaN(quantity)) {
+        const total = (price * quantity).toFixed(2);
+
+        setFormData({ ...formData, invested_amount: total });
+      }
+    }
+  }, [formData.share_price, formData.quantity_purchased]);
 
   return (
     <Fade in timeout={500}>
@@ -47,117 +100,75 @@ export function Card() {
         <CardContent sx={{ p: 3 }}>
           <form onSubmit={handleSubmit}>
             <Grid container spacing={3}>
-              <Grid item xs={12} md={6}></Grid>
+              <Grid item xs={12} md={6}>
+                <IdClient
+                  idClient={formData.id_client}
+                  onChange={(id) => setFormData({ ...formData, id_client: id })}
+                />
+              </Grid>
 
-              <Grid item xs={12} md={6}></Grid>
+              <Grid item xs={12} md={6}>
+                <IdListedShares
+                  idClient={formData.id_client}
+                  idListedShares={formData.id_listed_shares}
+                  onChange={(id) =>
+                    setFormData({ ...formData, id_listed_shares: id })
+                  }
+                />
+              </Grid>
 
-              {/* {selectedAcao && (
-                <Grid item xs={12}>
-                  <Box
-                    sx={{
-                      p: 2,
-                      borderRadius: 2,
-                      backgroundColor: alpha(theme.palette.primary.main, 0.05),
-                      border: `1px dashed ${alpha(
-                        theme.palette.primary.main,
-                        0.3
-                      )}`,
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 2,
-                    }}
-                  >
-                    <TickerChip
-                      label={selectedAcao.ticker}
-                      icon={<ShowChart />}
-                    />
-                    <Typography variant="body1" fontWeight="500">
-                      {selectedAcao.name}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      sx={{ ml: "auto" }}
-                    >
-                      Setor: {selectedAcao.b3_sector_classification}
-                    </Typography>
-                  </Box>
-                </Grid>
-              )} */}
+              <Grid item xs={12} md={6}>
+                <TextField
+                  required
+                  label="Quantidade Comprada"
+                  disabled={isLoading}
+                  value={formData.quantity_purchased}
+                  setError={() => {}}
+                  handleSubmit={() => {}}
+                  onChange={(value) =>
+                    setFormData({ ...formData, quantity_purchased: value })
+                  }
+                />
+              </Grid>
 
-              <Grid item xs={12} md={6}></Grid>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  required
+                  label="Preço da ação"
+                  disabled={isLoading}
+                  value={formData.share_price}
+                  setError={() => {}}
+                  handleSubmit={() => {}}
+                  onChange={(value) =>
+                    setFormData({ ...formData, share_price: value })
+                  }
+                />
+              </Grid>
 
-              <Grid item xs={12} md={6}></Grid>
-
-              <Grid item xs={12}></Grid>
-
-              {/* {formData.share_price &&
-                formData.quantity_purchased &&
-                formData.invested_amount && (
-                  <Grid item xs={12}>
-                    <SummaryCard>
-                      <Box
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="space-between"
-                      >
-                        <Box>
-                          <Typography variant="subtitle2" color="textSecondary">
-                            Resumo do Investimento
-                          </Typography>
-                          <Typography variant="body1" fontWeight="500">
-                            {formData.quantity_purchased} ações a{" "}
-                            {formatCurrency(formData.share_price)} cada
-                          </Typography>
-                        </Box>
-                        <Box textAlign="right">
-                          <Typography variant="subtitle2" color="textSecondary">
-                            Total Investido
-                          </Typography>
-                          <Typography
-                            variant="h6"
-                            color="success.main"
-                            fontWeight="700"
-                          >
-                            {formatCurrency(formData.invested_amount)}
-                          </Typography>
-                        </Box>
-                      </Box>
-                    </SummaryCard>
-                  </Grid>
-                )} */}
+              <Summary formData={formData} />
 
               <Grid item xs={12}>
                 <Divider sx={{ my: 1 }} />
               </Grid>
 
               <Grid item xs={12}>
-                <Box display="flex" justifyContent="space-between" gap={2}>
-                  <Button
-                    variant="outlined"
-                    color="inherit"
-                    onClick={() => navigate("/carteira")}
-                    startIcon={<ArrowBack />}
-                    sx={{
-                      borderRadius: 3,
-                      textTransform: "none",
-                      fontWeight: 600,
-                    }}
-                  >
-                    Cancelar
-                  </Button>
-
-                  <ActionButton
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    disabled={isLoading}
-                    startIcon={<Save />}
-                  >
-                    {isLoading ? "Salvando..." : "Salvar Investimento"}
-                  </ActionButton>
+                <Box display="flex" justifyContent="center" gap={2}>
+                  <Submit isLoading={isLoading} />
                 </Box>
               </Grid>
+
+              {submitStatus === "success" && (
+                <Alert severity="success">
+                  Investimento {method === "POST" ? "criado" : "atualizado"} com
+                  sucesso!
+                </Alert>
+              )}
+
+              {submitStatus === "error" && (
+                <Alert severity="error">
+                  Erro ao criar investimento. Tente novamente.
+                </Alert>
+              )}
             </Grid>
           </form>
         </CardContent>

@@ -1,37 +1,102 @@
-export function IdListedShares() {
+import { useEffect, useState } from "react";
+
+import { Item } from "@models/listed-shares";
+import { ShowChart } from "@mui/icons-material";
+import { ActionB3Service } from "@services/api/action";
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from "@mui/material";
+
+import { TickerChip } from "./styles";
+
+type Props = {
+  idClient: string;
+  idListedShares: string;
+  onChange: (id: string) => void;
+};
+
+export function IdListedShares({ idListedShares, idClient, onChange }: Props) {
+  const [loading, setLoading] = useState(true);
+
+  const [listShare, setListShare] = useState<Item[]>([]);
+
+  const [recommendation, setRecommendation] = useState<Item[]>([]);
+
+  const fetch = async () => {
+    setLoading(true);
+
+    try {
+      const response = await ActionB3Service.get({});
+
+      setListShare(response.items);
+    } catch (error) {
+      console.error("Erro ao buscar clientes:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetch();
+  }, []);
+
+  useEffect(() => {
+    if (idClient) {
+      const filtered = listShare.filter(
+        (e) => e.id_profile === parseInt(idClient)
+      );
+
+      setRecommendation(filtered);
+    }
+  }, [idClient]);
+
   return (
-    <StyledFormControl fullWidth error={!!errors.id_listed_shares}>
-      <InputLabel id="acoes-select-label">Ação</InputLabel>
-      <StyledSelect
-        labelId="acoes-select-label"
-        value={formData.id_listed_shares}
-        onChange={handleAcoesChange}
-        label="Ação"
-        startAdornment={
-          <InputAdornment position="start">
-            <ShowChart />
-          </InputAdornment>
-        }
-        disabled={loadingAcoes || !formData.id_client}
-        endAdornment={
-          loadingAcoes ? (
-            <InputAdornment position="end">
-              <CircularProgress size={20} />
-            </InputAdornment>
-          ) : null
-        }
+    <FormControl fullWidth>
+      <InputLabel id="shares-select-label">Ações</InputLabel>
+
+      <Select
+        required
+        label="Ações"
+        value={idListedShares}
+        disabled={loading}
+        labelId="shares-select-label"
+        onChange={(e) => onChange(e.target.value)}
       >
-        {loadingAcoes ? (
-          <MenuItem value="" disabled>
-            Carregando ações...
-          </MenuItem>
-        ) : !formData.id_client ? (
-          <MenuItem value="" disabled>
-            Selecione um cliente primeiro
-          </MenuItem>
-        ) : Array.isArray(acoes) && acoes.length > 0 ? (
-          acoes.map((a) => (
-            <MenuItem key={a.id.toString()} value={a.id}>
+        {Array.isArray(recommendation) && recommendation.length > 0 && (
+          <>
+            <MenuItem key="no-actions" value="nones" disabled>
+              Recomendações
+            </MenuItem>
+
+            {recommendation.map((a) => (
+              <MenuItem key={a.name} value={a.id}>
+                <Box display="flex" alignItems="center">
+                  <TickerChip
+                    size="small"
+                    label={a.ticker}
+                    icon={<ShowChart />}
+                    sx={{ mr: 1 }}
+                  />
+
+                  <Typography>{a.name}</Typography>
+                </Box>
+              </MenuItem>
+            ))}
+          </>
+        )}
+
+        <MenuItem value="" disabled>
+          Todas as ações
+        </MenuItem>
+
+        {Array.isArray(listShare) && listShare.length > 0 ? (
+          listShare.map((a) => (
+            <MenuItem key={a.name} value={a.id}>
               <Box display="flex" alignItems="center">
                 <TickerChip
                   size="small"
@@ -39,6 +104,7 @@ export function IdListedShares() {
                   icon={<ShowChart />}
                   sx={{ mr: 1 }}
                 />
+
                 <Typography>{a.name}</Typography>
               </Box>
             </MenuItem>
@@ -48,10 +114,7 @@ export function IdListedShares() {
             Nenhuma ação disponível para este perfil
           </MenuItem>
         )}
-      </StyledSelect>
-      {errors.id_listed_shares && (
-        <FormHelperText error>{errors.id_listed_shares}</FormHelperText>
-      )}
-    </StyledFormControl>
+      </Select>
+    </FormControl>
   );
 }

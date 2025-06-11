@@ -10,6 +10,7 @@ import {
   ActionsB3,
   UserScreen,
   EditClient,
+  EditWallet,
   HistoryScreen,
   CreationClient,
   CreationWallet,
@@ -75,6 +76,7 @@ export const AppRoutes = () => {
       <Route path="/acoes-listadas" element={<ActionsB3 />} />
 
       <Route path="/carteira" element={<Wallet />} />
+      <Route path="/carteira/:id" element={<EditWallet />} />
       <Route path="/nova-carteira" element={<CreationWallet />} />
 
       <Route path="/historico" element={<HistoryScreen />} />

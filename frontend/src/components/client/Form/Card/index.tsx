@@ -111,7 +111,9 @@ export function Card({ formData, setFormData, method }: Props) {
         <Submit isLoading={isLoading} />
 
         {submitStatus === "success" && (
-          <Alert severity="success">Cliente criado com sucesso!</Alert>
+          <Alert severity="success">
+            Cliente {method === "POST" ? "criado" : "atualizado"} com sucesso!
+          </Alert>
         )}
 
         {submitStatus === "error" && (

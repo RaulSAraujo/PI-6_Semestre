@@ -14,15 +14,12 @@ export function Profile({ value, isLoading, onChange }: Props) {
   const [profiles, setProfiles] = useState<Item[]>([]);
 
   const fetchProfiles = async () => {
-    // setIsLoading(true);
     try {
       const result = await ProfileService.get({});
 
       setProfiles(result.items);
     } catch (error) {
       console.error("Erro ao buscar perfis:", error);
-    } finally {
-      // setIsLoading(false);
     }
   };
 
@@ -37,9 +34,9 @@ export function Profile({ value, isLoading, onChange }: Props) {
       <Select
         required
         value={value}
+        label="Perfil"
         disabled={isLoading}
         labelId="profile-select-label"
-        label="Perfil"
         onChange={(e) => onChange(e.target.value)}
       >
         {profiles.length > 0 ? (

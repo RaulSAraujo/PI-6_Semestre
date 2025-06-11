@@ -8,5 +8,6 @@ export { Dashboard } from "./dashboard";
 export { ActionsB3 } from "./actions-b3";
 export { HistoryScreen } from "./history";
 export { EditClient } from "./client/[id]";
+export { EditWallet } from "./wallet/[id]";
 export { CreationClient } from "./client/creation";
 export { CreationWallet } from "./wallet/creation";

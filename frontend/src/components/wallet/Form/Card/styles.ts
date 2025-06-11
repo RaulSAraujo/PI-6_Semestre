@@ -69,19 +69,6 @@ export const StyledFormControl = styled(FormControl)(({ theme }) => ({
   },
 }));
 
-export const ActionButton = styled(Button)(({ theme }) => ({
-  borderRadius: 12,
-  padding: theme.spacing(1.2, 3),
-  textTransform: "none",
-  fontWeight: 600,
-  fontSize: "1rem",
-  boxShadow: `0 4px 14px ${alpha(theme.palette.primary.main, 0.2)}`,
-  transition: "all 0.3s ease",
-  "&:hover": {
-    transform: "translateY(-2px)",
-    boxShadow: `0 6px 20px ${alpha(theme.palette.primary.main, 0.3)}`,
-  },
-}));
 
 export const ProfileChip = styled(Chip)(({ theme, color }) => ({
   borderRadius: 8,
@@ -126,10 +113,4 @@ export const TickerChip = styled(Chip)(({ theme }) => ({
   },
 }));
 
-export const SummaryCard = styled(Card)(({ theme }) => ({
-  borderRadius: 16,
-  padding: theme.spacing(2),
-  backgroundColor: alpha(theme.palette.success.main, 0.05),
-  border: `1px solid ${alpha(theme.palette.success.main, 0.1)}`,
-  boxShadow: `0 4px 14px ${alpha(theme.palette.common.black, 0.05)}`,
-}));
+
