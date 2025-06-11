@@ -9,7 +9,7 @@ import { setupResponseInterceptor } from "./interceptors/response";
  * Configuração padrão para todas as instâncias do Axios
  */
 const defaultConfig: CacheRequestConfig = {
-  baseURL: import.meta.env.BASE_URL,
+  baseURL: import.meta.env.VITE_API_URL,
 };
 
 /**
