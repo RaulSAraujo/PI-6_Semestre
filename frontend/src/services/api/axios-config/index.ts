@@ -1,7 +1,6 @@
 import axios from "axios";
 import { setupCache, CacheRequestConfig } from "axios-cache-interceptor";
 
-import { Environment } from "../../../environment";
 import { setupErrorInterceptor } from "./interceptors/error";
 import { setupRequestInterceptor } from "./interceptors/request";
 import { setupResponseInterceptor } from "./interceptors/response";
@@ -10,7 +9,7 @@ import { setupResponseInterceptor } from "./interceptors/response";
  * Configuração padrão para todas as instâncias do Axios
  */
 const defaultConfig: CacheRequestConfig = {
-  baseURL: Environment.REACT_APP_API_URL,
+  baseURL: import.meta.env.BASE_URL,
 };
 
 /**

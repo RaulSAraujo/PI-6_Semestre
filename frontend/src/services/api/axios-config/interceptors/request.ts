@@ -1,15 +1,13 @@
 import { AxiosInstance, InternalAxiosRequestConfig } from "axios";
-import { Environment } from "../../../../environment";
+import { storageAuthJwtGet } from "@storage/storageAuth";
 
 /**
  * Interceptor para processar requisições antes de serem enviadas
  */
 export const setupRequestInterceptor = (instance: AxiosInstance): void => {
   instance.interceptors.request.use(
-    (config: InternalAxiosRequestConfig) => {
-      const token = localStorage.getItem(
-        Environment.LOCAL_STORAGE_KEY_ACCESS_TOKEN
-      );
+    async (config: InternalAxiosRequestConfig) => {
+      const token = await storageAuthJwtGet();
 
       if (token) {
         config.headers.Authorization = `${token}`;

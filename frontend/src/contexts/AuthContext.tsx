@@ -4,11 +4,19 @@ import React, {
   useContext,
   useEffect,
   useMemo,
-  useState,
   useRef,
+  useState,
 } from "react";
-import { Auth } from "@services/api/auth";
+
 import { AxiosError } from "axios";
+
+import { Auth } from "@services/api/auth";
+import {
+  storageAuthJwtGet,
+  storageAuthJwtRemove,
+  storageAuthUserRemove,
+  storageAuthSave,
+} from "@storage/storageAuth";
 
 // Tipos
 interface AuthContextData {
@@ -21,10 +29,6 @@ interface AuthProviderProps {
   children: React.ReactNode;
 }
 
-// Constantes
-const AUTH_TOKEN_KEY = "ACCESS_TOKEN";
-const TOKEN_LIFETIME = 15 * 60 * 1000; // 15 minutos em milissegundos
-
 // Criação do contexto
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
@@ -32,35 +36,9 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
  * Provider de autenticação que gerencia o estado de autenticação do usuário
  */
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  // Estado para armazenar o token de acesso
-  const [token, setToken] = useState<string | null>(() => {
-    return localStorage.getItem(AUTH_TOKEN_KEY);
-  });
+  const [token, setToken] = useState<string>("");
 
-  // Referência para o timeout de expiração do token
   const expirationTimerRef = useRef<NodeJS.Timeout | null>(null);
-
-  /**
-   * Define o token e configura sua expiração automática
-   */
-  const setupToken = useCallback((newToken: string) => {
-    // Salva o token no localStorage e no estado
-    localStorage.setItem(AUTH_TOKEN_KEY, newToken);
-    setToken(newToken);
-
-    // Limpa qualquer timer existente
-    if (expirationTimerRef.current) {
-      clearTimeout(expirationTimerRef.current);
-      expirationTimerRef.current = null;
-    }
-
-    // Configura um novo timer para expiração do token
-    expirationTimerRef.current = setTimeout(() => {
-      localStorage.removeItem(AUTH_TOKEN_KEY);
-      setToken(null);
-      expirationTimerRef.current = null;
-    }, TOKEN_LIFETIME);
-  }, []);
 
   /**
    * Realiza o login do usuário
@@ -73,25 +51,35 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           password: password,
         });
 
-        setupToken(response.access_token);
+        // Salva o token e dados do usuário no localStorage
+        storageAuthSave(response);
+
+        setToken(response.access_token);
+
+        tokenLifeTime();
       } catch (error) {
         throw error as AxiosError;
       }
     },
-    [setupToken]
+    []
   );
 
   /**
    * Realiza o logout do usuário
    */
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
     // Remove o token do localStorage e do estado
-    localStorage.removeItem(AUTH_TOKEN_KEY);
-    setToken(null);
+    await storageAuthJwtRemove();
+
+    // Remove os dados do usuário
+    await storageAuthUserRemove();
+
+    setToken("");
 
     // Cancela o timer de expiração
     if (expirationTimerRef.current) {
       clearTimeout(expirationTimerRef.current);
+
       expirationTimerRef.current = null;
     }
   }, []);
@@ -100,21 +88,41 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
    * Inicializa o token ao montar o componente
    */
   useEffect(() => {
-    const storedToken = localStorage.getItem(AUTH_TOKEN_KEY);
+    async function handleStorageChange() {
+      const storedToken = await storageAuthJwtGet();
 
-    console.log("Stored token:", storedToken);
-
-    if (storedToken) {
-      setupToken(storedToken);
+      if (storedToken) {
+        tokenLifeTime();
+      }
     }
 
+    handleStorageChange();
     // Cleanup ao desmontar
     return () => {
       if (expirationTimerRef.current) {
         clearTimeout(expirationTimerRef.current);
+
         expirationTimerRef.current = null;
       }
     };
+  }, []);
+
+  // Define o tempo de vida do token
+  const tokenLifeTime = useCallback(() => {
+    // Limpa qualquer timer existente
+    if (expirationTimerRef.current) {
+      clearTimeout(expirationTimerRef.current);
+      expirationTimerRef.current = null;
+    }
+
+    // Configura um novo timer para expiração do token
+    expirationTimerRef.current = setTimeout(async () => {
+      await storageAuthJwtRemove();
+
+      setToken("");
+
+      expirationTimerRef.current = null;
+    }, 1000 * 60 * 60 * 24);
   }, []);
 
   // Determina se o usuário está autenticado
