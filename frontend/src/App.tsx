@@ -7,6 +7,7 @@ import {
   AuthProvider,
   DrawerProvider,
   useAuthContext,
+  TableProvider,
 } from "@contexts/index";
 
 const RootRedirect = () => {
@@ -34,19 +35,21 @@ export const App = () => {
     <AuthProvider>
       <AppThemeProvider>
         <DrawerProvider>
-          <BrowserRouter>
-            <Routes>
-              {/* Rota raiz que redireciona com base na autenticação */}
-              <Route path="/" element={<RootRedirect />} />
+          <TableProvider>
+            <BrowserRouter>
+              <Routes>
+                {/* Rota raiz que redireciona com base na autenticação */}
+                <Route path="/" element={<RootRedirect />} />
 
-              {/* Rotas públicas */}
-              <Route path="/login" element={<LoginScreen />} />
-              <Route path="/cadastro" element={<Cadastro />} />
+                {/* Rotas públicas */}
+                <Route path="/login" element={<LoginScreen />} />
+                <Route path="/cadastro" element={<Cadastro />} />
 
-              {/* Rotas protegidas */}
-              <Route path="/*" element={<ProtectedRoute />} />
-            </Routes>
-          </BrowserRouter>
+                {/* Rotas protegidas */}
+                <Route path="/*" element={<ProtectedRoute />} />
+              </Routes>
+            </BrowserRouter>
+          </TableProvider>
         </DrawerProvider>
       </AppThemeProvider>
     </AuthProvider>

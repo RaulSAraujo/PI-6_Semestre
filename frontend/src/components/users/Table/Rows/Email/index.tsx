@@ -4,5 +4,5 @@ type Props = {
   email: string;
 };
 export function EmailRow({ email }: Props) {
-  return <TableCell>{email}</TableCell>;
+  return <TableCell sx={{ fontWeight: "500" }}>{email}</TableCell>;
 }

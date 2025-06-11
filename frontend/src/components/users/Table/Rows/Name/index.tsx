@@ -27,7 +27,9 @@ export function NameRow({ name }: Props) {
           {name.charAt(0).toUpperCase()}
         </Box>
 
-        {name}
+        <Box sx={{ fontWeight: "500" }}>
+          {name}
+        </Box>
       </Box>
     </TableCell>
   );

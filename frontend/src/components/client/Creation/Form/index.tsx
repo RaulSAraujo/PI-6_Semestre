@@ -8,6 +8,7 @@ import { ClientesService } from "@services/api/client";
 import { Type } from "./Type";
 import { Profile } from "./Profile";
 import { useNavigate } from "react-router-dom";
+import { useTableContext } from "@contexts/TableContext";
 
 type Props = {
   formData: FormClient;
@@ -16,6 +17,8 @@ type Props = {
 
 export function Form({ formData, setFormData }: Props) {
   const navigate = useNavigate();
+
+  const { page } = useTableContext();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -29,13 +32,16 @@ export function Form({ formData, setFormData }: Props) {
     setIsLoading(true);
 
     try {
-      await ClientesService.create({
-        type: formData.type,
-        name: formData.name,
-        document: formData.document,
-        observation: formData.observation,
-        id_profile: parseInt(formData.id_profile),
-      });
+      await ClientesService.create(
+        {
+          type: formData.type,
+          name: formData.name,
+          document: formData.document,
+          observation: formData.observation,
+          id_profile: parseInt(formData.id_profile),
+        },
+        page
+      );
 
       navigate(`/clientes`);
     } catch (error) {

@@ -2,7 +2,15 @@ import { Item } from "@models/profiles";
 
 import { Skeleton, TableCell } from "@mui/material";
 
-import { Business, Person, PersonOutline } from "@mui/icons-material";
+import {
+  AccountBalance,
+  Business,
+  Person,
+  PersonOutline,
+  TrendingDown,
+  TrendingFlat,
+  TrendingUp,
+} from "@mui/icons-material";
 
 import { ProfileChip } from "./styles";
 
@@ -22,13 +30,15 @@ export function ProfileRow({ idProfile, profiles, isLoading }: Props) {
   const getProfileIcon = (id: number) => {
     switch (id) {
       case 1:
-        return <Person />;
+        return <TrendingFlat />;
       case 2:
-        return <Business />;
+        return <AccountBalance />;
       case 3:
-        return <PersonOutline />;
+        return <TrendingUp />;
+      case 4:
+        return <TrendingDown />;
       default:
-        return <PersonOutline />;
+        return <AccountBalance />;
     }
   };
 
@@ -39,9 +49,11 @@ export function ProfileRow({ idProfile, profiles, isLoading }: Props) {
       case 2:
         return "secondary";
       case 3:
-        return "default";
+        return "error";
+      case 4:
+        return "secondary";
       default:
-        return "default";
+        return "secondary";
     }
   };
 

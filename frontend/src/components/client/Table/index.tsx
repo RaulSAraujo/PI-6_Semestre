@@ -1,24 +1,16 @@
 import { useEffect, useState } from "react";
-
 import { Item } from "@models/client";
 import { TableCell } from "@mui/material";
 import { Table as TableUi } from "@components/ui";
+import { useTableContext } from "@contexts/index";
 import { PersonOutline } from "@mui/icons-material";
 import { Item as ItemProfile } from "@models/profiles";
 import { ProfileService } from "@services/api/profile";
 
 import { ActionRow, ClientRow, ProfileRow, TypeRow } from "./Rows";
 
-type Props = {
-  page: number;
-  items: Item[];
-  totalItems: number;
-  isLoading: boolean;
-  onPageChange: (page: number) => void;
-};
-
-export function Table(props: Props) {
-  const { items, isLoading, page, totalItems, onPageChange } = props;
+export function Table() {
+  const { page, items, isLoading, totalItems, setPage } = useTableContext();
 
   const [isLoadingProfiles, setIsLoadingProfiles] = useState(false);
 
@@ -26,6 +18,7 @@ export function Table(props: Props) {
 
   const fetchProfiles = async () => {
     setIsLoadingProfiles(true);
+    
     try {
       const result = await ProfileService.getAll();
 
@@ -44,14 +37,14 @@ export function Table(props: Props) {
   return (
     <TableUi
       page={page}
-      items={items}
       isLoading={isLoading}
       emptyStateColSpan={4}
+      items={items as Item[]}
       totalItems={totalItems}
-      onPageChange={onPageChange}
       ariaLabel="Lista de clientes"
-      iconEmpty={<PersonOutline sx={{ fontSize: 48, opacity: 0.5, mb: 2 }} />}
+      onPageChange={(page: number) => setPage(page)}
       titleEmpty="Nenhum cliente encontrado."
+      iconEmpty={<PersonOutline sx={{ fontSize: 48, opacity: 0.5, mb: 2 }} />}
       subtitleEmpty="Clique em criar para adicionar um novo cliente."
       headers={
         <>
@@ -64,7 +57,7 @@ export function Table(props: Props) {
       renderRow={(row) => {
         return (
           <>
-            <ActionRow />
+            <ActionRow row={row} />
 
             <ClientRow id={row.id} name={row.name} />
 

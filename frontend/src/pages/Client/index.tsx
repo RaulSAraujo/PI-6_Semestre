@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -8,21 +8,12 @@ import { Table } from "@components/client";
 import { LayoutBaseDePagina } from "@layouts/base";
 import { PersonOutline } from "@mui/icons-material";
 import { ClientesService } from "@services/api/client";
+import { useTableContext } from "@contexts/TableContext";
 
 export function Client() {
   const navigate = useNavigate();
 
-  const [page, setPage] = useState(1);
-
-  const [items, setItems] = useState<Item[]>([]);
-
-  const [totalItems, setTotalItems] = useState(0);
-
-  const [isLoading, setIsLoading] = useState(true);
-
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-  };
+  const { page, setIsLoading, setItems, setTotalItems } = useTableContext();
 
   async function fetch() {
     try {
@@ -56,13 +47,7 @@ export function Client() {
         onAdd={() => navigate("/novo-cliente")}
       />
 
-      <Table
-        page={page}
-        items={items}
-        isLoading={isLoading}
-        totalItems={totalItems}
-        onPageChange={handlePageChange}
-      />
+      <Table />
     </LayoutBaseDePagina>
   );
 }
