@@ -10,17 +10,16 @@ export async function storageAuthSave(auth: SignIn) {
     JSON.stringify(auth.access_token)
   );
 }
-
-export async function storageAuthJwtGet() {
-  const storage = await localStorage.getItem(AUTH_JWT_STORAGE);
+export function storageAuthJwtGet() {
+  const storage = localStorage.getItem(AUTH_JWT_STORAGE);
 
   const jwt: string = storage ? JSON.parse(storage) : {};
 
   return jwt;
 }
 
-export async function storageAuthUserGet() {
-  const storage = await localStorage.getItem(AUTH_USER_STORAGE);
+export function storageAuthUserGet() {
+  const storage = localStorage.getItem(AUTH_USER_STORAGE);
 
   const user: UserClass = storage ? JSON.parse(storage) : {};
 
@@ -28,9 +27,9 @@ export async function storageAuthUserGet() {
 }
 
 export async function storageAuthUserRemove() {
-  await localStorage.removeItem(AUTH_USER_STORAGE);
+  localStorage.removeItem(AUTH_USER_STORAGE);
 }
 
 export async function storageAuthJwtRemove() {
-  await localStorage.removeItem(AUTH_JWT_STORAGE);
+  localStorage.removeItem(AUTH_JWT_STORAGE);
 }

@@ -88,15 +88,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
    * Inicializa o token ao montar o componente
    */
   useEffect(() => {
-    async function handleStorageChange() {
-      const storedToken = await storageAuthJwtGet();
+    const storedToken = storageAuthJwtGet();
 
-      if (storedToken) {
-        tokenLifeTime();
-      }
+    setToken(storedToken);
+
+    if (storedToken) {
+      tokenLifeTime();
     }
 
-    handleStorageChange();
     // Cleanup ao desmontar
     return () => {
       if (expirationTimerRef.current) {
