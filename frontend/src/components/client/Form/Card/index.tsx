@@ -14,10 +14,11 @@ import { Profile } from "./Profile";
 
 type Props = {
   formData: FormClient;
+  method: "POST" | "PUT";
   setFormData: (value: FormClient) => void;
 };
 
-export function Form({ formData, setFormData }: Props) {
+export function Card({ formData, setFormData, method }: Props) {
   const navigate = useNavigate();
 
   const { page } = useTableContext();
@@ -34,18 +35,26 @@ export function Form({ formData, setFormData }: Props) {
     setIsLoading(true);
 
     try {
-      await ClientesService.create(
-        {
-          type: formData.type,
-          name: formData.name,
-          document: formData.document,
-          observation: formData.observation,
-          id_profile: parseInt(formData.id_profile),
-        },
-        page
-      );
+      const body = {
+        id: formData.id,
+        type: formData.type,
+        name: formData.name,
+        document: formData.document,
+        observation: formData.observation,
+        id_profile: parseInt(formData.id_profile),
+      };
 
-      navigate(`/clientes`);
+      if (method === "POST") {
+        await ClientesService.create(body, page);
+
+        navigate(`/clientes`);
+      }
+
+      if (method === "PUT") {
+        await ClientesService.update(body, page);
+      }
+
+      setSubmitStatus("success");
     } catch (error) {
       setSubmitStatus("error");
     } finally {

@@ -2,7 +2,6 @@ import { useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
 
-import { Item } from "@models/client";
 import { Toolbar } from "@components/ui";
 import { Table } from "@components/client";
 import { LayoutBaseDePagina } from "@layouts/base";

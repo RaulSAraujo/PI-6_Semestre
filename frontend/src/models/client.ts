@@ -17,6 +17,7 @@ export interface Item {
 }
 
 export interface FormClient {
+  id: number | undefined;
   type: string;
   name: string;
   document: string;
