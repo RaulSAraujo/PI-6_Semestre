@@ -3,6 +3,7 @@ import { useState } from "react";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 
+import { Box } from "@mui/material";
 import { Auth } from "@services/api/auth";
 import { registerSchema } from "@utils/validation/registerSchema";
 
@@ -16,7 +17,6 @@ import {
   PasswordInput,
   UserNameInput,
 } from "./Inputs";
-import { Box } from "@mui/material";
 
 type Props = {
   setSuccessMessage: (value: string) => void;

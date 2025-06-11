@@ -73,7 +73,7 @@ export function Card({ formData, setFormData, method }: Props) {
 
         <TextField
           required
-          label="Nome"
+          label="Nome completo"
           disabled={isLoading}
           value={formData.name}
           setError={() => {}}
