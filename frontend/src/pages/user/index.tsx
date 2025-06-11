@@ -45,8 +45,8 @@ export const UserScreen: React.FC = () => {
       <Toolbar
         hiddenAdd
         onRefresh={fetch}
-        buttonTitle="Adicionar usuário"
-        title="Gerenciamento de Usuários"
+        buttonTitle="Adicionar corretores"
+        title="Gerenciamento de corretores"
         icon={<PersonOutline sx={{ mr: 1 }} />}
       />
 

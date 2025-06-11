@@ -13,7 +13,6 @@ import {
   HistoryScreen,
   CreationClient,
   CreationWallet,
-  CreationHistory,
 } from "@pages/index";
 
 import { useDrawerContext } from "@contexts/index";
@@ -30,8 +29,8 @@ export const AppRoutes = () => {
       },
       {
         icon: "account_circleIcon",
-        label: "Usuario",
-        path: "/usuarios",
+        label: "Corretores",
+        path: "/corretores",
       },
       {
         icon: "groupIcon",
@@ -69,7 +68,7 @@ export const AppRoutes = () => {
       <Route path="/clientes/:id" element={<EditClient />} />
       <Route path="/novo-cliente" element={<CreationClient />} />
 
-      <Route path="/usuarios" element={<UserScreen />} />
+      <Route path="/corretores" element={<UserScreen />} />
 
       <Route path="/perfil" element={<Profile />} />
 
@@ -79,7 +78,6 @@ export const AppRoutes = () => {
       <Route path="/nova-carteira" element={<CreationWallet />} />
 
       <Route path="/historico" element={<HistoryScreen />} />
-      <Route path="/novo-historico" element={<CreationHistory />} />
     </Routes>
   );
 };

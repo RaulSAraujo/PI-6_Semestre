@@ -26,7 +26,7 @@ export function ClassificationRow({ classification }: Props) {
 
     // Procura por palavras-chave no setor para determinar a cor
     for (const [key, value] of Object.entries(sectors)) {
-      if (sector.toLowerCase().includes(key.toLowerCase())) {
+      if (sector?.toLowerCase().includes(key.toLowerCase())) {
         return value;
       }
     }
@@ -40,7 +40,7 @@ export function ClassificationRow({ classification }: Props) {
       <Tooltip title={classification}>
         <SectorChip
           size="small"
-          label={classification.substring(0, 30)}
+          label={classification?.substring(0, 30)}
           icon={<Category />}
           sx={{
             backgroundColor: alpha(getSectorColor(classification), 0.1),

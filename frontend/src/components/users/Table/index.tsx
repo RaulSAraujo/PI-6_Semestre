@@ -16,7 +16,7 @@ export function Table() {
       emptyStateColSpan={5}
       items={items as Item[]}
       totalItems={totalItems}
-      ariaLabel="Lista de usuários"
+      ariaLabel="Lista de corretores"
       onPageChange={(page: number) => setPage(page)}
       iconEmpty={<PersonOutline sx={{ fontSize: 48, opacity: 0.5, mb: 2 }} />}
       headers={

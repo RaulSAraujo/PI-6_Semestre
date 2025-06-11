@@ -1,25 +1,40 @@
+import { useEffect, useState } from "react";
+
 import { TableCell } from "@mui/material";
 import { Table as TableUi } from "@components/ui";
-import { PersonOutline, ShowChart } from "@mui/icons-material";
 import { Item } from "@models/listed-share-history";
+import { ActionB3Service } from "@services/api/action";
+import { useTableContext } from "@contexts/TableContext";
+import { Item as ItemShares } from "@models/listed-shares";
+import { PersonOutline, ShowChart } from "@mui/icons-material";
 
 import {
-  ActionRow,
   CurrencyChipRow,
-  VolumeChipRow,
   PercentageChipRow,
+  VolumeChipRow,
+  BusinessRow,
 } from "./Rows";
 
-type Props = {
-  page: number;
-  items: Item[];
-  totalItems: number;
-  isLoading: boolean;
-  onPageChange: (page: number) => void;
-};
+export function Table() {
+  const { page, items, isLoading, totalItems, setPage } = useTableContext();
 
-export function Table(props: Props) {
-  const { items, isLoading, page, totalItems, onPageChange } = props;
+  const [isLoadingShares, setIsLoadingShares] = useState(false);
+
+  const [listshares, setListShares] = useState<ItemShares[]>([]);
+
+  const fetchShares = async () => {
+    setIsLoadingShares(true);
+
+    try {
+      const result = await ActionB3Service.get({});
+
+      setListShares(result.items);
+    } catch (error) {
+      console.error("Erro ao buscar perfis:", error);
+    } finally {
+      setIsLoadingShares(false);
+    }
+  };
 
   const formatCurrency = (value: number | string) => {
     if (value === null || value === undefined) return "R$ 0,00";
@@ -69,21 +84,25 @@ export function Table(props: Props) {
     return new Intl.NumberFormat("pt-BR").format(numValue);
   };
 
+  useEffect(() => {
+    fetchShares();
+  }, []);
+
   return (
     <TableUi
       page={page}
-      items={items}
       isLoading={isLoading}
       emptyStateColSpan={7}
+      items={items as Item[]}
       totalItems={totalItems}
-      onPageChange={onPageChange}
       ariaLabel="Histórico de ações"
+      onPageChange={(page) => setPage(page)}
       titleEmpty="Nenhum histórico encontrado."
       subtitleEmpty="Clique em criar para adicionar um histórico."
       iconEmpty={<PersonOutline sx={{ fontSize: 48, opacity: 0.5, mb: 2 }} />}
       headers={
         <>
-          <TableCell>Ações</TableCell>
+          <TableCell>Nome da Empresa</TableCell>
           <TableCell>Abertura</TableCell>
           <TableCell>Mínima</TableCell>
           <TableCell>Máxima</TableCell>
@@ -95,7 +114,11 @@ export function Table(props: Props) {
       renderRow={(row) => {
         return (
           <>
-            <ActionRow />
+            <BusinessRow
+              listShares={listshares}
+              loading={isLoadingShares}
+              idListedShares={row.id_listed_shares}
+            />
 
             <CurrencyChipRow
               value={formatCurrency(row.opening)}

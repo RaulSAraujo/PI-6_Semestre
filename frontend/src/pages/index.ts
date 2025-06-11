@@ -10,4 +10,3 @@ export { HistoryScreen } from "./history";
 export { EditClient } from "./client/[id]";
 export { CreationClient } from "./client/creation";
 export { CreationWallet } from "./wallet/creation";
-export { CreationHistory } from "./history/creation";

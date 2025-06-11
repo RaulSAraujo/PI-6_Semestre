@@ -16,6 +16,7 @@ import {
   PasswordInput,
   UserNameInput,
 } from "./Inputs";
+import { Box } from "@mui/material";
 
 type Props = {
   setSuccessMessage: (value: string) => void;
@@ -97,6 +98,8 @@ export function Form({ setSuccessMessage }: Props) {
         handleSubmit={handleSubmit}
       />
 
+      <Box sx={{ my: 2 }} />
+
       <UserNameInput
         username={email}
         setUsername={setEmail}
@@ -105,6 +108,8 @@ export function Form({ setSuccessMessage }: Props) {
         isLoading={isLoading}
         handleSubmit={handleSubmit}
       />
+
+      <Box sx={{ my: 2 }} />
 
       <FullNameInput
         fullName={name}
@@ -115,6 +120,8 @@ export function Form({ setSuccessMessage }: Props) {
         handleSubmit={handleSubmit}
       />
 
+      <Box sx={{ my: 2 }} />
+
       <PasswordInput
         password={password}
         setPassword={setPassword}
@@ -123,6 +130,8 @@ export function Form({ setSuccessMessage }: Props) {
         handleSubmit={handleSubmit}
         isLoading={isLoading}
       />
+
+      <Box sx={{ my: 2 }} />
 
       <Submit isLoading={isLoading} handleSubmit={handleSubmit} />
 

@@ -1,36 +1,24 @@
-import { useEffect, useState } from "react";
-
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 import { Toolbar } from "@components/ui";
 import { LayoutBaseDePagina } from "@layouts/base";
 import { PersonOutline } from "@mui/icons-material";
-import { Item } from "@models/listed-share-history";
 import { Dashboard, Table } from "@components/history";
-import { HistoricoService } from "@services/api/history";
+import { HistoryService } from "@services/api/history";
+import { useTableContext } from "@contexts/TableContext";
+import { Item } from "@models/listed-share-history";
 
 export function HistoryScreen() {
-  const navigate = useNavigate();
-
-  const [page, setPage] = useState(1);
-
-  const [isLoading, setIsLoading] = useState(true);
-
-  const [items, setItems] = useState<Item[]>([]);
-
-  const [totalItems, setTotalItems] = useState(0);
-
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-
-    fetch();
-  };
+  const { setItems, setIsLoading, setTotalItems, page, setPage, items } =
+    useTableContext();
 
   const fetch = async () => {
     try {
       setIsLoading(true);
 
-      const res = await HistoricoService.getAll();
+      const res = await HistoryService.get({
+        page,
+      });
 
       setItems(res.items);
 
@@ -44,6 +32,14 @@ export function HistoryScreen() {
 
   useEffect(() => {
     fetch();
+  }, [page]);
+
+  useEffect(() => {
+    return () => {
+      setPage(1);
+      setItems([]);
+      setTotalItems(0);
+    };
   }, []);
 
   return (
@@ -53,18 +49,12 @@ export function HistoryScreen() {
         buttonTitle="Novo histórico"
         icon={<PersonOutline sx={{ mr: 1 }} />}
         onRefresh={fetch}
-        onAdd={() => navigate("/novo-historico")}
+        hiddenAdd
       />
 
-      <Dashboard items={items} />
+      <Dashboard items={items as Item[]} />
 
-      <Table
-        page={page}
-        items={items}
-        isLoading={isLoading}
-        totalItems={totalItems}
-        onPageChange={handlePageChange}
-      />
+      <Table />
     </LayoutBaseDePagina>
   );
 }

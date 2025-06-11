@@ -4,8 +4,6 @@ import {
   ArrowDownward,
   ArrowUpward,
   BarChart,
-  Calculate,
-  ShoppingCart,
   ShowChart,
   TrendingDown,
 } from "@mui/icons-material";
