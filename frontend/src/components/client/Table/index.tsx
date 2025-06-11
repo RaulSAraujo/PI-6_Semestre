@@ -7,7 +7,7 @@ import { PersonOutline } from "@mui/icons-material";
 import { Item as ItemProfile } from "@models/profiles";
 import { ProfileService } from "@services/api/profile";
 
-import { ActionRow, ClientRow, ProfileRow, TypeRow } from "./Rows";
+import { ActionRow, ClientRow, ProfileRow, TypeRow, DocumentRow } from "./Rows"
 
 export function Table() {
   const { page, items, isLoading, totalItems, setPage } = useTableContext();
@@ -50,6 +50,7 @@ export function Table() {
         <>
           <TableCell>Ações</TableCell>
           <TableCell>Cliente</TableCell>
+          <TableCell>Documento</TableCell>
           <TableCell>Perfil</TableCell>
           <TableCell>Tipo</TableCell>
         </>
@@ -60,6 +61,8 @@ export function Table() {
             <ActionRow row={row} />
 
             <ClientRow id={row.id} name={row.name} />
+
+            <DocumentRow document={row.document} />
 
             <ProfileRow
               profiles={profiles}
