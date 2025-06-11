@@ -51,7 +51,7 @@ export function ActionsB3() {
         buttonTitle="Adicionar nova ação"
         icon={<ShowChart sx={{ mr: 1 }} />}
         onRefresh={fetch}
-        onAdd={() => navigate("/nova-acao")}
+        hiddenAdd
       />
 
       <Table

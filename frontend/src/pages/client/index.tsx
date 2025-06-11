@@ -12,7 +12,8 @@ import { useTableContext } from "@contexts/TableContext";
 export function Client() {
   const navigate = useNavigate();
 
-  const { page, setIsLoading, setItems, setTotalItems } = useTableContext();
+  const { page, setIsLoading, setItems, setTotalItems, setPage } =
+    useTableContext();
 
   async function fetch() {
     try {
@@ -35,6 +36,14 @@ export function Client() {
   useEffect(() => {
     fetch();
   }, [page]);
+
+  useEffect(() => {
+    return () => {
+      setPage(1);
+      setItems([]);
+      setTotalItems(0);
+    };
+  }, []);
 
   return (
     <LayoutBaseDePagina>

@@ -9,6 +9,5 @@ export { ActionsB3 } from "./actions-b3";
 export { HistoryScreen } from "./history";
 export { EditClient } from "./client/[id]";
 export { CreationClient } from "./client/creation";
-export { CreationAction } from "./actions-b3/Creation";
 export { CreationWallet } from "./wallet/creation";
 export { CreationHistory } from "./history/creation";

@@ -46,8 +46,8 @@ export function Profile() {
         buttonTitle="Novo Perfil"
         title="Perfis de Investimento"
         icon={<Category sx={{ mr: 1 }} />}
-        onAdd={() => {}}
         onRefresh={fetch}
+        hiddenAdd
       />
 
       <Table

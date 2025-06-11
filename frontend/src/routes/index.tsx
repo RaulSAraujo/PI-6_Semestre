@@ -12,7 +12,6 @@ import {
   EditClient,
   HistoryScreen,
   CreationClient,
-  CreationAction,
   CreationWallet,
   CreationHistory,
 } from "@pages/index";
@@ -75,7 +74,6 @@ export const AppRoutes = () => {
       <Route path="/perfil" element={<Profile />} />
 
       <Route path="/acoes-listadas" element={<ActionsB3 />} />
-      <Route path="/nova-acao" element={<CreationAction />} />
 
       <Route path="/carteira" element={<Wallet />} />
       <Route path="/nova-carteira" element={<CreationWallet />} />

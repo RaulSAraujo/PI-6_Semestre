@@ -3,7 +3,7 @@ import { Item } from "@models/listed-shares";
 import { ShowChart } from "@mui/icons-material";
 import { Table as TableUi } from "@components/ui";
 
-import { TickerRow, BusinessRow, ClassificationRow, ActionRow } from "./Rows";
+import { TickerRow, BusinessRow, ClassificationRow } from "./Rows";
 
 type Props = {
   page: number;
@@ -21,14 +21,13 @@ export function Table(props: Props) {
       page={page}
       items={items}
       isLoading={isLoading}
-      emptyStateColSpan={4}
+      emptyStateColSpan={3}
       totalItems={totalItems}
       onPageChange={onPageChange}
       ariaLabel="Lista de clientes"
       iconEmpty={<ShowChart sx={{ fontSize: 48, opacity: 0.5, mb: 2 }} />}
       headers={
         <>
-          <TableCell>Ações</TableCell>
           <TableCell>Ticker</TableCell>
           <TableCell>Nome da Empresa</TableCell>
           <TableCell>Setor B3</TableCell>
@@ -37,8 +36,6 @@ export function Table(props: Props) {
       renderRow={(row) => {
         return (
           <>
-            <ActionRow />
-
             <TickerRow ticker={row.ticker} />
 
             <BusinessRow name={row.name} />
