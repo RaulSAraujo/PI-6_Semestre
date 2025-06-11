@@ -8,7 +8,6 @@ type Props = {
 };
 
 export function Header({ method }: Props) {
-  
   return (
     <Box
       display="flex"
@@ -27,7 +26,7 @@ export function Header({ method }: Props) {
           sx={{ ml: 2, display: "flex", alignItems: "center" }}
         >
           <Add sx={{ mr: 1 }} />
-          {method === "POST" ? "Cadastrar novo" : "Atualizar"} cliente
+          {method === "POST" ? "Adicionar novo" : "Atualizar"} investimento
         </Typography>
       </Box>
     </Box>

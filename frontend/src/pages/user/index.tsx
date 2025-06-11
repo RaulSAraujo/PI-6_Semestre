@@ -1,24 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-import { Item } from "@models/user";
 import { Toolbar } from "@components/ui";
 import { Table } from "@components/users";
 import { UserService } from "@services/api/user";
 import { LayoutBaseDePagina } from "@layouts/base";
 import { PersonOutline } from "@mui/icons-material";
+import { useTableContext } from "@contexts/TableContext";
 
 export const UserScreen: React.FC = () => {
-  const [page, setPage] = useState(1);
-
-  const [isLoading, setIsLoading] = useState(true);
-
-  const [userData, setUserData] = useState<Item[]>([]);
-
-  const [totalItems, setTotalItems] = useState(0);
-
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-  };
+  const { setItems, setIsLoading, setTotalItems, page, setPage } = useTableContext();
 
   const fetch = async () => {
     try {
@@ -28,7 +18,7 @@ export const UserScreen: React.FC = () => {
         page,
       });
 
-      setUserData(res.items);
+      setItems(res.items);
 
       setTotalItems(res.totalItems);
     } catch (error) {
@@ -42,6 +32,14 @@ export const UserScreen: React.FC = () => {
     fetch();
   }, [page]);
 
+  useEffect(() => {
+    return () => {
+      setPage(1);
+      setItems([]);
+      setTotalItems(0);
+    };
+  }, []);
+
   return (
     <LayoutBaseDePagina>
       <Toolbar
@@ -52,13 +50,7 @@ export const UserScreen: React.FC = () => {
         icon={<PersonOutline sx={{ mr: 1 }} />}
       />
 
-      <Table
-        page={page}
-        items={userData}
-        isLoading={isLoading}
-        totalItems={totalItems}
-        onPageChange={handlePageChange}
-      />
+      <Table />
     </LayoutBaseDePagina>
   );
 };

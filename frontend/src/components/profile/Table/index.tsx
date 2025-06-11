@@ -2,43 +2,42 @@ import { Item } from "@models/profiles";
 import { TableCell } from "@mui/material";
 import { Category } from "@mui/icons-material";
 import { Table as TableUi } from "@components/ui";
+import { useTableContext } from "@contexts/TableContext";
 
-import { ActionRow, ProfileRow, TypeRow } from "./Rows";
+import { ProfileRow, TypeRow } from "./Rows";
 
-interface Props {
-  page: number;
-  items: Item[];
-  isLoading: boolean;
-  totalItems: number;
-  onPageChange: (page: number) => void;
-}
-
-export function Table(props: Props) {
-  const { page, items, isLoading, totalItems, onPageChange } = props;
+export function Table() {
+  const { page, items, isLoading, totalItems, setPage } = useTableContext();
 
   return (
     <TableUi
       page={page}
-      items={items}
       isLoading={isLoading}
-      emptyStateColSpan={3}
+      emptyStateColSpan={2}
+      items={items as Item[]}
       totalItems={totalItems}
-      onPageChange={onPageChange}
       ariaLabel="Lista de perfis"
+      onPageChange={(page: number) => setPage(page)}
       iconEmpty={<Category sx={{ fontSize: 48, opacity: 0.5, mb: 2 }} />}
       headers={
         <>
-          <TableCell>Ações</TableCell>
           <TableCell>Perfil</TableCell>
+
           <TableCell>Tipo</TableCell>
         </>
       }
       renderRow={(row) => {
         return (
           <>
-            <ActionRow />
-            <ProfileRow id={row.id} description={row.description} />
-            <TypeRow type={row.type} description={row.description} />
+            <ProfileRow
+              id={row.id}
+              description={row.description?.toLowerCase()}
+            />
+
+            <TypeRow
+              type={row.type}
+              description={row.description?.toLowerCase()}
+            />
           </>
         );
       }}

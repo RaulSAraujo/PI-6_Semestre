@@ -2,19 +2,19 @@ import { Api } from "../axios-config";
 
 import { Profiles } from "@models/profiles";
 
-async function getAll() {
-  try {
-    const { data } = await Api.get<Profiles>("/profiles");
+type params = {
+  page?: number;
+};
 
-    return data;
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function getById(id: string) {
+async function get({ page = 1 }: params) {
   try {
-    const { data } = await Api.get<Profiles>(`/profiles/${id}`);
+    const { data } = await Api.get<Profiles>("/profiles", {
+      id: "list-profiles",
+      params: {
+        page: page,
+        size: 8,
+      },
+    });
 
     return data;
   } catch (error) {
@@ -23,6 +23,5 @@ async function getById(id: string) {
 }
 
 export const ProfileService = {
-  getAll,
-  getById,
+  get,
 };

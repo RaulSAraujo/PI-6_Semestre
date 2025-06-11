@@ -1,30 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-import { Item } from "@models/profiles";
 import { Toolbar } from "@components/ui";
 import { Table } from "@components/profile";
 import { Category } from "@mui/icons-material";
 import { LayoutBaseDePagina } from "@layouts/base";
 import { ProfileService } from "@services/api/profile";
+import { useTableContext } from "@contexts/TableContext";
 
 export function Profile() {
-  const [page, setPage] = useState(1);
-
-  const [items, setItems] = useState<Item[]>([]);
-
-  const [totalItems, setTotalItems] = useState(0);
-
-  const [isLoading, setIsLoading] = useState(true);
-
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-  };
+  const { setItems, setIsLoading, setTotalItems, setPage, page } =
+    useTableContext();
 
   const fetch = async () => {
     try {
       setIsLoading(true);
 
-      const res = await ProfileService.getAll();
+      const res = await ProfileService.get({
+        page,
+      });
 
       setItems(res.items);
 
@@ -40,6 +33,14 @@ export function Profile() {
     fetch();
   }, []);
 
+  useEffect(() => {
+    return () => {
+      setPage(1);
+      setItems([]);
+      setTotalItems(0);
+    };
+  }, []);
+
   return (
     <LayoutBaseDePagina>
       <Toolbar
@@ -50,13 +51,7 @@ export function Profile() {
         hiddenAdd
       />
 
-      <Table
-        page={page}
-        items={items}
-        isLoading={isLoading}
-        totalItems={totalItems}
-        onPageChange={handlePageChange}
-      />
+      <Table />
     </LayoutBaseDePagina>
   );
 }

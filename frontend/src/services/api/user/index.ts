@@ -1,5 +1,5 @@
 import { Api } from "../axios-config";
-import { User, Item } from "@models/user";
+import { User } from "@models/user";
 
 type params = {
   page?: number;
@@ -8,8 +8,10 @@ type params = {
 const get = async ({ page = 1 }: params) => {
   try {
     const { data } = await Api.get<User>("/users", {
+      id: `list-users-${page}`,
       params: {
         page: page,
+        size: 8,
       },
     });
 
@@ -19,24 +21,6 @@ const get = async ({ page = 1 }: params) => {
   }
 };
 
-const create = async (dados: Omit<Item, "id">): Promise<number | Error> => {
-  try {
-    const { data } = await Api.post<Item>("/Doctor", dados);
-
-    if (data) {
-      return data.id;
-    }
-
-    return new Error("Erro ao criar o registro.");
-  } catch (error) {
-    console.error(error);
-    return new Error(
-      (error as { message: string }).message || "Erro ao criar o registro."
-    );
-  }
-};
-
 export const UserService = {
   get,
-  create,
 };

@@ -2,29 +2,22 @@ import { Item } from "@models/user";
 import { TableCell } from "@mui/material";
 import { Table as TableUi } from "@components/ui";
 import { PersonOutline } from "@mui/icons-material";
+import { useTableContext } from "@contexts/TableContext";
 
 import { AdminRow, CpfRow, EmailRow, NameRow, StatusRow } from "./Rows";
 
-interface Props {
-  page: number;
-  items: Item[];
-  isLoading: boolean;
-  totalItems: number;
-  onPageChange: (page: number) => void;
-}
-
-export function Table(props: Props) {
-  const { page, items, isLoading, totalItems, onPageChange } = props;
+export function Table() {
+  const { page, items, isLoading, totalItems, setPage } = useTableContext();
 
   return (
     <TableUi
       page={page}
-      items={items}
       isLoading={isLoading}
       emptyStateColSpan={5}
+      items={items as Item[]}
       totalItems={totalItems}
-      onPageChange={onPageChange}
       ariaLabel="Lista de usuários"
+      onPageChange={(page: number) => setPage(page)}
       iconEmpty={<PersonOutline sx={{ fontSize: 48, opacity: 0.5, mb: 2 }} />}
       headers={
         <>

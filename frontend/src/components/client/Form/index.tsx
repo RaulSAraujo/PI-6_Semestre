@@ -11,17 +11,14 @@ type Props = {
   setFormData: (value: FormClient) => void;
 };
 
-export function Form({
-  method,
-  formData,
-  setFormData,
-  isLoading = false,
-}: Props) {
+export function Form(props: Props) {
   const theme = useTheme();
+
+  const { method, formData, setFormData, isLoading = false } = props;
 
   return (
     <Box sx={{ p: 2 }}>
-      <Header />
+      <Header method={method} />
 
       <Box component={Paper} variant="outlined" sx={{ p: 2, m: 2 }}>
         {isLoading && (

@@ -1,12 +1,22 @@
-import { Api } from "../axios-config";
 import { InvestmentPortfolio } from "@models/investment-portfolio";
 
-const LOCAL_STORAGE_KEY__ACCESS_TOKEN = "APP_ACCESS_TOKEN";
+import { Api } from "../axios-config";
 
-async function getAll() {
+type params = {
+  page?: number;
+};
+
+async function get({ page = 1 }: params) {
   try {
     const { data } = await Api.get<InvestmentPortfolio>(
-      "/investment-portfolio"
+      "/investment-portfolio",
+      {
+        id: `list-investment-portfolio-${page}`,
+        params: {
+          page: page,
+          size: 8,
+        },
+      }
     );
 
     return data;
@@ -15,58 +25,6 @@ async function getAll() {
   }
 }
 
-const getById = async (id: number): Promise<IDetalheCliente | Error> => {
-  try {
-    const { data } = await Api.get(`/Doctor/${id}`);
-
-    if (data) {
-      return data;
-    }
-
-    return new Error("Erro ao consultar o registro.");
-  } catch (error) {
-    console.error(error);
-    return new Error(
-      (error as { message: string }).message || "Erro ao consultar o registro."
-    );
-  }
-};
-
-const create = async (
-  dados: Omit<IDetalheCliente, "id">
-): Promise<number | Error> => {
-  try {
-    const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY__ACCESS_TOKEN);
-
-    if (!accessToken) {
-      return new Error("Token de autenticação não encontrado.");
-    }
-
-    const { data } = await Api.post<IDetalheCliente>(
-      "/investment-portfolio",
-      dados,
-      {
-        headers: {
-          Authorization: accessToken,
-        },
-      }
-    );
-
-    if (data) {
-      return data.id;
-    }
-
-    return new Error("Erro ao criar o registro.");
-  } catch (error) {
-    console.error(error);
-    return new Error(
-      (error as { message: string }).message || "Erro ao criar o registro."
-    );
-  }
-};
-
-export const CarteiraService = {
-  getAll,
-  create,
-  getById,
+export const WalletService = {
+  get,
 };

@@ -16,7 +16,7 @@ export function Profile({ value, isLoading, onChange }: Props) {
   const fetchProfiles = async () => {
     // setIsLoading(true);
     try {
-      const result = await ProfileService.getAll();
+      const result = await ProfileService.get({});
 
       setProfiles(result.items);
     } catch (error) {

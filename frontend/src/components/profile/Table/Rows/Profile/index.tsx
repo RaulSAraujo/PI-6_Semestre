@@ -15,11 +15,11 @@ type Props = {
 
 export function ProfileRow({ id, description }: Props) {
   const getProfileIcon = (description: string) => {
-    if (description.toLowerCase().includes("conservador")) {
+    if (description?.includes("conservador")) {
       return <TrendingDown />;
-    } else if (description.toLowerCase().includes("moderado")) {
+    } else if (description?.includes("moderado")) {
       return <TrendingFlat />;
-    } else if (description.toLowerCase().includes("agressivo")) {
+    } else if (description?.includes("agressivo")) {
       return <TrendingUp />;
     }
     return <AccountBalance />;

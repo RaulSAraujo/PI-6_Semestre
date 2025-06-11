@@ -11,7 +11,7 @@ export function ClientRow({ id, name }: Props) {
   return (
     <TableCell component="th" scope="row">
       <Box display="flex" alignItems="center">
-        <ClientAvatar>{name.charAt(0).toUpperCase()}</ClientAvatar>
+        <ClientAvatar>{name?.charAt(0).toUpperCase()}</ClientAvatar>
 
         <Box ml={2}>
           <Typography variant="body1" fontWeight="500">

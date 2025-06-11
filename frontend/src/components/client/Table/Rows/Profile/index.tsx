@@ -4,9 +4,6 @@ import { Skeleton, TableCell } from "@mui/material";
 
 import {
   AccountBalance,
-  Business,
-  Person,
-  PersonOutline,
   TrendingDown,
   TrendingFlat,
   TrendingUp,

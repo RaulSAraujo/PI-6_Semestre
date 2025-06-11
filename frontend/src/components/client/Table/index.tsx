@@ -18,9 +18,9 @@ export function Table() {
 
   const fetchProfiles = async () => {
     setIsLoadingProfiles(true);
-    
+
     try {
-      const result = await ProfileService.getAll();
+      const result = await ProfileService.get({});
 
       setProfiles(result.items);
     } catch (error) {
@@ -62,8 +62,8 @@ export function Table() {
             <ClientRow id={row.id} name={row.name} />
 
             <ProfileRow
-              idProfile={row.id_profile}
               profiles={profiles}
+              idProfile={row.id_profile}
               isLoading={isLoadingProfiles}
             />
 

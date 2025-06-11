@@ -1,34 +1,28 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+
+import { useNavigate } from "react-router-dom";
 
 import { Toolbar } from "@components/ui";
 import { LayoutBaseDePagina } from "@layouts/base";
-import { PersonOutline } from "@mui/icons-material";
 import { Item } from "@models/investment-portfolio";
+import { PersonOutline } from "@mui/icons-material";
+import { WalletService } from "@services/api/wallet";
 import { Dashboard, Table } from "@components/wallet";
-import { CarteiraService } from "@services/api/wallet";
-import { useNavigate } from "react-router-dom";
+import { useTableContext } from "@contexts/TableContext";
 
-// Componente principal
 export function Wallet() {
   const navigate = useNavigate();
-  
-  const [page, setPage] = useState(1);
 
-  const [isLoading, setIsLoading] = useState(true);
-
-  const [items, setItems] = useState<Item[]>([]);
-
-  const [totalItems, setTotalItems] = useState(0);
-
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-  };
+  const { setItems, setIsLoading, items, setTotalItems, page, setPage } =
+    useTableContext();
 
   const fetch = async () => {
     try {
       setIsLoading(true);
 
-      const res = await CarteiraService.getAll();
+      const res = await WalletService.get({
+        page,
+      });
 
       setItems(res.items);
 
@@ -42,6 +36,14 @@ export function Wallet() {
 
   useEffect(() => {
     fetch();
+  }, [page]);
+
+  useEffect(() => {
+    return () => {
+      setPage(1);
+      setItems([]);
+      setTotalItems(0);
+    };
   }, []);
 
   return (
@@ -54,15 +56,9 @@ export function Wallet() {
         onAdd={() => navigate("/nova-carteira")}
       />
 
-      <Dashboard items={items} />
+      <Dashboard items={items as Item[]} />
 
-      <Table
-        page={page}
-        items={items}
-        isLoading={isLoading}
-        totalItems={totalItems}
-        onPageChange={handlePageChange}
-      />
+      <Table />
     </LayoutBaseDePagina>
   );
 }

@@ -9,30 +9,23 @@ import {
   InvestedAmount,
   QuantityPurchase,
 } from "./Rows";
+import { useTableContext } from "@contexts/TableContext";
 
-type Props = {
-  page: number;
-  items: Item[];
-  totalItems: number;
-  isLoading: boolean;
-  onPageChange: (page: number) => void;
-};
-
-export function Table(props: Props) {
-  const { items, isLoading, page, totalItems, onPageChange } = props;
+export function Table() {
+  const { page, items, isLoading, totalItems, setPage } = useTableContext();
 
   return (
     <TableUi
       page={page}
-      items={items}
       isLoading={isLoading}
       emptyStateColSpan={4}
+      items={items as Item[]}
       totalItems={totalItems}
-      onPageChange={onPageChange}
       ariaLabel="Lista de clientes"
-      iconEmpty={<PersonOutline sx={{ fontSize: 48, opacity: 0.5, mb: 2 }} />}
       titleEmpty="Nenhum cliente encontrado."
+      onPageChange={(page: number) => setPage(page)}
       subtitleEmpty="Clique em criar para adicionar um novo cliente."
+      iconEmpty={<PersonOutline sx={{ fontSize: 48, opacity: 0.5, mb: 2 }} />}
       headers={
         <>
           <TableCell>Ações</TableCell>

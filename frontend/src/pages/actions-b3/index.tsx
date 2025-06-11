@@ -1,34 +1,23 @@
-import { useEffect, useState } from "react";
-
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 import { Toolbar } from "@components/ui";
-import { Item } from "@models/listed-shares";
 import { Table } from "@components/actionsB3";
 import { ShowChart } from "@mui/icons-material";
 import { LayoutBaseDePagina } from "@layouts/base";
 import { ActionB3Service } from "@services/api/action";
+import { useTableContext } from "@contexts/TableContext";
 
 export function ActionsB3() {
-  const navigate = useNavigate();
-
-  const [page, setPage] = useState(1);
-
-  const [items, setItems] = useState<Item[]>([]);
-
-  const [totalItems, setTotalItems] = useState(0);
-
-  const [isLoading, setIsLoading] = useState(true);
-
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-  };
+  const { setItems, setIsLoading, setTotalItems, page, setPage } =
+    useTableContext();
 
   async function fetch() {
     try {
       setIsLoading(true);
 
-      const res = await ActionB3Service.getAll();
+      const res = await ActionB3Service.get({
+        page,
+      });
 
       setItems(res.items);
 
@@ -42,6 +31,14 @@ export function ActionsB3() {
 
   useEffect(() => {
     fetch();
+  }, [page]);
+
+  useEffect(() => {
+    return () => {
+      setPage(1);
+      setItems([]);
+      setTotalItems(0);
+    };
   }, []);
 
   return (
@@ -54,13 +51,7 @@ export function ActionsB3() {
         hiddenAdd
       />
 
-      <Table
-        page={page}
-        items={items}
-        isLoading={isLoading}
-        totalItems={totalItems}
-        onPageChange={handlePageChange}
-      />
+      <Table />
     </LayoutBaseDePagina>
   );
 }
