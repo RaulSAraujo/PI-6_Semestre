@@ -1,0 +1,1 @@
+export { InvestmentDashboard } from './Dashboard';
