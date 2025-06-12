@@ -1,21 +1,18 @@
-import { useEffect, useState } from 'react';
+import { View } from 'react-native';
 
-import { api } from '@services/api';
-import { useAuth } from '@hooks/useAuth';
-import { UserPhotos } from '@dtos/UserDTO';
-import { useToast } from '@hooks/useToast';
-import { AppError } from '@utils/AppError';
-import { Avatar, Skeleton } from '@rneui/themed';
+import { Image } from '@rneui/themed';
+import logoImg from '@assets/favicon.png';
+
+import { styles } from './styles';
 
 export const UserPhoto = () => {
-  const { user } = useAuth();
-
   return (
-    <Avatar
-      rounded
-      size="medium"
-      title={user?.name.substring(0, 2)}
-      containerStyle={{ backgroundColor: '#2196F3' }}
-    />
+    <View style={styles.avatarContainer}>
+      <Image
+        source={logoImg}
+        resizeMode="cover"
+        style={styles.avatarImage}
+      />
+    </View>
   );
 };
