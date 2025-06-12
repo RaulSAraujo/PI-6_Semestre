@@ -1,5 +1,10 @@
 import { AxiosError, AxiosInstance } from "axios";
 
+import {
+  storageAuthJwtRemove,
+  storageAuthUserRemove,
+} from "@storage/storageAuth";
+
 // Tipos de erro conhecidos
 interface ApiError {
   message: string;
@@ -27,7 +32,8 @@ export const setupErrorInterceptor = (instance: AxiosInstance): void => {
       switch (status) {
         case 401:
           // Token expirado ou inválido
-          localStorage.removeItem("APP_ACCESS_TOKEN");
+          storageAuthJwtRemove();
+          storageAuthUserRemove();
 
           // Redireciona para login
           window.location.href = "/login";

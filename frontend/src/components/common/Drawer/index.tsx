@@ -1,14 +1,13 @@
 import { useState } from "react";
+
+import { Navigate, useMatch, useNavigate, useResolvedPath } from "react-router";
+
+import log from "/public/logo.png";
 import {
-  Box,
-  Icon,
-  List,
-  Typography,
-  useMediaQuery,
-  useTheme,
-  alpha,
-  Tooltip,
-} from "@mui/material";
+  useAppThemeContext,
+  useAuthContext,
+  useDrawerContext,
+} from "@contexts/index";
 import {
   ChevronLeft,
   ChevronRight,
@@ -16,24 +15,27 @@ import {
   LightMode,
   Logout,
 } from "@mui/icons-material";
-import log from "/public/logo.png";
 import {
-  useAppThemeContext,
-  useDrawerContext,
-  useAuthContext,
-} from "@contexts/index";
-import { useMatch, useNavigate, useResolvedPath } from "react-router";
+  alpha,
+  Box,
+  Icon,
+  List,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 
 import {
   CollapseToggle,
-  StyledDrawer,
-  StyledListItemButton,
-  StyledListItemIcon,
-  StyledListItemText,
   DrawerFooter,
   DrawerHeader,
   LogoContainer,
   StyledAvatar,
+  StyledDrawer,
+  StyledListItemButton,
+  StyledListItemIcon,
+  StyledListItemText,
 } from "./styles";
 
 // Interfaces
@@ -84,6 +86,8 @@ const ListItemLink: React.FC<IListItemLinkProps> = ({
 export const Drawer: React.FC<IMenuLateral> = ({ children }) => {
   const theme = useTheme();
 
+  const navigate = useNavigate();
+
   const { logout } = useAuthContext();
 
   const [collapsed, setCollapsed] = useState(false);
@@ -94,8 +98,10 @@ export const Drawer: React.FC<IMenuLateral> = ({ children }) => {
 
   const { isDrawerOpen, toggleDrawerOpen, DrawerOptions } = useDrawerContext();
 
-  const handleLogout = () => {
+  const handleSignOut = () => {
     logout();
+
+    navigate("/login", { replace: true });
   };
 
   return (
@@ -193,7 +199,7 @@ export const Drawer: React.FC<IMenuLateral> = ({ children }) => {
 
               <StyledListItemButton
                 sx={{ height: "4rem" }}
-                onClick={handleLogout}
+                onClick={handleSignOut}
               >
                 <StyledListItemIcon>
                   <Logout />

@@ -13,7 +13,7 @@ export async function storageAuthSave(auth: SignIn) {
 export function storageAuthJwtGet() {
   const storage = localStorage.getItem(AUTH_JWT_STORAGE);
 
-  const jwt: string = storage ? JSON.parse(storage) : {};
+  const jwt: string = storage ? JSON.parse(storage) : "";
 
   return jwt;
 }

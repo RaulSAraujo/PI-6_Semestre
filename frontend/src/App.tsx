@@ -1,57 +1,71 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-
 import { AppRoutes } from "@routes/index";
 import { Cadastro, LoginScreen } from "@pages/index";
+import { storageAuthJwtGet } from "@storage/storageAuth";
 import {
   AppThemeProvider,
   AuthProvider,
   DrawerProvider,
-  useAuthContext,
   TableProvider,
 } from "@contexts/index";
 
-const RootRedirect = () => {
-  const { isAuthenticated } = useAuthContext();
+// Componente para rotas protegidas
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const authToken = storageAuthJwtGet();
 
-  return isAuthenticated ? (
-    <Navigate to="/pagina-inicial" replace />
-  ) : (
-    <Navigate to="/login" replace />
-  );
+  return !!authToken ? children : <Navigate to="/login" replace />;
 };
 
-const ProtectedRoute = () => {
-  const { isAuthenticated } = useAuthContext();
+// Componente para rotas públicas (redireciona se já autenticado)
+const PublicRoute = ({ children }: { children: React.ReactNode }) => {
+  const authToken = storageAuthJwtGet();
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-
-  return <AppRoutes />;
+  return !authToken ? children : <Navigate to="/pagina-inicial" replace />;
 };
 
 export const App = () => {
   return (
-    <AuthProvider>
-      <AppThemeProvider>
+    <AppThemeProvider>
+      <AuthProvider>
         <DrawerProvider>
           <TableProvider>
             <BrowserRouter>
               <Routes>
-                {/* Rota raiz que redireciona com base na autenticação */}
-                <Route path="/" element={<RootRedirect />} />
-
                 {/* Rotas públicas */}
-                <Route path="/login" element={<LoginScreen />} />
-                <Route path="/cadastro" element={<Cadastro />} />
+                <Route
+                  path="/login"
+                  element={
+                    <PublicRoute>
+                      <LoginScreen />
+                    </PublicRoute>
+                  }
+                />
+                <Route
+                  path="/cadastro"
+                  element={
+                    <PublicRoute>
+                      <Cadastro />
+                    </PublicRoute>
+                  }
+                />
 
                 {/* Rotas protegidas */}
-                <Route path="/*" element={<ProtectedRoute />} />
+                <Route
+                  path="/*"
+                  element={
+                    <ProtectedRoute>
+                      <AppRoutes />
+                    </ProtectedRoute>
+                  }
+                />
+
+                {/* Rota raiz */}
+                <Route path="/" element={<Navigate to="/login" replace />} />
               </Routes>
             </BrowserRouter>
           </TableProvider>
         </DrawerProvider>
-      </AppThemeProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </AppThemeProvider>
   );
 };

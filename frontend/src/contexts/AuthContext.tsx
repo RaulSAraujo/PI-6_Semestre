@@ -5,7 +5,6 @@ import React, {
   useEffect,
   useMemo,
   useRef,
-  useState,
 } from "react";
 
 import { AxiosError } from "axios";
@@ -21,7 +20,6 @@ import {
 // Tipos
 interface AuthContextData {
   logout: () => void;
-  isAuthenticated: boolean;
   signIn: (username: string, password: string) => Promise<string | void>;
 }
 
@@ -36,8 +34,6 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
  * Provider de autenticação que gerencia o estado de autenticação do usuário
  */
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [token, setToken] = useState<string>("");
-
   const expirationTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   /**
@@ -53,8 +49,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
         // Salva o token e dados do usuário no localStorage
         storageAuthSave(response);
-
-        setToken(response.access_token);
 
         tokenLifeTime();
       } catch (error) {
@@ -74,8 +68,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Remove os dados do usuário
     await storageAuthUserRemove();
 
-    setToken("");
-
     // Cancela o timer de expiração
     if (expirationTimerRef.current) {
       clearTimeout(expirationTimerRef.current);
@@ -89,8 +81,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
    */
   useEffect(() => {
     const storedToken = storageAuthJwtGet();
-
-    setToken(storedToken);
 
     if (storedToken) {
       tokenLifeTime();
@@ -118,23 +108,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     expirationTimerRef.current = setTimeout(async () => {
       await storageAuthJwtRemove();
 
-      setToken("");
-
       expirationTimerRef.current = null;
     }, 1000 * 60 * 60 * 24);
   }, []);
 
-  // Determina se o usuário está autenticado
-  const isAuthenticated = useMemo(() => !!token, [token]);
-
   // Valores expostos pelo contexto
   const contextValue = useMemo(
     () => ({
-      isAuthenticated,
       signIn,
       logout,
     }),
-    [isAuthenticated, signIn, logout]
+    [signIn, logout]
   );
 
   return (
