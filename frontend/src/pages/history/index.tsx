@@ -45,7 +45,7 @@ export function HistoryScreen() {
   return (
     <LayoutBaseDePagina>
       <Toolbar
-        title="Histórico de Cotações"
+        title="Histórico de Ações"
         buttonTitle="Novo histórico"
         icon={<PersonOutline sx={{ mr: 1 }} />}
         onRefresh={fetch}

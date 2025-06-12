@@ -21,7 +21,7 @@ export function Table() {
       emptyStateColSpan={4}
       items={items as Item[]}
       totalItems={totalItems}
-      ariaLabel="Lista de clientes"
+      ariaLabel="Lista de investimentos"
       titleEmpty="Nenhum cliente encontrado."
       onPageChange={(page: number) => setPage(page)}
       subtitleEmpty="Clique em criar para adicionar um novo cliente."
