@@ -145,7 +145,7 @@ export const Drawer: React.FC<IMenuLateral> = ({ children }) => {
                 align="center"
                 sx={{ mt: 1 }}
               >
-                Invest Ai
+                GoldInvest
               </Typography>
             )}
           </DrawerHeader>
