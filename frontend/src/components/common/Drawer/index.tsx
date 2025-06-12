@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   Box,
-  Divider,
   Icon,
   List,
   Typography,
@@ -16,8 +15,6 @@ import {
   DarkMode,
   LightMode,
   Logout,
-  KeyboardArrowDown,
-  KeyboardArrowUp,
 } from "@mui/icons-material";
 import log from "/public/logo.png";
 import {

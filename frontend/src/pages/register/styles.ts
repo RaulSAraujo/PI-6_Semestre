@@ -1,14 +1,11 @@
 import { Box, styled, alpha } from "@mui/material";
 
-import tenor from "../../../public/vecteezy.gif";
-
 export const PageContainer = styled(Box)(({ theme }) => ({
   width: "100vw",
   height: "100vh",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  backgroundImage: `url(${tenor})`,
   backgroundSize: "cover",
   backgroundPosition: "center",
   position: "relative",

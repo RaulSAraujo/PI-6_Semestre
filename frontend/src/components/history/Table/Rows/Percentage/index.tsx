@@ -1,4 +1,4 @@
-import { TableCell, useTheme } from "@mui/material";
+import { TableCell } from "@mui/material";
 
 import { PercentageChip } from "./styles";
 import { ArrowDownward, ArrowUpward, TrendingDown } from "@mui/icons-material";

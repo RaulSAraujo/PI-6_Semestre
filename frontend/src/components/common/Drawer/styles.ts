@@ -131,7 +131,7 @@ export const StyledListItemIcon = styled(ListItemIcon)(({ theme }) => ({
       : alpha(theme.palette.text.primary, 0.7),
 }));
 
-export const StyledListItemText = styled(ListItemText)(({ theme }) => ({
+export const StyledListItemText = styled(ListItemText)(() => ({
   "& .MuiListItemText-primary": {
     fontSize: "0.95rem",
     fontWeight: 500,
