@@ -1,0 +1,40 @@
+{
+  "cesVersion": "2.18.3",
+  "projectName": "mobile",
+  "packages": [
+    {
+      "name": "expo-router",
+      "type": "navigation",
+      "options": {
+        "type": "tabs"
+      }
+    },
+    {
+      "name": "stylesheet",
+      "type": "styling"
+    },
+    {
+      "name": "zustand",
+      "type": "state-management"
+    }
+  ],
+  "flags": {
+    "noGit": false,
+    "noInstall": false,
+    "overwrite": false,
+    "importAlias": true,
+    "packageManager": "yarn",
+    "eas": false,
+    "publish": false
+  },
+  "packageManager": {
+    "type": "yarn",
+    "version": "1.22.22"
+  },
+  "os": {
+    "type": "Linux",
+    "platform": "linux",
+    "arch": "x64",
+    "kernelVersion": "6.11.0-26-generic"
+  }
+}
