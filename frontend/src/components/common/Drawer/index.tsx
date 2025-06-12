@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Navigate, useMatch, useNavigate, useResolvedPath } from "react-router";
+import { useMatch, useNavigate, useResolvedPath } from "react-router";
 
 import log from "/public/logo.png";
 import {
