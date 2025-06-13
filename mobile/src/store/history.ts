@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 import { api } from '@services/api';
-import { InvestmentPortfolio } from '@dtos/InvestmentDTO';
+import { Investment } from '@dtos/InvestmentDTO';
 
 interface List {
   page: number;
@@ -52,7 +52,7 @@ const store = create<Store>((set, get) => ({
       const { list } = get();
 
       try {
-        const res = await api.get<InvestmentPortfolio>('/listed-share-history', {
+        const res = await api.get<Investment>('/listed-share-history', {
           id: `listed-share-history-${list.page}`,
           params: {
             page: list.endReached ? list.page : 1,

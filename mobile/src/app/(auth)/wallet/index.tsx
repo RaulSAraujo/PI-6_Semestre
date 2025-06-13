@@ -1,28 +1,39 @@
-import { View } from 'react-native';
-import { Item } from '@dtos/InvestmentDTO';
-import { styles } from '@styles/wallet';
+import { useEffect, useState } from 'react';
 
-import { InvestmentDashboard } from '@components/Wallet';
+import { View } from 'react-native';
+
+import { styles } from '@styles/wallet';
+import { useAuth } from '@hooks/useAuth';
+import { Dashboard } from '@components/Wallet';
+import { useWalletActions, useWalletState } from '@store/wallet';
 
 export default function Wallet() {
-  const investmentData: Item[] = [
-    {
-      id: 1,
-      id_client: 123,
-      id_listed_shares: 1001,
-      share_price: '27.56',
-      quantity_purchased: 200,
-      invested_amount: '5512.00',
-      created_at: new Date('2024-01-15'),
-      updated_at: new Date('2024-01-15'),
-      deleted_at: null,
-    },
-    // Adicione mais itens aqui...
-  ];
+  const { user } = useAuth();
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  const investmentData = useWalletState();
+
+  const { fetchData } = useWalletActions();
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fetchData();
+    setRefreshing(false);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <View style={styles.container}>
-      <InvestmentDashboard items={investmentData} userName="João Silva" />
+      <Dashboard
+        items={investmentData}
+        userName={user?.name}
+        onRefresh={onRefresh}
+        refreshing={refreshing}
+      />
     </View>
   );
 }

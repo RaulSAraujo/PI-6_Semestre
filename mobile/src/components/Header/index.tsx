@@ -8,8 +8,9 @@ import { UserPhoto } from './UserPhoto';
 
 const HeaderComponent = () => {
   const { user, signOut } = useAuth();
+
   return (
-    <ListItem containerStyle={styles.container}>
+    <ListItem key="header-component" containerStyle={styles.container}>
       <UserPhoto />
 
       <ListItem.Content>

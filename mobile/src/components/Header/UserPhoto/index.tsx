@@ -11,6 +11,7 @@ export const UserPhoto = () => {
       <Image
         source={logoImg}
         resizeMode="cover"
+        alt="business-logo"
         style={styles.avatarImage}
       />
     </View>

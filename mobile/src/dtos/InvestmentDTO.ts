@@ -1,4 +1,4 @@
-export type InvestmentPortfolio = {
+export type Investment = {
   items: Item[];
   totalItems: number;
 };
@@ -23,3 +23,13 @@ export type FormData = {
   id_listed_shares: string;
   quantity_purchased: string;
 };
+
+export interface InvestmentSummary {
+  totalInvested: number;
+  totalCurrentValue: number;
+  totalProfit: number;
+  totalAssets: number;
+  totalQuantity: number;
+  profitPercentage: number;
+}
+

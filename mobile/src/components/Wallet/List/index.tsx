@@ -1,19 +1,18 @@
-import React from 'react';
-
-import { FlatList, StyleSheet, Text, View } from 'react-native';
-import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
+import { FlatList, Text, View } from 'react-native';
+import { moderateScale } from 'react-native-size-matters';
 
 import { Icon } from '@rneui/themed';
 
-import { InvestmentItem } from './InvestmentItem';
-import { InvestmentSummary, Item } from '../Shared/types';
+import { styles } from './styles';
+import { InvestmentItem } from './Item';
+import { InvestmentSummary, Item } from '@dtos/InvestmentDTO';
 
-interface InvestmentsListProps {
+interface Props {
   items: Item[];
   summary: InvestmentSummary;
 }
 
-export const InvestmentsList: React.FC<InvestmentsListProps> = ({ items, summary }) => {
+export function InvestmentsList({ items, summary }: Props) {
   const renderInvestmentItem = ({ item }: { item: Item }) => (
     <InvestmentItem item={item} shareCode={`AÇÃO${item.id_listed_shares}`} />
   );
@@ -48,30 +47,4 @@ export const InvestmentsList: React.FC<InvestmentsListProps> = ({ items, summary
       />
     </View>
   );
-};
-
-const styles = StyleSheet.create({
-  investmentsSection: {
-    paddingHorizontal: scale(20),
-  },
-  sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: verticalScale(16),
-  },
-  sectionTitle: {
-    fontSize: moderateScale(20),
-    fontWeight: '600',
-    color: '#1A1A1A',
-  },
-  profitSummary: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  profitSummaryText: {
-    fontSize: moderateScale(16),
-    fontWeight: '600',
-    marginLeft: scale(4),
-  },
-});
+}
