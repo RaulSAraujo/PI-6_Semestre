@@ -1,4 +1,4 @@
-import { TableCell } from "@mui/material";
+import { TableCell, Typography } from "@mui/material";
 import { Table as TableUi } from "@components/ui";
 import { PersonOutline } from "@mui/icons-material";
 import { Item } from "@models/investment-portfolio";
@@ -29,6 +29,7 @@ export function Table() {
       headers={
         <>
           <TableCell>Ações</TableCell>
+          <TableCell>Id cliente</TableCell>
           <TableCell>Preço da Ação</TableCell>
           <TableCell>Quantidade Comprada</TableCell>
           <TableCell>Valor Investido</TableCell>
@@ -38,6 +39,12 @@ export function Table() {
         return (
           <>
             <ActionRow row={row} />
+
+            <TableCell>
+              <Typography variant="body1" fontWeight="500">
+                {row.id_client}
+              </Typography>
+            </TableCell>
 
             <SharePrice sharePrice={row.share_price} />
 
