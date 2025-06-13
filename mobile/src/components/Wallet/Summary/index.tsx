@@ -23,9 +23,9 @@ export function SummaryCards({ summary }: Props) {
       />
 
       <SummaryCard
-        title="Valor Atual"
-        value={formatMoney(summary.totalCurrentValue)}
-        icon="diamond"
+        title="Quantidade total"
+        value={summary.totalQuantity.toString()}
+        icon="shopping-cart"
         iconType="material"
         color="#2196F3"
         backgroundColor="#E3F2FD"

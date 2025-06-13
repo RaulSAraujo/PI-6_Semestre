@@ -4,7 +4,7 @@ import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 export const styles = StyleSheet.create({
   summaryCard: {
     borderRadius: moderateScale(12),
-    marginBottom: verticalScale(12),
+    marginBottom: verticalScale(2),
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
