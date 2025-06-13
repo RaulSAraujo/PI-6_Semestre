@@ -7,6 +7,6 @@ export const styles = StyleSheet.create({
     height: 58,
     marginBottom: 50,
     width: width * 0.8,
-    resizeMode: 'cover',
+    resizeMode: 'contain',
   },
 });
