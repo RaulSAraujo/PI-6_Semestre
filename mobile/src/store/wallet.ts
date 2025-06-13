@@ -17,6 +17,7 @@ const store = create<Store>((set, get) => ({
       try {
         const res = await api.get<Investment>('/investment-portfolio', {
           id: `investment-portfolio`,
+          cache: false,
           params: {
             page: 1,
             size: 15,
