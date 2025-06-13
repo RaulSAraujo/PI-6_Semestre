@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import { TableCell } from "@mui/material";
 import { Table as TableUi } from "@components/ui";
 import { Item } from "@models/listed-share-history";
+import { Item as ItemProfile } from "@models/profiles";
 import { ActionB3Service } from "@services/api/action";
+import { ProfileService } from "@services/api/profile";
 import { useTableContext } from "@contexts/TableContext";
 import { Item as ItemShares } from "@models/listed-shares";
 import { PersonOutline, ShowChart } from "@mui/icons-material";
@@ -13,14 +15,19 @@ import {
   PercentageChipRow,
   VolumeChipRow,
   BusinessRow,
+  ProfileRow,
 } from "./Rows";
 
 export function Table() {
   const { page, items, isLoading, totalItems, setPage } = useTableContext();
 
+  const [profiles, setProfiles] = useState<ItemProfile[]>([]);
+
   const [isLoadingShares, setIsLoadingShares] = useState(false);
 
   const [listshares, setListShares] = useState<ItemShares[]>([]);
+
+  const [isLoadingProfiles, setIsLoadingProfiles] = useState(false);
 
   const fetchShares = async () => {
     setIsLoadingShares(true);
@@ -33,6 +40,20 @@ export function Table() {
       console.error("Erro ao buscar perfis:", error);
     } finally {
       setIsLoadingShares(false);
+    }
+  };
+
+  const fetchProfiles = async () => {
+    setIsLoadingProfiles(true);
+
+    try {
+      const result = await ProfileService.get({});
+
+      setProfiles(result.items);
+    } catch (error) {
+      console.error("Erro ao buscar perfis:", error);
+    } finally {
+      setIsLoadingProfiles(false);
     }
   };
 
@@ -86,13 +107,15 @@ export function Table() {
 
   useEffect(() => {
     fetchShares();
+
+    fetchProfiles();
   }, []);
 
   return (
     <TableUi
       page={page}
       isLoading={isLoading}
-      emptyStateColSpan={7}
+      emptyStateColSpan={8}
       items={items as Item[]}
       totalItems={totalItems}
       ariaLabel="Histórico de ações"
@@ -103,6 +126,7 @@ export function Table() {
       headers={
         <>
           <TableCell>Nome da Empresa</TableCell>
+          <TableCell>Perfil</TableCell>
           <TableCell>Abertura</TableCell>
           <TableCell>Mínima</TableCell>
           <TableCell>Máxima</TableCell>
@@ -118,6 +142,12 @@ export function Table() {
               listShares={listshares}
               loading={isLoadingShares}
               idListedShares={row.id_listed_shares}
+            />
+
+            <ProfileRow
+              idProfile={row.id_profile}
+              isLoading={isLoadingProfiles}
+              profiles={profiles}
             />
 
             <CurrencyChipRow

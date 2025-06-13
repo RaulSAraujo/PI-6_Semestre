@@ -1,3 +1,4 @@
+export { ProfileRow } from "./Profile";
 export { VolumeChipRow } from "./Volume";
 export { BusinessRow } from "./Business";
 export { CurrencyChipRow } from "./Currency";
