@@ -11,6 +11,7 @@ npm-debug.*
 web-build/
 .env
 yarn.lock
+build
 # expo router
 expo-env.d.ts
 
