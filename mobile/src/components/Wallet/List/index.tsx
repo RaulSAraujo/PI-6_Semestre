@@ -13,14 +13,12 @@ interface Props {
 }
 
 export function InvestmentsList({ items, summary }: Props) {
-  const renderInvestmentItem = ({ item }: { item: Item }) => (
-    <InvestmentItem item={item} shareCode={`AÇÃO${item.id_listed_shares}`} />
-  );
+  const renderInvestmentItem = ({ item }: { item: Item }) => <InvestmentItem item={item} />;
 
   return (
     <View style={styles.investmentsSection}>
       <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>Meus Investimentos</Text>
+        <Text style={styles.sectionTitle}>Seus ativos</Text>
         <View style={styles.profitSummary}>
           <Icon
             name={summary.totalProfit >= 0 ? 'trending-up' : 'trending-down'}
@@ -28,6 +26,7 @@ export function InvestmentsList({ items, summary }: Props) {
             size={moderateScale(16)}
             color={summary.totalProfit >= 0 ? '#4CAF50' : '#F44336'}
           />
+
           <Text
             style={[
               styles.profitSummaryText,

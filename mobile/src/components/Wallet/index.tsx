@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import { RefreshControl, ScrollView } from 'react-native';
 
@@ -7,16 +7,14 @@ import { InvestmentSummary, Item } from '@dtos/InvestmentDTO';
 import { styles } from './styles';
 import { SummaryCards } from './Summary';
 import { InvestmentsList } from './List';
-import { DashboardHeader } from './Header';
 
 export interface Props {
   items: Item[];
-  userName?: string;
   refreshing: boolean;
   onRefresh: () => void;
 }
 
-export function Dashboard({ items, userName, onRefresh, refreshing }: Props) {
+export function Dashboard({ items, onRefresh, refreshing }: Props) {
   const summary: InvestmentSummary = useMemo(() => {
     const totalInvested = items.reduce((sum, item) => sum + parseFloat(item.invested_amount), 0);
     const totalCurrentValue = items.reduce(
@@ -51,8 +49,6 @@ export function Dashboard({ items, userName, onRefresh, refreshing }: Props) {
           colors={['#ff0000', '#00ff00', '#0000ff']}
         />
       }>
-      <DashboardHeader userName={userName} />
-
       <SummaryCards summary={summary} />
 
       <InvestmentsList items={items} summary={summary} />

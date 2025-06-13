@@ -11,10 +11,9 @@ import { calculateInvestmentMetrics, formatNumber } from './formatters';
 
 interface Props {
   item: Item;
-  shareCode?: string;
 }
 
-export function InvestmentItem({ item, shareCode }: Props) {
+export function InvestmentItem({ item }: Props) {
   const { formatDate } = useDate();
 
   const metrics = calculateInvestmentMetrics(item);
@@ -23,7 +22,7 @@ export function InvestmentItem({ item, shareCode }: Props) {
     <Card containerStyle={styles.investmentCard}>
       <View style={styles.investmentHeader}>
         <View style={styles.investmentInfo}>
-          <Text style={styles.shareCode}>{shareCode || `Ação #${item.id_listed_shares}`}</Text>
+          <Text style={styles.shareCode}>{`Usuário: #${item.id_client}`}</Text>
           <Text style={styles.investmentDate}>{formatDate(item.created_at)}</Text>
         </View>
 
@@ -31,6 +30,7 @@ export function InvestmentItem({ item, shareCode }: Props) {
           <Text style={[styles.profitValue, { color: metrics.isProfit ? '#4CAF50' : '#F44336' }]}>
             {formatMoney(metrics.profit)}
           </Text>
+
           <View
             style={[
               styles.profitBadge,
