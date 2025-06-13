@@ -22,7 +22,7 @@ export function InvestmentItem({ item }: Props) {
     <Card containerStyle={styles.investmentCard}>
       <View style={styles.investmentHeader}>
         <View style={styles.investmentInfo}>
-          <Text style={styles.shareCode}>{`Usuário: #${item.id_client}`}</Text>
+          <Text style={styles.shareCode}>{`Cliente: #${item.id_client}`}</Text>
           <Text style={styles.investmentDate}>{formatDate(item.created_at)}</Text>
         </View>
 
