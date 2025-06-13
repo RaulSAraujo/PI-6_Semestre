@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "Goldinvest",
+    "slug": "gold-invest",
     "version": "1.0.0",
 
-    "scheme": "mobile",
+    "scheme": "goldinvest",
     "web": {
       "bundler": "metro",
       "output": "static",
